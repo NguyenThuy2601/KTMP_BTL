@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.library.service;
+package com.nhom2.service;
 
-import com.library.pojo.User;
-import com.mycompany.library.Utils;
+import com.nhom2.pojo.User;
+import com.nhom2.library.Utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -21,7 +21,7 @@ import java.time.LocalDate;
  */
 public class LoginService {
 
-    public boolean checkEmail(String username) throws SQLException {
+    public boolean checkEmail(String username) throws SQLException, ClassNotFoundException {
         try (Connection conn = Utils.getConn()) {
             String sql = "SELECT * FROM taikhoan where username = ?";
             PreparedStatement stm = conn.prepareCall(sql);
@@ -64,7 +64,7 @@ public class LoginService {
         }
     }
 
-    public boolean checkPassword(String username, String password) throws SQLException {
+    public boolean checkPassword(String username, String password) throws SQLException, ClassNotFoundException {
         String pass = null;
         try (Connection conn = Utils.getConn()) {
 
@@ -87,7 +87,7 @@ public class LoginService {
         }
     }
     
-    public String getAccID(String username) throws SQLException{
+    public String getAccID(String username) throws SQLException, ClassNotFoundException{
         String ID =  null;
         try (Connection conn = Utils.getConn()) {
 
@@ -108,7 +108,7 @@ public class LoginService {
         return ID;
     }
     
-    public User setUser(String accountID) throws SQLException {
+    public User setUser(String accountID) throws SQLException, ClassNotFoundException {
         
         try (Connection conn = Utils.getConn()) {
             

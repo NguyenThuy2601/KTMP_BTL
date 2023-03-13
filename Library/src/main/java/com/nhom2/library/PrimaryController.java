@@ -1,4 +1,4 @@
-package com.mycompany.library;
+package com.nhom2.library;
 
 import java.io.IOException;
 import javafx.fxml.FXML;

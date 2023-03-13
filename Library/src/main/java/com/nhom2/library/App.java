@@ -1,4 +1,4 @@
-package com.mycompany.library;
+package com.nhom2.library;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

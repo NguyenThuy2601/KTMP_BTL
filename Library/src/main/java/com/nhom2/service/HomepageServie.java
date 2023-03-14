@@ -82,70 +82,57 @@ public class HomepageServie {
         return bookList;
     }
 
-    public List<Integer> findBooksByAuthorName(String aFname, String aLname) throws SQLException {
-        List<Integer> bookIDList = new ArrayList<>();
-        try (Connection conn = Utils.getConn()) {
-            String sql = "select cb.idSach from tacgia tg, tg_sach tgs where tg.HoLot like %?% and tg.Ten like %?% ";
+    public void findBooksByAuthorName(List<Book> Blist, List<Sach_TacGia> Combinelist, String aName) throws SQLException {
 
-            PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, aLname);
-            stm.setString(2, aFname);
+        for (int i = 0; i < Blist.size(); i++) {
+            for (int j = 0; j < Combinelist.size(); j++) {
+                boolean flag = false;
+                if (Blist.get(i).getIdSach() == Combinelist.get(j).getIdSach()) {
+                    List<TacGia> temp = Combinelist.get(j).getTacGia();
+                    for (int z = 0; z < temp.size(); z++) {
+                        if (temp.toString().toUpperCase().contains(aName)) {
+                            flag = true;
+                            break;
 
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                bookIDList.add(rs.getInt("idSach"));
+                        }
+                    }
+                    if (!flag) {
+                        Blist.remove(Blist.get(i));
+                        Combinelist.remove(Combinelist.get(j));
+                        i--;
+                        j--;
+                    }
+                }
+
             }
         }
-        return bookIDList;
     }
 
-    public List<Integer> findBooksByBookName(String bName) throws SQLException {
-        List<Integer> bookIDList = new ArrayList<>();
-        try (Connection conn = Utils.getConn()) {
-            String sql = "select idSach from sach where Ten like %?% ";
-
-            PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, bName);
-
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                bookIDList.add(rs.getInt("idSach"));
+    public void findBooksByName(List<Book> list, String name) throws SQLException {
+        for (int i = 0; i < list.size(); i++) {
+            if (!list.get(i).getTen().toUpperCase().equals(name.toUpperCase())) {
+                list.remove(i);
+                i--;
             }
         }
-        return bookIDList;
     }
-    
-    public List<Integer> findBooksByPublishYear(int year) throws SQLException {
-        List<Integer> bookIDList = new ArrayList<>();
-        try (Connection conn = Utils.getConn()) {
-            String sql = "select idSach from sach where NamXB = ? ";
 
-            PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, Integer.toString(year));
-
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                bookIDList.add(rs.getInt("idSach"));
+    public void findBooksByPublishYear(List<Book> list, int year) throws SQLException {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getNamXB() != year) {
+                list.remove(i);
+                i--;
             }
         }
-        return bookIDList;
     }
-    
-    public List<Integer> findBooksByCate(int idCate) throws SQLException {
-        List<Integer> bookIDList = new ArrayList<>();
-        try (Connection conn = Utils.getConn()) {
-            String sql = "select idSach from sach where danhmuc_iddanhmuc = ? ";
 
-            PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, Integer.toString(idCate));
-
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                bookIDList.add(rs.getInt("idSach"));
+    public void findBooksByCate(List<Book> list, int idCate) throws SQLException {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getIdDanhMuc() != idCate) {
+                list.remove(i);
+                i--;
             }
         }
-        return bookIDList;
     }
-    
-    
+
 }

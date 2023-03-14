@@ -29,5 +29,10 @@ public class Sach_TacGia {
    public void setTacGia(TacGia tg){
        TacGia.add(tg);
    }
-    
+
+    public List<TacGia> getTacGia() {
+        return TacGia;
+    }
+   
+       
 }

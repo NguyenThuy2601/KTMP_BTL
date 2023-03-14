@@ -23,7 +23,17 @@ public class TacGia {
     }
 
     
+
+    public String getTen() {
+        return Ten;
+    }
+
+    
     public String toString() {
         return (this.HoLot + this.Ten);
+    }
+
+    public String getHoLot() {
+        return HoLot;
     }
 }

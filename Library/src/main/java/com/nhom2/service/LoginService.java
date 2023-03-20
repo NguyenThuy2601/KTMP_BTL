@@ -68,7 +68,6 @@ public class LoginService {
         String pass = null;
         try (Connection conn = Utils.getConn()) {
 
-            
             String sql = "SELECT password FROM taikhoan where username = ?";
 
             PreparedStatement stm = conn.prepareCall(sql);
@@ -79,19 +78,19 @@ public class LoginService {
             while (rs.next()) {
                 pass = rs.getString("password");
             }
-            
-            if(this.hashPassword(password).equalsIgnoreCase(pass) )
+
+            if (this.hashPassword(password).equalsIgnoreCase(pass)) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
     }
-    
-    public String getAccID(String username) throws SQLException, ClassNotFoundException{
-        String ID =  null;
+
+    public String getAccID(String username) throws SQLException, ClassNotFoundException {
+        String ID = null;
         try (Connection conn = Utils.getConn()) {
 
-            
             String sql = "SELECT idTaiKhoan FROM taikhoan where username = ?";
 
             PreparedStatement stm = conn.prepareCall(sql);
@@ -102,16 +101,15 @@ public class LoginService {
             while (rs.next()) {
                 ID = rs.getString("idTaiKhoan");
             }
-            
-            
+
         }
         return ID;
     }
-    
+
     public User setUser(String accountID) throws SQLException, ClassNotFoundException {
-        
+
         try (Connection conn = Utils.getConn()) {
-            
+
             User u;
             String sql = "SELECT * FROM docgia where TaiKhoan_id = ?";
 
@@ -120,14 +118,14 @@ public class LoginService {
 
             ResultSet rs = stm.executeQuery();
 
-               u= new User(rs.getInt("id"), rs.getString("TaiKhoan_id"), 
-                            rs.getString("Ten"),rs.getString("HoLot"), rs.getString("DoiTuong"), 
-                            rs.getDate("NgayBD").toLocalDate(), rs.getDate("NgayHetHan").toLocalDate(), 
-                            rs.getString("Email"), rs.getString("DiaChi"), rs.getString("SDT"),
-                            rs.getString("bophan_id"), rs.getDate("DOB").toLocalDate() );
+            u = new User(rs.getInt("id"), rs.getString("TaiKhoan_id"),
+                    rs.getNString("Ten"), rs.getNString("HoLot"), rs.getString("DoiTuong"),
+                    rs.getDate("NgayBD").toLocalDate(), rs.getDate("NgayHetHan").toLocalDate(),
+                    rs.getString("Email"), rs.getNString("DiaChi"), rs.getString("SDT"),
+                    rs.getString("bophan_id"), rs.getDate("DOB").toLocalDate());
 
             return u;
         }
-        
+
     }
 }

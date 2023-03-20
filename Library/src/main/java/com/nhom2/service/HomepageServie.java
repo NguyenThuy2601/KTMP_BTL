@@ -89,8 +89,8 @@ public class HomepageServie {
                 boolean flag = false;
                 if (Blist.get(i).getIdSach() == Combinelist.get(j).getIdSach()) {
                     List<TacGia> temp = Combinelist.get(j).getTacGia();
-                    for (int z = 0; z < temp.size(); z++) {
-                        if (temp.toString().toUpperCase().contains(aName)) {
+                    for (TacGia temp1 : temp) {
+                        if (temp1.toString().toUpperCase().contains(aName)) {
                             flag = true;
                             break;
 
@@ -134,5 +134,6 @@ public class HomepageServie {
             }
         }
     }
+    
 
 }

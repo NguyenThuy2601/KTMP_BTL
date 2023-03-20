@@ -88,11 +88,18 @@ public class LoginTest {
     }
 
     @Test
-    public void setUserSuccess() {
-        User u = new User(1, "DG003",
-                "Huy", "Đoàn Gia", "SV",
-                LocalDate.of( 2017 , 11 , 17 ), LocalDate.of( 2024 , 12 , 31 ),
-                "huy@ou.edu.vn", null, null,
-                "TH", null);
+    public void setUserSuccess() throws ClassNotFoundException {
+        try {
+            User u = new User(1, "DG003",
+                    "Huy", "Đoàn Gia", "SV",
+                    LocalDate.of( 2017 , 11 , 17 ), LocalDate.of( 2024 , 12 , 31 ),
+                    "huy@ou.edu.vn", null, null,
+                    "TH", null);
+            LoginService s = new LoginService();
+            User u1 = s.setUser("DG003");
+            Assertions.assertEquals(u.getuID(), u1.getuID());
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

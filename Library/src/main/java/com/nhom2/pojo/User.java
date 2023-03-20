@@ -82,5 +82,9 @@ public class User {
         return boPhan_id;
     }
 
+    public int getuID() {
+        return uID;
+    }
+
     
 }

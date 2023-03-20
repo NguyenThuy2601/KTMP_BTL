@@ -5,6 +5,7 @@
 package com.nhom2.pojo;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  *
@@ -17,6 +18,11 @@ public class PhieuMuon {
     private LocalDateTime ngayMuon;
     private int idDocGia;
 
+    {
+        String temp [] = UUID.randomUUID().toString().split("-");
+        idPhieuMuon = temp[2] + "-" + temp[3];
+    }
+    
     public PhieuMuon() {
     }
 

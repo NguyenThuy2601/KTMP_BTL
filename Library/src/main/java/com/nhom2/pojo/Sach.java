@@ -10,7 +10,7 @@ import java.time.LocalDate;
  *
  * @author CamHa
  */
-public class Book {
+public class Sach {
     private int idSach;
     private String Ten;
     private int namXB;
@@ -21,10 +21,10 @@ public class Book {
     private int idDanhMuc;
     private int idViTri;
 
-    public Book() {
+    public Sach() {
     }
 
-    public Book(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, boolean tinhTrang, int idDanhMuc, int idViTri) {
+    public Sach(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, boolean tinhTrang, int idDanhMuc, int idViTri) {
         this.idSach = idSach;
         this.Ten = Ten;
         this.namXB = namXB;

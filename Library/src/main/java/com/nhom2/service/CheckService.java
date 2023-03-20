@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class CheckService {
 
-    public boolean checReservationCard() throws SQLException {
+    public boolean checkReservationCard() throws SQLException {
         List<Integer> bookIDList = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
             Statement stm = conn.createStatement();
@@ -53,6 +53,15 @@ public class CheckService {
                 }
             }
             return true;
+        }
+    }
+    
+    public boolean checkBorrowingCard() throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            String sql = "update phieumuon set tinhtrang = 0 where tinhtrang = -1 and  day(timediff(now(), phieumuon.ngaymuon)) > 30";
+            Statement stm = conn.createStatement();
+            int r = stm.executeUpdate(sql);
+            return r > 0;
         }
     }
 }

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 /**
@@ -49,7 +48,7 @@ public class LoginTest {
     public void checkEmailSuccess() throws SQLException, ClassNotFoundException {
         LoginService s = new LoginService();
         boolean Assert = s.checkEmail("thanh.dh");
-        Assertions.assertEquals(Assert, true);
+        Assertions.assertEquals(true, Assert);
     }
 
     @Test

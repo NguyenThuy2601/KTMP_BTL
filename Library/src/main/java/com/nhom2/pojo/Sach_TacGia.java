@@ -13,7 +13,6 @@ import java.util.List;
 public class Sach_TacGia {
     private int idSach;
     private List<TacGia> TacGia;
-    private List<String> MoTa;
 
     public Sach_TacGia() {
     }

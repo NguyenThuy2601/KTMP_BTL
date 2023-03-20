@@ -13,8 +13,9 @@ import java.util.UUID;
  */
 public class PhieuDat {
 
-    private String  idPhieuDat ;
+    private String  idPhieuDat;
     private int idSach;
+    private int TinhTrang;
     private LocalDateTime ngayDat;
     private int idDocGia;
     
@@ -26,15 +27,19 @@ public class PhieuDat {
     public PhieuDat() {
     }
 
-    public PhieuDat(int idSach, LocalDateTime ngayDat, int idDocGia) {
+    public PhieuDat(int idSach, int TinhTrang, LocalDateTime ngayDat, int idDocGia) {
         this.idSach = idSach;
+        this.TinhTrang = TinhTrang;
         this.ngayDat = ngayDat;
         this.idDocGia = idDocGia;
     }
+
+    
     
     public PhieuDat(LocalDateTime ngayDat, int idDocGia) {
         this.ngayDat = ngayDat;
         this.idDocGia = idDocGia;
+        this.TinhTrang = -1;
     }
 
     public String getIdPhieuDat() {
@@ -51,6 +56,14 @@ public class PhieuDat {
 
     public int getIdDocGia() {
         return idDocGia;
+    }
+
+    public int getTinhTrang() {
+        return TinhTrang;
+    }
+
+    public void setTinhTrang(int TinhTrang) {
+        this.TinhTrang = TinhTrang;
     }
     
     

@@ -5,7 +5,7 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
-import com.nhom2.pojo.Book;
+import com.nhom2.pojo.Sach;
 import com.nhom2.pojo.DanhMuc;
 import com.nhom2.pojo.Sach_TacGia;
 import com.nhom2.pojo.TacGia;
@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author CamHa
  */
-public class HomepageServie {
+public class HomepageService {
 
     public List<DanhMuc> getDanhMucSach() throws SQLException {
         List<DanhMuc> DanhMucList = new ArrayList<>();
@@ -39,7 +39,7 @@ public class HomepageServie {
         return DanhMucList;
     }
 
-    public List<Sach_TacGia> getTacGia(List<Book> bookList) throws SQLException {
+    public List<Sach_TacGia> getTacGia(List<Sach> bookList) throws SQLException {
         List<Sach_TacGia> s_tgList = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
             // B3 Thuc thi truy van
@@ -61,8 +61,8 @@ public class HomepageServie {
 
     }
 
-    public List<Book> getBooks() throws SQLException {
-        List<Book> bookList = new ArrayList<>();
+    public List<Sach> getBooks() throws SQLException {
+        List<Sach> bookList = new ArrayList<>();
 
         try (Connection conn = Utils.getConn()) {
             // B3 Thuc thi truy van
@@ -71,7 +71,7 @@ public class HomepageServie {
             // + Truy van lay du lieu: select
             ResultSet rs = stm.executeQuery("SELECT * FROM sach");
             while (rs.next()) {
-                Book b = new Book(rs.getInt("idSach"), rs.getNString("Ten"), rs.getInt("NamXB"),
+                Sach b = new Sach(rs.getInt("idSach"), rs.getNString("Ten"), rs.getInt("NamXB"),
                         rs.getNString("NoiXB"), rs.getDate("NgayNhap").toLocalDate(), rs.getString("MoTa"),
                         rs.getBoolean("TinhTrang"), rs.getInt("danhmuc_iddanhmuc"),
                         rs.getInt("vitri_idvitri"));
@@ -82,7 +82,7 @@ public class HomepageServie {
         return bookList;
     }
 
-    public void findBooksByAuthorName(List<Book> Blist, List<Sach_TacGia> Combinelist, String aName) throws SQLException {
+    public void findBooksByAuthorName(List<Sach> Blist, List<Sach_TacGia> Combinelist, String aName) throws SQLException {
 
         for (int i = 0; i < Blist.size(); i++) {
             for (int j = 0; j < Combinelist.size(); j++) {
@@ -108,7 +108,7 @@ public class HomepageServie {
         }
     }
 
-    public void findBooksByName(List<Book> list, String name) throws SQLException {
+    public void findBooksByName(List<Sach> list, String name) throws SQLException {
         for (int i = 0; i < list.size(); i++) {
             if (!list.get(i).getTen().toUpperCase().equals(name.toUpperCase())) {
                 list.remove(i);
@@ -117,7 +117,7 @@ public class HomepageServie {
         }
     }
 
-    public void findBooksByPublishYear(List<Book> list, int year) throws SQLException {
+    public void findBooksByPublishYear(List<Sach> list, int year) throws SQLException {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getNamXB() != year) {
                 list.remove(i);
@@ -126,7 +126,7 @@ public class HomepageServie {
         }
     }
 
-    public void findBooksByCate(List<Book> list, int idCate) throws SQLException {
+    public void findBooksByCate(List<Sach> list, int idCate) throws SQLException {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getIdDanhMuc() != idCate) {
                 list.remove(i);

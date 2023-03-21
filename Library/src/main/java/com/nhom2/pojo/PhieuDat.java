@@ -27,19 +27,21 @@ public class PhieuDat {
     public PhieuDat() {
     }
 
-    public PhieuDat(int idSach, int TinhTrang, LocalDateTime ngayDat, int idDocGia) {
+    public PhieuDat(int idSach, LocalDateTime ngayDat, int idDocGia) {
         this.idSach = idSach;
-        this.TinhTrang = TinhTrang;
+        this.TinhTrang = -1;
         this.ngayDat = ngayDat;
         this.idDocGia = idDocGia;
     }
 
     
     
-    public PhieuDat(LocalDateTime ngayDat, int idDocGia) {
+    public PhieuDat(String idPhieuDat,int idSach, int TinhTrang, LocalDateTime ngayDat, int idDocGia) {
+        this.idPhieuDat = idPhieuDat;
+        this.idSach = idSach;
+        this.TinhTrang = TinhTrang;
         this.ngayDat = ngayDat;
         this.idDocGia = idDocGia;
-        this.TinhTrang = -1;
     }
 
     public String getIdPhieuDat() {

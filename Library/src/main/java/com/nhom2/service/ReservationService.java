@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -27,13 +28,20 @@ public class ReservationService {
 
     public boolean createReservationCard(int idSach, int idUser, PhieuDat p) throws SQLException {
         try (Connection conn = Utils.getConn()) {
+            
+            DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String d = p.getNgayDat().format(fmt3);
+            String t [] = d.split(" ");
+            
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO phieudat(idphieudat, ngaydat, sach_idSach, docgia_id) VALUES(?, ?, ?, ?)"; 
+            String sql = "INSERT INTO phieudat(idphieudat, ngaydat, sach_idSach, docgia_id, TinhTrang) VALUES(?, TIMESTAMP(?, ?) , ?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, p.getIdPhieuDat());
-            stm.setDate(2, this.convertToDate(p.getNgayDat()));
-            stm.setInt(3, p.getIdSach());
-            stm.setInt(4, p.getIdDocGia());
+            stm.setString(2, t[0]);
+            stm.setString(3, t[1]);
+            stm.setInt(4, p.getIdSach());
+            stm.setInt(5, p.getIdDocGia());
+            stm.setInt(6, p.getTinhTrang());
 
             int r = stm.executeUpdate();
 
@@ -55,4 +63,6 @@ public class ReservationService {
             }
         }
     }
+    
+    
 }

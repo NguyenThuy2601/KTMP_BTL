@@ -32,4 +32,18 @@ public class UserProfileService {
             return r > 0;
         }
     }
+    
+     public String getUserNameFromID(int idDocGia) throws SQLException{
+        try (Connection conn = Utils.getConn()) {
+            String name = null;
+            String sql = "select HoLot, Ten from docgia where id = ?";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, idDocGia);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                name = rs.getNString("HoLot") + " " + rs.getNString("Ten");
+            }
+            return name;
+        }
+    }
 }

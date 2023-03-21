@@ -25,6 +25,7 @@ public class PhieuMuon {
     }
     
     public PhieuMuon() {
+        this.idPhieuMuon = "none";
     }
 
     public PhieuMuon(String idPhieuMuon, int idSach, int TinhTrang, LocalDate ngayMuon, int idDocGia) {

@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -107,4 +109,11 @@ public class UserProfileTest {
         }
     }
 
+    
+    @ParameterizedTest
+    @CsvFileSource(resources = "/UserNameAndIDData.csv", numLinesToSkip = 1)
+    public void checkGetUserName(String input, String expected) throws SQLException {
+        UserProfileService s = new UserProfileService();
+        Assertions.assertEquals(s.getUserNameFromID(Integer.parseInt(input)), expected);
+    }
 }

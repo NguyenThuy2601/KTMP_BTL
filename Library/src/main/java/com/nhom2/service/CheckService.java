@@ -5,7 +5,6 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
-import com.nhom2.pojo.DanhMuc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

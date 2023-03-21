@@ -5,19 +5,13 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
-import com.nhom2.pojo.DanhMuc;
 import com.nhom2.pojo.PhieuDat;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

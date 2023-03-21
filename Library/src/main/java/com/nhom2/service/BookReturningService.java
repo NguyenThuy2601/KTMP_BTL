@@ -8,6 +8,7 @@ import com.nhom2.library.Utils;
 import com.nhom2.pojo.PhieuMuon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -52,4 +53,33 @@ public class BookReturningService {
         return DAYS.between(borrowingDate, LocalDate.now());
     }
 
+    public PhieuMuon getBorrowingCardInfo(String idPhieuMuon) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            PhieuMuon p = new PhieuMuon();
+            String sql = "select * from phieumuon where idphieumuon = ?";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, idPhieuMuon);
+            // + Truy van lay du lieu: select
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                p = new PhieuMuon(rs.getString("idphieumuon"), rs.getInt("sach_idSach1"),
+                        rs.getInt("tinhtrang"), rs.getDate("ngaymuon").toLocalDate(), rs.getInt("docgia_id"));
+            }
+            return p;
+        }
+    }
+    
+    public String getUserNameFromBorrowingCard(int idDocGia) throws SQLException{
+        try (Connection conn = Utils.getConn()) {
+            String name = null;
+            String sql = "select HoLot, Ten from docgia where id = ?";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, idDocGia);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                name = rs.getNString("HoLot") + rs.getNString("Ten");
+            }
+            return name;
+        }
+    }
 }

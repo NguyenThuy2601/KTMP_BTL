@@ -4,6 +4,7 @@
  */
 package com.nhom2.pojo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class PhieuMuon {
     private String  idPhieuMuon;
     private int idSach;
     private int TinhTrang;
-    private LocalDateTime ngayMuon;
+    private LocalDate ngayMuon;
     private int idDocGia;
 
     {
@@ -26,7 +27,7 @@ public class PhieuMuon {
     public PhieuMuon() {
     }
 
-    public PhieuMuon(String idPhieuMuon, int idSach, int TinhTrang, LocalDateTime ngayMuon, int idDocGia) {
+    public PhieuMuon(String idPhieuMuon, int idSach, int TinhTrang, LocalDate ngayMuon, int idDocGia) {
         this.idPhieuMuon = idPhieuMuon;
         this.idSach = idSach;
         this.TinhTrang = TinhTrang;
@@ -34,7 +35,7 @@ public class PhieuMuon {
         this.idDocGia = idDocGia;
     }
     
-    public PhieuMuon(LocalDateTime ngayMuon, int idDocGia) {
+    public PhieuMuon(LocalDate ngayMuon, int idDocGia) {
         this.ngayMuon = ngayMuon;
         this.idDocGia = idDocGia;
         this.TinhTrang = -1;
@@ -52,7 +53,7 @@ public class PhieuMuon {
         return TinhTrang;
     }
 
-    public LocalDateTime getNgayMuon() {
+    public LocalDate getNgayMuon() {
         return ngayMuon;
     }
 

@@ -5,6 +5,7 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
+import com.nhom2.pojo.BookResponse;
 import com.nhom2.pojo.Sach;
 import com.nhom2.pojo.DanhMuc;
 import com.nhom2.pojo.Sach_TacGia;
@@ -14,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,20 +63,29 @@ public class HomepageService {
 
     }
 
-    public List<Sach> getBooks() throws SQLException {
-        List<Sach> bookList = new ArrayList<>();
+    public List<BookResponse> getBooks() throws SQLException {
+        List<BookResponse> bookList = new ArrayList<>();
 
         try (Connection conn = Utils.getConn()) {
             // B3 Thuc thi truy van
             Statement stm = conn.createStatement();
 
             // + Truy van lay du lieu: select
-            ResultSet rs = stm.executeQuery("SELECT * FROM sach");
+            ResultSet rs = stm.executeQuery("select sach.idSach, sach.Ten, sach.NamXB ,GROUP_CONCAT(DISTINCT tacgia.HoLot, \" \" ,tacgia.Ten) as \"DS TacGia\" ,\n"
+                    + "		danhmuc.ten as \"TenDM\", vitri.TenViTri, sach.NgayNhap, sach.NoiXB, sach.MoTa,\n"
+                    + "        sach.tinhtrang\n"
+                    + "from ktpm_btl.sach, ktpm_btl.tg_sach, ktpm_btl.tacgia, ktpm_btl.danhmuc, ktpm_btl.vitri\n"
+                    + "where sach.idSach = tg_sach.idSach and tg_sach.idTacGia = tacgia.idtacgia\n"
+                    + "GROUP BY sach.idSach;");
             while (rs.next()) {
-                Sach b = new Sach(rs.getInt("idSach"), rs.getNString("Ten"), rs.getInt("NamXB"),
-                        rs.getNString("NoiXB"), rs.getDate("NgayNhap").toLocalDate(), rs.getString("MoTa"),
-                        rs.getBoolean("TinhTrang"), rs.getInt("danhmuc_iddanhmuc"),
-                        rs.getInt("vitri_idvitri"));
+                BookResponse b = new BookResponse(rs.getInt("idSach"),
+                        rs.getNString("Ten"), rs.getInt("NamXB"),
+                        rs.getString("NoiXB"), rs.getDate("NgayNhap").toLocalDate(),
+                        rs.getNString("MoTa"),
+                        rs.getBoolean("tinhtrang"), 
+                        rs.getNString("DS TacGia"), 
+                        rs.getNString("TenDM"), 
+                        rs.getNString("TenViTri"));
 
                 bookList.add(b);
             }
@@ -82,58 +93,36 @@ public class HomepageService {
         return bookList;
     }
 
-    public void findBooksByAuthorName(List<Sach> Blist, List<Sach_TacGia> Combinelist, String aName) throws SQLException {
-
-        for (int i = 0; i < Blist.size(); i++) {
-            for (int j = 0; j < Combinelist.size(); j++) {
-                boolean flag = false;
-                if (Blist.get(i).getIdSach() == Combinelist.get(j).getIdSach()) {
-                    List<TacGia> temp = Combinelist.get(j).getTacGia();
-                    for (TacGia temp1 : temp) {
-                        if (temp1.toString().toUpperCase().contains(aName)) {
-                            flag = true;
-                            break;
-
-                        }
-                    }
-                    if (!flag) {
-                        Blist.remove(Blist.get(i));
-                        Combinelist.remove(Combinelist.get(j));
-                        i--;
-                        j--;
-                    }
-                }
-
-            }
-        }
-    }
-
-    public void findBooksByName(List<Sach> list, String name) throws SQLException {
-        for (int i = 0; i < list.size(); i++) {
-            if (!list.get(i).getTen().toUpperCase().equals(name.toUpperCase())) {
-                list.remove(i);
-                i--;
-            }
-        }
-    }
-
-    public void findBooksByPublishYear(List<Sach> list, int year) throws SQLException {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getNamXB() != year) {
-                list.remove(i);
-                i--;
-            }
-        }
-    }
-
-    public void findBooksByCate(List<Sach> list, int idCate) throws SQLException {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getIdDanhMuc() != idCate) {
-                list.remove(i);
-                i--;
-            }
-        }
-    }
-    
+   public List<BookResponse> findBook(List<BookResponse> l,String bName, String aName, int namXB, String DanhMuc){
+       if(bName != null)
+           for(int i = 0; i < l.size(); i++)
+               if(l.get(i).getTen().contains(bName) == false)
+               {
+                   l.remove(i);
+                   i--;
+               }
+        if(aName != null)
+            for(int i = 0; i < l.size(); i++)
+               if(l.get(i).getTenTG().contains(aName) == false)
+               {
+                   l.remove(i);
+                   i--;
+               }
+        if(namXB > 0)
+            for(int i = 0; i < l.size(); i++)
+               if(l.get(i).getNamXB() != namXB)
+               {
+                   l.remove(i);
+                   i--;
+               }
+        if(DanhMuc != null)
+            for(int i = 0; i < l.size(); i++)
+               if(l.get(i).getTenDM().contains(DanhMuc) == false)
+               {
+                   l.remove(i);
+                   i--;
+               }
+       return l;
+   }
 
 }

@@ -35,14 +35,14 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
-        PhieuDat p = new PhieuDat(1, LocalDateTime.now(), 1);
-        DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String d = p.getNgayDat().format(fmt3);
-        String t [] = d.split(" ");
-        System.out.println(d);
-        System.out.println(t[0]);
-        System.out.println(t[1]);
+        launch();
+//        PhieuDat p = new PhieuDat(1, LocalDateTime.now(), 1);
+//        DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+//        String d = p.getNgayDat().format(fmt3);
+//        String t [] = d.split(" ");
+//        System.out.println(d);
+//        System.out.println(t[0]);
+//        System.out.println(t[1]);
 
     }
 

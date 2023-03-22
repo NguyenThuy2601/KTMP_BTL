@@ -4,13 +4,16 @@
  */
 package com.nhom2.pojo;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 /**
  *
  * @author CamHa
  */
-public class Sach {
+public class BookResponse {
+
     private int idSach;
     private String Ten;
     private int namXB;
@@ -18,13 +21,14 @@ public class Sach {
     private LocalDate ngayNhap;
     private String moTa;
     private boolean tinhTrang;
-    private int idDanhMuc;
-    private int idViTri;
+    private String TenTG;
+    private String tenDM;
+    private String ViTri;
 
-    public Sach() {
+    public BookResponse() {
     }
 
-    public Sach(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, boolean tinhTrang, int idDanhMuc, int idViTri) {
+    public BookResponse(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, boolean tinhTrang, String TenTG, String tenDM, String ViTri) {
         this.idSach = idSach;
         this.Ten = Ten;
         this.namXB = namXB;
@@ -32,8 +36,9 @@ public class Sach {
         this.ngayNhap = ngayNhap;
         this.moTa = moTa;
         this.tinhTrang = tinhTrang;
-        this.idDanhMuc = idDanhMuc;
-        this.idViTri = idViTri;
+        this.TenTG = TenTG;
+        this.tenDM = tenDM;
+        this.ViTri = ViTri;
     }
 
     public int getIdSach() {
@@ -41,39 +46,29 @@ public class Sach {
     }
 
     public String getTen() {
-        return Ten;
+        ByteBuffer buffer = StandardCharsets.UTF_8.encode(this.Ten);
+        String utf8EncodedString = StandardCharsets.UTF_8.decode(buffer).toString();
+        return utf8EncodedString;
     }
 
     public int getNamXB() {
         return namXB;
     }
 
-    public String getNoiXB() {
-        return noiXB;
-    }
-
-    public LocalDate getNgayNhap() {
-        return ngayNhap;
-    }
-
-    public String getMoTa() {
-        return moTa;
-    }
-
-    public boolean isTinhTrang() {
+    public boolean getTinhTrang() {
         return tinhTrang;
     }
 
-    public int getIdDanhMuc() {
-        return idDanhMuc;
+    public String getTenTG() {
+        return TenTG;
     }
 
-    public int getIdViTri() {
-        return idViTri;
+    public String getTenDM() {
+        return tenDM;
     }
 
-    public void setTinhTrang(boolean tinhTrang) {
-        this.tinhTrang = tinhTrang;
+    public String getViTri() {
+        return ViTri;
     }
 
 }

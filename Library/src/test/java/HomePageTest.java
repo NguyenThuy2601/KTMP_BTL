@@ -1,5 +1,6 @@
 
 import com.nhom2.library.Utils;
+import com.nhom2.pojo.BookResponse;
 import com.nhom2.pojo.DanhMuc;
 import com.nhom2.pojo.Sach;
 import com.nhom2.pojo.Sach_TacGia;
@@ -62,25 +63,16 @@ public class HomePageTest {
     @Test
     public void testBooks() {
         try {
-            List<Sach> list = s.getBooks();
+            List<BookResponse> list = s.getBooks();
             boolean Assert = list.isEmpty();
+            System.out.print(list.get(0).getTen());
             Assertions.assertEquals(false, Assert);
         } catch (SQLException ex) {
             Logger.getLogger(HomePageTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    @Test
-    public void testGetTacGia() {
-        try {
-             List<Sach> list = s.getBooks();
-            List<Sach_TacGia> list2 = s.getTacGia(list);
-            boolean Assert = list2.isEmpty();
-            Assertions.assertEquals(false, Assert);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomePageTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
     
 
     

@@ -77,4 +77,10 @@ public class ReservationTest {
             Logger.getLogger(ReservationTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    @Test
+    public void getReservationCard() {
+        
+    }
 }

@@ -4,6 +4,7 @@
  */
 import com.nhom2.library.Utils;
 import com.nhom2.pojo.PhieuDat;
+import com.nhom2.pojo.ReservationCardResponse;
 import com.nhom2.service.ReservationService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.*;
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -80,7 +83,25 @@ public class ReservationTest {
     
     
     @Test
-    public void getReservationCard() {
-        
+    public void getReservationCardFromUserWhoHaveAsLeastOne() {
+        List<ReservationCardResponse> ReservationCardList = new ArrayList<>();
+        try {
+            ReservationCardList = s.getReservationCard(1);
+            Assertions.assertTrue(!ReservationCardList.isEmpty());
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    @Test
+    public void getReservationCardFromUserWhoHaveNone() {
+        List<ReservationCardResponse> ReservationCardList = new ArrayList<>();
+        try {
+            ReservationCardList = s.getReservationCard(2);
+            Assertions.assertFalse(!ReservationCardList.isEmpty());
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -20,10 +20,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class BookReturningService {
 
     public int calcFee(int day) {
-        if (day > 30) {
-            return 5000 * (day - 30);
-        }
-        return 0;
+        return 5000 * day;
     }
 
     public boolean confirmReturningBook(PhieuMuon p) throws SQLException {

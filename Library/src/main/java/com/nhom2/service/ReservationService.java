@@ -5,14 +5,20 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
+import com.nhom2.pojo.BookResponse;
 import com.nhom2.pojo.PhieuDat;
+import com.nhom2.pojo.ReservationCardResponse;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,19 +26,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class ReservationService {
 
-    public Date convertToDate(LocalDateTime dateToConvert) {
-        return (Date) java.util.Date
-                .from(dateToConvert.atZone(ZoneId.systemDefault())
-                        .toInstant());
-    }
-
     public boolean createReservationCard(int idSach, int idUser, PhieuDat p) throws SQLException {
         try (Connection conn = Utils.getConn()) {
-            
+
             DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String d = p.getNgayDat().format(fmt3);
-            String t [] = d.split(" ");
-            
+            String t[] = d.split(" ");
+
             conn.setAutoCommit(false);
             String sql = "INSERT INTO phieudat(idphieudat, ngaydat, sach_idSach, docgia_id, TinhTrang) VALUES(?, TIMESTAMP(?, ?) , ?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(sql);
@@ -50,8 +50,8 @@ public class ReservationService {
                 PreparedStatement stm1 = conn.prepareCall(sql);
 
                 stm1.setInt(1, idSach);
-                
-                 stm1.executeUpdate();
+
+                stm1.executeUpdate();
             }
 
             try {
@@ -63,6 +63,37 @@ public class ReservationService {
             }
         }
     }
-    
-    
+
+    public List<ReservationCardResponse> getReservationCard(int uID) throws SQLException {
+        List<ReservationCardResponse> ReservationCardList = new ArrayList<>();
+        try (Connection conn = Utils.getConn()) {
+            String sql = "select phieudat.idphieudat, sach.idSach, sach.Ten, phieudat.ngaydat\n"
+                    + "			, (\n"
+                    + "					CASE \n"
+                    + "						WHEN phieudat.TinhTrang = -1 THEN \"còn hạn\"\n"
+                    + "						WHEN phieudat.TinhTrang = 0 THEN \"phiếu bị hủy\"\n"
+                    + "						WHEN  phieudat.TinhTrang = 1 THEN \"đã nhận\"\n"
+                    + "					END) AS TinhTrang\n"
+                    + "            , concat(docgia.HoLot,  \" \" ,docgia.Ten) as TacGia\n"
+                    + "from ktpm_btl.sach, ktpm_btl.phieudat, ktpm_btl.docgia\n"
+                    + "where sach.idSach = phieudat.sach_idSach and phieudat.docgia_id = docgia.id and phieudat.docgia_id = ?";
+
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, uID);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                ReservationCardResponse c = new ReservationCardResponse(rs.getString("idphieudat"),
+                        rs.getInt("idSach"),
+                        rs.getNString("Ten"),
+                        rs.getString("TinhTrang"),
+                        rs.getTimestamp("ngaydat").toLocalDateTime(),
+                        rs.getNString("TacGia"));
+                ReservationCardList.add(c);
+            }
+        }
+        return ReservationCardList;
+    }
+
 }

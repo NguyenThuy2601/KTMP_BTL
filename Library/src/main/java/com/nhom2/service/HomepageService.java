@@ -73,7 +73,7 @@ public class HomepageService {
             // + Truy van lay du lieu: select
             ResultSet rs = stm.executeQuery("select sach.idSach, sach.Ten, sach.NamXB ,GROUP_CONCAT(DISTINCT tacgia.HoLot, \" \" ,tacgia.Ten) as \"DS TacGia\" ,\n"
                     + "		danhmuc.ten as \"TenDM\", vitri.TenViTri, sach.NgayNhap, sach.NoiXB, sach.MoTa,\n"
-                    + "        sach.tinhtrang\n"
+                    + "        sach.SoLuong\n"
                     + "from ktpm_btl.sach, ktpm_btl.tg_sach, ktpm_btl.tacgia, ktpm_btl.danhmuc, ktpm_btl.vitri\n"
                     + "where sach.idSach = tg_sach.idSach and tg_sach.idTacGia = tacgia.idtacgia\n"
                     + "GROUP BY sach.idSach;");
@@ -82,7 +82,7 @@ public class HomepageService {
                         rs.getNString("Ten"), rs.getInt("NamXB"),
                         rs.getString("NoiXB"), rs.getDate("NgayNhap").toLocalDate(),
                         rs.getNString("MoTa"),
-                        rs.getBoolean("tinhtrang"), 
+                        rs.getInt("SoLuong"), 
                         rs.getNString("DS TacGia"), 
                         rs.getNString("TenDM"), 
                         rs.getNString("TenViTri"));

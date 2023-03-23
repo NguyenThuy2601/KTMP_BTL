@@ -20,28 +20,37 @@ import java.util.List;
 public class CheckService {
 
     public boolean checkReservationCard() throws SQLException {
+        List<Integer> bookcopiesIDList = new ArrayList<>();
         List<Integer> bookIDList = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("select phieudat.sach_idSach\n"
-                    + "from ktpm_btl.phieudat \n"
-                    + "where hour(timediff(now(), phieudat.ngaydat)) > 48 and TinhTrang = -1;");
+            ResultSet rs = stm.executeQuery("select phieudat.id_sach, idDauSach\n"
+                    + "from ktpm_btl.phieudat, ktpm_btl.sach_copies\n"
+                    + "where hour(timediff(now(), phieudat.ngaydat)) > 48 and phieudat.TinhTrang = -1\n"
+                    + "	and phieudat.id_sach = idsach_copies;");
             while (rs.next()) {
-                bookIDList.add(rs.getInt("sach_idSach"));
+                bookcopiesIDList.add(rs.getInt("id_sach"));
+                bookIDList.add(rs.getInt("idDauSach"));
             }
             conn.setAutoCommit(false);
-          
-            
+
             String sql = "update phieudat set TinhTrang = 0 where hour(timediff(now(), phieudat.ngaydat)) > 48;";
             stm.executeUpdate(sql);
 
             if (!bookIDList.isEmpty()) {
 
-                sql = "update ktpm_btl.sach set tinhtrang = 0 where idSach = ? ";
+                sql = "update sach_copies set TinhTrang = 0 where idsach_copies = ? ";
                 PreparedStatement stm1 = conn.prepareCall(sql);
-                for (int i = 0; i < bookIDList.size(); i++) {
-                    stm1.setString(1, Integer.toString(bookIDList.get(i)));
+                for (int i = 0; i < bookcopiesIDList.size(); i++) {
+                    stm1.setInt(1, bookcopiesIDList.get(i));
                     stm1.executeUpdate();
+                }
+
+                sql = "update sach set SoLuong = SoLuong + 1 where idSach = ? ";
+                PreparedStatement stm2 = conn.prepareCall(sql);
+                for (int i = 0; i < bookIDList.size(); i++) {
+                    stm2.setInt(1, bookIDList.get(i));
+                    stm2.executeUpdate();
                 }
                 try {
                     conn.commit();
@@ -54,7 +63,7 @@ public class CheckService {
             return true;
         }
     }
-    
+
     public boolean checkBorrowingCard() throws SQLException {
         try (Connection conn = Utils.getConn()) {
             String sql = "update phieumuon set tinhtrang = 0 where tinhtrang = -1 and  day(timediff(now(), phieumuon.ngaymuon)) > 30";
@@ -63,4 +72,5 @@ public class CheckService {
             return r > 0;
         }
     }
+
 }

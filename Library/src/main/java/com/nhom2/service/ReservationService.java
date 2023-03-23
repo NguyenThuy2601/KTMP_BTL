@@ -46,12 +46,15 @@ public class ReservationService {
             int r = stm.executeUpdate();
 
             if (r > 0) {
-                sql = "update sach set tinhtrang = 1 where idSach = ? ";
+                sql = "update sach_copies set TinhTrang = -1 where idsach_copies = ?";
                 PreparedStatement stm1 = conn.prepareCall(sql);
-
-                stm1.setInt(1, idSach);
-
+                stm1.setInt(1, p.getIdSach());
                 stm1.executeUpdate();
+                
+                sql = "update sach set SoLuong = SoLuong - 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?)";
+                PreparedStatement stm2 = conn.prepareCall(sql);
+                stm2.setInt(1, p.getIdSach());
+                stm2.executeUpdate();
             }
 
             try {
@@ -67,16 +70,17 @@ public class ReservationService {
     public List<ReservationCardResponse> getReservationCard(int uID) throws SQLException {
         List<ReservationCardResponse> ReservationCardList = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
-            String sql = "select phieudat.idphieudat, sach.idSach, sach.Ten, phieudat.ngaydat\n"
-                    + "			, (\n"
-                    + "					CASE \n"
-                    + "						WHEN phieudat.TinhTrang = -1 THEN \"còn hạn\"\n"
-                    + "						WHEN phieudat.TinhTrang = 0 THEN \"phiếu bị hủy\"\n"
-                    + "						WHEN  phieudat.TinhTrang = 1 THEN \"đã nhận\"\n"
-                    + "					END) AS TinhTrang\n"
-                    + "            , concat(docgia.HoLot,  \" \" ,docgia.Ten) as TacGia\n"
-                    + "from ktpm_btl.sach, ktpm_btl.phieudat, ktpm_btl.docgia\n"
-                    + "where sach.idSach = phieudat.sach_idSach and phieudat.docgia_id = docgia.id and phieudat.docgia_id = ?";
+            String sql = "select phieudat.idphieudat, idsach_copies, sach.Ten, phieudat.ngaydat,\n"
+                    + "	(\n"
+                    + "	CASE \n"
+                    + "	WHEN phieudat.TinhTrang = -1 THEN \"còn hạn\"\n"
+                    + " WHEN phieudat.TinhTrang = 0 THEN \"phiếu bị hủy\"\n"
+                    + " WHEN  phieudat.TinhTrang = 1 THEN \"đã nhận\"\n"
+                    + " END) AS TinhTrang\n"
+                    + " , concat(docgia.HoLot,  \" \" ,docgia.Ten) as DocGia\n"
+                    + " from ktpm_btl.sach_copies, ktpm_btl.phieudat, ktpm_btl.docgia, ktpm_btl.sach\n"
+                    + "where idsach_copies = phieudat.id_sach and phieudat.docgia_id = docgia.id \n" +
+                        "		and sach.idSach = sach_copies.idDauSach and phieudat.docgia_id = ?";
 
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setInt(1, uID);
@@ -89,7 +93,7 @@ public class ReservationService {
                         rs.getNString("Ten"),
                         rs.getString("TinhTrang"),
                         rs.getTimestamp("ngaydat").toLocalDateTime(),
-                        rs.getNString("TacGia"));
+                        rs.getNString("DocGia"));
                 ReservationCardList.add(c);
             }
         }

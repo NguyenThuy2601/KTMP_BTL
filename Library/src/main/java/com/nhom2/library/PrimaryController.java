@@ -25,11 +25,11 @@ public class PrimaryController implements Initializable {
     @FXML
     Menu reservationCardMN;
     @FXML
-    Menu retunBookMN;
+    Menu returnBookMN;
     @FXML
     MenuItem directBorrowMN;
     @FXML
-    MenuItem confrimReservationCardMN;
+    MenuItem confirmReservationCardMN;
     @FXML
     Menu borrowMN;
     @FXML
@@ -51,7 +51,7 @@ public class PrimaryController implements Initializable {
         if (u.getuID() == 0) {
             profileMN.setVisible(false);
             reservationCardMN.setVisible(false);
-            retunBookMN.setVisible(false);
+            returnBookMN.setVisible(false);
             borrowMN.setVisible(false);
             borrowCardMN.setVisible(false);
             statisticMN.setVisible(false);

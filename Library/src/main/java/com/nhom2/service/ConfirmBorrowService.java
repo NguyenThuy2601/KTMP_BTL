@@ -17,6 +17,7 @@ import java.sql.Statement;
  */
 public class ConfirmBorrowService {
 
+    //Xác nhận cho mượn trực tiếp
     public boolean confirmBorrow(String id) throws SQLException {
         try (Connection conn = Utils.getConn()) {
             id = null;
@@ -49,5 +50,13 @@ public class ConfirmBorrowService {
 //            }
         }
         return false;
+    }
+    
+    //Xác nhận cho mượn từ phiếu đặt
+    public void confirmBorrowToReservation(String id) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            id = null;
+            
+        }
     }
 }

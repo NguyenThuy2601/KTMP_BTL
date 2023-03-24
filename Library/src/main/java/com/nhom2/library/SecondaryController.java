@@ -1,12 +1,16 @@
 package com.nhom2.library;
 
+import com.nhom2.pojo.User;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 
-public class SecondaryController {
+public class SecondaryController  implements  Initializable  {
 
-    @FXML
-    private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
+     @Override
+    public void initialize(URL url, ResourceBundle rb) {
+      
     }
 }

@@ -17,21 +17,19 @@ public class Sach {
     private String noiXB;
     private LocalDate ngayNhap;
     private String moTa;
-    private boolean tinhTrang;
     private int idDanhMuc;
     private int idViTri;
 
     public Sach() {
     }
 
-    public Sach(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, boolean tinhTrang, int idDanhMuc, int idViTri) {
+    public Sach(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, int idDanhMuc, int idViTri) {
         this.idSach = idSach;
         this.Ten = Ten;
         this.namXB = namXB;
         this.noiXB = noiXB;
         this.ngayNhap = ngayNhap;
         this.moTa = moTa;
-        this.tinhTrang = tinhTrang;
         this.idDanhMuc = idDanhMuc;
         this.idViTri = idViTri;
     }
@@ -60,20 +58,12 @@ public class Sach {
         return moTa;
     }
 
-    public boolean isTinhTrang() {
-        return tinhTrang;
-    }
-
     public int getIdDanhMuc() {
         return idDanhMuc;
     }
 
     public int getIdViTri() {
         return idViTri;
-    }
-
-    public void setTinhTrang(boolean tinhTrang) {
-        this.tinhTrang = tinhTrang;
     }
 
 }

@@ -24,7 +24,7 @@ public class User {
 
     
     public User() {
-        
+        uID = 0;
     }
 
     public User(int uID, String accID, String ten, String hoLot, String doiTuong, LocalDate ngayBD, LocalDate ngayHetHan, String Email, String DiaChi, String SDT, String boPhan_id, LocalDate dob) {

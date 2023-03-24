@@ -20,7 +20,7 @@ public class BookResponse {
     private String noiXB;
     private LocalDate ngayNhap;
     private String moTa;
-    private boolean tinhTrang;
+    private int soLuong;
     private String TenTG;
     private String tenDM;
     private String ViTri;
@@ -28,14 +28,14 @@ public class BookResponse {
     public BookResponse() {
     }
 
-    public BookResponse(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, boolean tinhTrang, String TenTG, String tenDM, String ViTri) {
+    public BookResponse(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, int sl, String TenTG, String tenDM, String ViTri) {
         this.idSach = idSach;
         this.Ten = Ten;
         this.namXB = namXB;
         this.noiXB = noiXB;
         this.ngayNhap = ngayNhap;
         this.moTa = moTa;
-        this.tinhTrang = tinhTrang;
+        this.soLuong = sl;
         this.TenTG = TenTG;
         this.tenDM = tenDM;
         this.ViTri = ViTri;
@@ -55,8 +55,8 @@ public class BookResponse {
         return namXB;
     }
 
-    public boolean getTinhTrang() {
-        return tinhTrang;
+    public int getSoLuong() {
+        return soLuong;
     }
 
     public String getTenTG() {

@@ -20,10 +20,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class BookReturningService {
 
     public int calcFee(int day) {
-        if (day > 30) {
-            return 5000 * (day - 30);
-        }
-        return 0;
+        return 5000 * day;
     }
 
     public boolean confirmReturningBook(PhieuMuon p) throws SQLException {
@@ -34,10 +31,15 @@ public class BookReturningService {
             stm.setString(1, p.getIdPhieuMuon());
             int r = stm.executeUpdate();
             if (r > 0) {
-                sql = "update sach set tinhtrang = 0 where idSach = ?";
+                sql = "update sach_copies set TinhTrang = 0 where idsach_copies = ?";
                 PreparedStatement stm1 = conn.prepareCall(sql);
                 stm1.setInt(1, p.getIdSach());
                 stm1.executeUpdate();
+                
+                sql = "update sach set SoLuong = SoLuong + 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?)";
+                PreparedStatement stm2 = conn.prepareCall(sql);
+                stm2.setInt(1, p.getIdSach());
+                stm2.executeUpdate();
             }
             try {
                 conn.commit();

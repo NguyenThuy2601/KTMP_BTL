@@ -78,6 +78,8 @@ public class PrimaryController implements Initializable {
             statisticBtn.setManaged(false);
             logoutMN.setManaged(false);
             bookABook.setManaged(false);
+        }
+    }
 
     public void authorization(){
         logoutMN.setManaged(true);

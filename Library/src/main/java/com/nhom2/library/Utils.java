@@ -22,8 +22,8 @@ public class Utils {
         }
     }
     public static Connection getConn() throws SQLException {
-        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ktpm_btl", "root", "1234");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ktpm_btl", "root", "Admin@123");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ktpm_btl", "root", "1234");
+        //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ktpm_btl", "root", "Admin@123");
         return conn;
     }
     

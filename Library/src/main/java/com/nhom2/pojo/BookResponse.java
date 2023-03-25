@@ -71,4 +71,17 @@ public class BookResponse {
         return ViTri;
     }
 
+    public String getNoiXB() {
+        return noiXB;
+    }
+
+    public LocalDate getNgayNhap() {
+        return ngayNhap;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    
 }

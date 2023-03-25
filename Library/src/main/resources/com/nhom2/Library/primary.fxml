@@ -15,25 +15,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.PrimaryController">
    <children>
       <HBox prefHeight="42.0" prefWidth="931.0" spacing="1.0">
          <children>
             <ButtonBar blendMode="SRC_ATOP" nodeOrientation="LEFT_TO_RIGHT" prefHeight="63.0" prefWidth="932.0">
                <buttons>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="44.0" text="HỒ SƠ" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="53.0" text="DANH SÁCH PHIẾU ĐẶT" textAlignment="CENTER" wrapText="true" />
-                  <Button mnemonicParsing="false" prefHeight="42.0" text="TRẢ SÁCH" />
-                  <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XÁC NHẬN MƯỢN" textAlignment="CENTER" wrapText="true">
+                  <Button fx:id="profileBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="44.0" text="HỒ SƠ" />
+                  <Button fx:id="reservationCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="53.0" text="DANH SÁCH PHIẾU ĐẶT" textAlignment="CENTER" wrapText="true" />
+                  <Button fx:id="retunBookBtn" mnemonicParsing="false" prefHeight="42.0" text="TRẢ SÁCH" />
+                  <MenuButton fx:id="borrowBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XÁC NHẬN MƯỢN" textAlignment="CENTER" wrapText="true">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="TRỰC TIẾP" />
-                      <MenuItem mnemonicParsing="false" text="TỪ PHIẾU ĐẶT" />
+                      <MenuItem fx:id="directBorrowMN" mnemonicParsing="false" text="TRỰC TIẾP" />
+                      <MenuItem fx:id="confrimReservationCardMN" mnemonicParsing="false" text="TỪ PHIẾU ĐẶT" />
                     </items>
                   </MenuButton>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XEM PHIẾU MƯỢN" textAlignment="CENTER" wrapText="true" />
-                  <Button mnemonicParsing="false" prefHeight="42.0" text="THỐNG KÊ" />
-                  <Button mnemonicParsing="false" prefHeight="43.0" text="ĐĂNG NHẬP" />
-                  <Button mnemonicParsing="false" prefHeight="42.0" text="ĐĂNG XUẤT" />
+                  <Button fx:id="borrowCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XEM PHIẾU MƯỢN" textAlignment="CENTER" wrapText="true" />
+                  <Button fx:id="statisticBtn" mnemonicParsing="false" prefHeight="42.0" text="THỐNG KÊ" />
+                  <Button fx:id="loginMN" mnemonicParsing="false" onAction="#loginMNClick" prefHeight="43.0" text="ĐĂNG NHẬP" />
+                  <Button fx:id="logoutMN" mnemonicParsing="false" onAction="#logoutBtnClick" prefHeight="42.0" text="ĐĂNG XUẤT" />
                </buttons>
             </ButtonBar>
          </children>
@@ -90,7 +90,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Button mnemonicParsing="false" text="TÌM SÁCH" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" onAction="#loginMNClick" text="TÌM SÁCH" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <font>
                   <Font size="19.0" />
                </font>
@@ -118,7 +118,7 @@
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="ĐẶT SÁCH" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <Button fx:id="bookABook" mnemonicParsing="false" text="ĐẶT SÁCH" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <font>
                   <Font size="19.0" />
                </font>
@@ -128,6 +128,6 @@
             </Button>
          </children>
       </GridPane>
-      <TableView prefHeight="276.0" prefWidth="931.0" />
+      <TableView fx:id="tbBook" prefHeight="276.0" prefWidth="931.0" />
    </children>
 </VBox>

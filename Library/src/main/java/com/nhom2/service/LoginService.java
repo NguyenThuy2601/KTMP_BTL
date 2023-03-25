@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  *
@@ -110,7 +111,7 @@ public class LoginService {
 
         try (Connection conn = Utils.getConn()) {
 
-            User u;
+            User u = new User();
             String sql = "SELECT * FROM docgia where TaiKhoan_id = ?";
 
             PreparedStatement stm = conn.prepareCall(sql);
@@ -118,11 +119,16 @@ public class LoginService {
 
             ResultSet rs = stm.executeQuery();
 
-            u = new User(rs.getInt("id"), rs.getString("TaiKhoan_id"),
+            
+             while (rs.next()) {
+                u = new User(rs.getInt("id"), rs.getString("TaiKhoan_id"),
                     rs.getNString("Ten"), rs.getNString("HoLot"), rs.getString("DoiTuong"),
                     rs.getDate("NgayBD").toLocalDate(), rs.getDate("NgayHetHan").toLocalDate(),
-                    rs.getString("Email"), rs.getNString("DiaChi"), rs.getString("SDT"),
-                    rs.getString("bophan_id"), rs.getDate("DOB").toLocalDate());
+                    Optional.ofNullable(rs.getString("Email")).orElse(" "), Optional.ofNullable(rs.getString("DiaChi")).orElse(" "),
+                    Optional.ofNullable(rs.getString("SDT")).orElse(" "),
+                    rs.getString("bophan_id"),  rs.getDate("DOB").toLocalDate()) ;
+            }
+           
 
             return u;
         }

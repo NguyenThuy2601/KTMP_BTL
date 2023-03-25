@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="295.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="295.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.LoginController">
    <children>
       <Label text="ĐĂNG NHẬP">
          <font>
@@ -44,25 +43,23 @@
                   <Insets left="100.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="1">
+            <TextField fx:id="txtUname" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" right="60.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="txtPass" accessibleRole="PASSWORD_FIELD" prefHeight="26.0" prefWidth="288.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" right="60.0" />
                </GridPane.margin>
             </TextField>
          </children>
       </GridPane>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="ĐĂNG NHẬP" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="228.0" mnemonicParsing="false" onAction="#loginBtnClick" text="ĐĂNG NHẬP" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font size="17.0" />
          </font>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
       </Button>
+      <Button fx:id="exitBtn" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#exitBtnlick" text="Thoát" textAlignment="CENTER" textOverrun="CLIP" />
    </children>
 </VBox>

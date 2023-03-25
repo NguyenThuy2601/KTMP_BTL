@@ -40,7 +40,7 @@ public class PrimaryController implements Initializable {
     @FXML
     MenuItem directBorrowMN;
     @FXML
-    MenuItem confrimReservationCardMN;
+    MenuItem confirmReservationCardMN;
     @FXML
     MenuButton borrowBtn;
     @FXML
@@ -78,9 +78,6 @@ public class PrimaryController implements Initializable {
             statisticBtn.setManaged(false);
             logoutMN.setManaged(false);
             bookABook.setManaged(false);
-        }
-
-    }
 
     public void authorization(){
         logoutMN.setManaged(true);

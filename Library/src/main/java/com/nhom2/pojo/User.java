@@ -86,5 +86,9 @@ public class User {
         return uID;
     }
 
+    public String getAccID() {
+        return accID;
+    }
+
     
 }

@@ -1,11 +1,18 @@
 package com.nhom2.library;
 
+import com.nhom2.pojo.BookResponse;
 import com.nhom2.pojo.User;
+import com.nhom2.service.HomepageService;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,76 +22,151 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class PrimaryController implements Initializable {
 
     @FXML
-    Menu profileMN;
+    Button profileBtn;
     @FXML
-    Menu reservationCardMN;
+    Button reservationCardBtn;
     @FXML
-    Menu returnBookMN;
+    Button retunBookBtn;
     @FXML
     MenuItem directBorrowMN;
     @FXML
     MenuItem confirmReservationCardMN;
     @FXML
-    Menu borrowMN;
+    MenuButton borrowBtn;
     @FXML
-    Menu borrowCardMN;
+    Button borrowCardBtn;
     @FXML
-    Menu statisticMN;
+    Button statisticBtn;
     @FXML
-    Menu loginMN;
+    Button loginMN;
     @FXML
-    Menu logoutMN;
+    Button logoutMN;
     @FXML
-    Button orderBook;
+    Button bookABook;
+    @FXML
+    TableView tbBook;
 
     User u;
+    HomepageService s;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        s = new HomepageService();
+        loadTableColumns();
+        try {
+            loadTableData();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         u = new User();
         if (u.getuID() == 0) {
-            profileMN.setVisible(false);
-            reservationCardMN.setVisible(false);
-            returnBookMN.setVisible(false);
-            borrowMN.setVisible(false);
-            borrowCardMN.setVisible(false);
-            statisticMN.setVisible(false);
-            logoutMN.setVisible(false);
-            orderBook.setVisible(false);
-        }
-        loginMN.showingProperty().addListener((ObservableValue<? extends Boolean> observablevalue, Boolean oldVal, Boolean newVal) -> {
-            if (newVal.booleanValue()) {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
-                    Parent root1 = (Parent) fxmlLoader.load();
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root1));
-                    stage.show();
-                } catch (Exception e) {
-                    return;
-                }
-            }
-            else
-                return;
-        });
-    }
+            profileBtn.setManaged(false);
+            reservationCardBtn.setManaged(false);
+            retunBookBtn.setManaged(false);
+            borrowBtn.setManaged(false);
+            borrowCardBtn.setManaged(false);
+            statisticBtn.setManaged(false);
+            logoutMN.setManaged(false);
+            bookABook.setManaged(false);
 
+    public void authorization(){
+        logoutMN.setManaged(true);
+        loginMN.setManaged(true);
+        if(u.getAccID().contains("DG"))
+        {
+             profileBtn.setManaged(true);
+             reservationCardBtn.setManaged(true);
+             borrowCardBtn.setManaged(true);
+             bookABook.setManaged(true);
+        }
+        else
+        {
+            retunBookBtn.setManaged(true);
+            borrowBtn.setManaged(true);
+            statisticBtn.setManaged(true);
+        }
+    }
+    
+    public void setLoginUser(User uLogin){
+        this.u = uLogin;
+    }
     @FXML
     public void loginMNClick(ActionEvent evt) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
             return;
         }
+    }
+    
+    @FXML
+    public void logoutBtnClick(ActionEvent evt) {
+        u = new User();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            return;
+        }
+    }
+
+    private void loadTableColumns() {
+        TableColumn colName = new TableColumn("Tên sách");
+        colName.setCellValueFactory(new PropertyValueFactory("Ten"));
+        colName.setPrefWidth(250);
+
+        TableColumn colYear = new TableColumn("Năm xuất bản");
+        colYear.setCellValueFactory(new PropertyValueFactory("NamXB"));
+
+        TableColumn colPublisher = new TableColumn("Nhà xuất bản");
+        colPublisher.setCellValueFactory(new PropertyValueFactory("NoiXB"));
+        
+        TableColumn colImportDate = new TableColumn("Ngày nhập");
+        colImportDate.setCellValueFactory(new PropertyValueFactory("NgayNhap"));
+        
+        
+        TableColumn colQty = new TableColumn("Số lượng");
+        colQty.setCellValueFactory(new PropertyValueFactory("SoLuong"));
+        
+        TableColumn colAuthors = new TableColumn("Tác giả");
+        colAuthors.setCellValueFactory(new PropertyValueFactory("TenTG"));
+        
+
+        TableColumn colCate = new TableColumn("Danh mục");
+        colCate.setCellValueFactory(new PropertyValueFactory("TenDM"));
+
+        TableColumn colLocation = new TableColumn("Vị trí sách");
+        colLocation.setCellValueFactory(new PropertyValueFactory("ViTri"));
+
+
+        this.tbBook.getColumns().addAll(colName, colYear, colPublisher,
+                colImportDate, colQty,
+                colAuthors, colCate, colLocation);
+    }
+    
+     private void loadTableData() throws SQLException {
+        
+        List<BookResponse> books = s.getBooks();
+        
+        this.tbBook.getItems().clear();
+        this.tbBook.setItems(FXCollections.observableList(books));
+ 
     }
 }

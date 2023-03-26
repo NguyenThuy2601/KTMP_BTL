@@ -126,7 +126,7 @@ public class LoginService {
                     rs.getDate("NgayBD").toLocalDate(), rs.getDate("NgayHetHan").toLocalDate(),
                     Optional.ofNullable(rs.getString("Email")).orElse(" "), Optional.ofNullable(rs.getString("DiaChi")).orElse(" "),
                     Optional.ofNullable(rs.getString("SDT")).orElse(" "),
-                    rs.getString("bophan_id"),  rs.getDate("DOB").toLocalDate()) ;
+                    rs.getString("bophan_id"),  rs.getDate("DOB").toLocalDate(), rs.getBoolean("GioiTinh")) ;
             }
            
 

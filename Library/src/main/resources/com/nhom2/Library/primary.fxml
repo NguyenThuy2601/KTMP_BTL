@@ -21,7 +21,7 @@
          <children>
             <ButtonBar blendMode="SRC_ATOP" nodeOrientation="LEFT_TO_RIGHT" prefHeight="63.0" prefWidth="932.0">
                <buttons>
-                  <Button fx:id="profileBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="44.0" text="HỒ SƠ" />
+                  <Button fx:id="profileBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#profileBtnClick" prefHeight="44.0" text="HỒ SƠ" />
                   <Button fx:id="reservationCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="53.0" text="DANH SÁCH PHIẾU ĐẶT" textAlignment="CENTER" wrapText="true" />
                   <Button fx:id="retunBookBtn" mnemonicParsing="false" prefHeight="42.0" text="TRẢ SÁCH" />
                   <MenuButton fx:id="borrowBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XÁC NHẬN MƯỢN" textAlignment="CENTER" wrapText="true">
@@ -118,7 +118,7 @@
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="bookABook" mnemonicParsing="false" text="ĐẶT SÁCH" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <Button fx:id="bookABook" mnemonicParsing="false" onAction="#bookABookBtnClick" text="ĐẶT SÁCH" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <font>
                   <Font size="19.0" />
                </font>
@@ -128,6 +128,6 @@
             </Button>
          </children>
       </GridPane>
-      <TableView fx:id="tbBook" prefHeight="276.0" prefWidth="931.0" />
+      <TableView fx:id="tbBook" onMouseClicked="#tbBookClick" prefHeight="276.0" prefWidth="931.0" />
    </children>
 </VBox>

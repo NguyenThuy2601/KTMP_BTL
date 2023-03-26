@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.ProfileController">
    <children>
       <GridPane prefHeight="424.0" prefWidth="931.0">
         <columnConstraints>
@@ -110,22 +110,22 @@
                   <Insets right="50.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <TextField fx:id="userEmailInfo" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="20.0" right="100.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <TextField fx:id="userAdressInfo" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="20.0" right="100.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="9">
+            <TextField fx:id="userPhoneNumInfo" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <GridPane.margin>
                   <Insets left="20.0" right="100.0" />
                </GridPane.margin>
             </TextField>
-            <Label text="Mã độc giả:" GridPane.columnIndex="1">
+            <Label fx:id="userIDInfo" text="Mã độc giả:" GridPane.columnIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
@@ -133,7 +133,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Họ và tên:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="userNameInfo" text="Họ và tên:" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
@@ -141,7 +141,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Giới tính:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="userGenderInfo" text="Giới tính:" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="18.0" />
                </font>
@@ -149,7 +149,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Ngày sinh:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label fx:id="userDOBInfo" text="Ngày sinh:" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="18.0" />
                </font>
@@ -157,7 +157,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Đối tượng:" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label fx:id="useMemberRoleInfo" text="Đối tượng:" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="18.0" />
                </font>
@@ -165,7 +165,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Bộ phận:" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Label fx:id="useMemberInfo" text="Bộ phận:" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="18.0" />
                </font>
@@ -173,7 +173,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Hạn thẻ:" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Label fx:id="useCardDateInfo" text="Hạn thẻ:" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font size="18.0" />
                </font>

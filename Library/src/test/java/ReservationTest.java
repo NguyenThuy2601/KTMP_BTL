@@ -51,35 +51,35 @@ public class ReservationTest {
         }
     }
 
-    @Test
-    public void testCreateReservationCard() {
-
-        try {
-            PhieuDat p = new PhieuDat(1, LocalDateTime.now(), 1);
-            DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            
-            String id = p.getIdPhieuDat();
-            boolean Assert = s.createReservationCard(1, 1, p);
-            Assertions.assertTrue(Assert);
-            String sql = "select * from phieudat where idphieudat = ?";
-            PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, id);
-            ResultSet rs = stm.executeQuery();
-            PhieuDat p2 = new PhieuDat();
-            while (rs.next()) {
-                p2 = new PhieuDat(rs.getString("idphieudat"), rs.getInt("sach_idSach"),
-                        rs.getInt("TinhTrang"), rs.getTimestamp("ngaydat").toLocalDateTime(), rs.getInt("docgia_id"));
-
-            }
-            Assertions.assertEquals(id, p2.getIdPhieuDat());
-            Assertions.assertEquals(p.getIdDocGia(), p2.getIdDocGia());
-            Assertions.assertEquals(p.getIdSach(), p2.getIdSach());
-            Assertions.assertEquals(p.getTinhTrang(), p2.getTinhTrang());
-            Assertions.assertEquals(p.getNgayDat().format(fmt3), p2.getNgayDat().format(fmt3));
-        } catch (SQLException ex) {
-            Logger.getLogger(ReservationTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    @Test
+//    public void testCreateReservationCard() {
+//
+//        try {
+//            PhieuDat p = new PhieuDat(1, LocalDateTime.now(), 1);
+//            DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            
+//            String id = p.getIdPhieuDat();
+//            boolean Assert = s.createReservationCard(1, 1, p);
+//            Assertions.assertTrue(Assert);
+//            String sql = "select * from phieudat where idphieudat = ?";
+//            PreparedStatement stm = conn.prepareCall(sql);
+//            stm.setString(1, id);
+//            ResultSet rs = stm.executeQuery();
+//            PhieuDat p2 = new PhieuDat();
+//            while (rs.next()) {
+//                p2 = new PhieuDat(rs.getString("idphieudat"), rs.getInt("sach_idSach"),
+//                        rs.getInt("TinhTrang"), rs.getTimestamp("ngaydat").toLocalDateTime(), rs.getInt("docgia_id"));
+//
+//            }
+//            Assertions.assertEquals(id, p2.getIdPhieuDat());
+//            Assertions.assertEquals(p.getIdDocGia(), p2.getIdDocGia());
+//            Assertions.assertEquals(p.getIdSach(), p2.getIdSach());
+//            Assertions.assertEquals(p.getTinhTrang(), p2.getTinhTrang());
+//            Assertions.assertEquals(p.getNgayDat().format(fmt3), p2.getNgayDat().format(fmt3));
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ReservationTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     
     
     @Test

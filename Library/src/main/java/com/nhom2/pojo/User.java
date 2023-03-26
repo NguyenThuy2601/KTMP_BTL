@@ -21,13 +21,14 @@ public class User {
     private String SDT;
     private String boPhan_id;
     private LocalDate DOB;
+    private boolean gender;
 
     
     public User() {
         uID = 0;
     }
 
-    public User(int uID, String accID, String ten, String hoLot, String doiTuong, LocalDate ngayBD, LocalDate ngayHetHan, String Email, String DiaChi, String SDT, String boPhan_id, LocalDate dob) {
+    public User(int uID, String accID, String ten, String hoLot, String doiTuong, LocalDate ngayBD, LocalDate ngayHetHan, String Email, String DiaChi, String SDT, String boPhan_id, LocalDate dob, boolean g) {
         this.uID = uID;
         this.accID = accID;
         this.ten = ten;
@@ -40,6 +41,7 @@ public class User {
         this.SDT = SDT;
         this.boPhan_id = boPhan_id;
         this.DOB = dob;
+        this.gender = g;
     }
     
     public String getTen() {
@@ -90,5 +92,11 @@ public class User {
         return accID;
     }
 
+    public String GendertoString() {
+        if(gender)
+            return "nam";
+        return "nữ";
+    }
+ 
     
 }

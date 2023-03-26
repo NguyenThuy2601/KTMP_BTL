@@ -93,7 +93,7 @@ public class LoginTest {
                     "Huy", "Đoàn Gia", "SV",
                     LocalDate.of( 2017 , 11 , 17 ), LocalDate.of( 2024 , 12 , 31 ),
                     "huy@ou.edu.vn", null, null,
-                    "TH", null);
+                    "TH", null, true);
             LoginService s = new LoginService();
             User u1 = s.setUser("DG003");
             Assertions.assertEquals(u.getuID(), u1.getuID());

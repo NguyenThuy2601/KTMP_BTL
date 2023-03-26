@@ -26,7 +26,26 @@ import java.util.List;
  */
 public class ReservationService {
 
-    public boolean createReservationCard(int idSach, int idUser, PhieuDat p) throws SQLException {
+    public int getAvailableIdSach_Copies(int idsach) throws SQLException{
+        try (Connection conn = Utils.getConn()) {
+            int Id = 0;
+            
+            String sql = "select idsach_copies from sach_copies where idDauSach = ? and TinhTrang = 0 limit 1";
+            
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, idsach);
+            
+            ResultSet rs = stm.executeQuery();
+            
+            while(rs.next()) {
+               Id = rs.getInt("idsach_copies");
+            }
+            
+            return Id;
+        }
+    }
+    
+    public boolean createReservationCard(PhieuDat p) throws SQLException {
         try (Connection conn = Utils.getConn()) {
 
             DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -34,7 +53,7 @@ public class ReservationService {
             String t[] = d.split(" ");
 
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO phieudat(idphieudat, ngaydat, sach_idSach, docgia_id, TinhTrang) VALUES(?, TIMESTAMP(?, ?) , ?, ?, ?)";
+            String sql = "INSERT INTO phieudat(idphieudat, ngaydat, id_sach, docgia_id, TinhTrang) VALUES(?, TIMESTAMP(?, ?) , ?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, p.getIdPhieuDat());
             stm.setString(2, t[0]);

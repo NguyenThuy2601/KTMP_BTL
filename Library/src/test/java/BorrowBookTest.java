@@ -54,7 +54,7 @@ public class BorrowBookTest {
     @Test
     public void testAddSuccessful() {
         PhieuMuon p = new PhieuMuon(LocalDate.now(), 8);
-        DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");   
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");   
         String id = p.getIdPhieuMuon();
         try {
             boolean actual = s.addBorrowCard(18, 8, p);
@@ -69,10 +69,10 @@ public class BorrowBookTest {
             while (rs.next()) {                
                 p1 = new PhieuMuon(rs.getString("idphieumuon"), 
                         rs.getInt("sach_idSach"), rs.getInt("tinhtrang"), 
-                        s.convertToLocalDateViaSqlDate(rs.getDate("ngaymuon")), rs.getInt("docgia_id"));
+                        rs.getDate("ngaymuon").toLocalDate(), rs.getInt("docgia_id"));
             }
             Assertions.assertEquals(id, p1.getIdPhieuMuon());
-            Assertions.assertEquals(p.getNgayMuon().format(fmt3), p1.getNgayMuon().format(fmt3));
+            Assertions.assertEquals(p.getNgayMuon().format(fmt), p1.getNgayMuon().format(fmt));
             Assertions.assertEquals(p.getTinhTrang(), p1.getTinhTrang());
             Assertions.assertEquals(p.getIdDocGia(), p1.getIdDocGia());
             Assertions.assertEquals(p.getIdSach(), p1.getIdSach());

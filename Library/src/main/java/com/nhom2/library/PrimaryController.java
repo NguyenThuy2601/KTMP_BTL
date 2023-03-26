@@ -89,11 +89,9 @@ public class PrimaryController implements Initializable {
             logoutMN.setManaged(false);
             bookABook.setManaged(false);
         }
-<<<<<<< HEAD
 
         tbBook.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-=======
->>>>>>> 62684df60e955ddd47187ba861a66cd156f7c441
+
     }
 
     public void authorization() {

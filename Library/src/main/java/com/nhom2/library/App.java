@@ -1,14 +1,17 @@
 package com.nhom2.library;
 
-import com.nhom2.pojo.PhieuDat;
+import com.nhom2.service.CheckService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -35,14 +38,22 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        CheckService s = new CheckService();
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run(){
+                try {
+                    s.checkReservationCard();
+                    s.checkBorrowingCard();
+                } catch (SQLException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
+        
+        timer.scheduleAtFixedRate(task, 0, 60000);
         launch();
-//        PhieuDat p = new PhieuDat(1, LocalDateTime.now(), 1);
-//        DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//        String d = p.getNgayDat().format(fmt3);
-//        String t [] = d.split(" ");
-//        System.out.println(d);
-//        System.out.println(t[0]);
-//        System.out.println(t[1]);
 
     }
 

@@ -41,28 +41,6 @@ public class HomepageService {
         return DanhMucList;
     }
 
-    public List<Sach_TacGia> getTacGia(List<Sach> bookList) throws SQLException {
-        List<Sach_TacGia> s_tgList = new ArrayList<>();
-        try (Connection conn = Utils.getConn()) {
-            // B3 Thuc thi truy van
-            String sql = "select tg.idtacgia, tg.HoLot, tg.Ten"
-                    + "FROM ktpm_btl.tg_sach cb, ktpm_btl.tacgia tg"
-                    + "where cb.idTacGia = tg.idTacGia and cb.idSach = ?";
-            for (int i = 0; i < bookList.size(); i++) {
-                PreparedStatement stm = conn.prepareCall(sql);
-                stm.setString(1, Integer.toString(bookList.get(i).getIdSach()));
-                ResultSet rs = stm.executeQuery();
-
-                while (rs.next()) {
-                    TacGia tg = new TacGia(rs.getInt("idtacgia"), rs.getNString("HoLot"), rs.getNString("Ten"));
-                    s_tgList.get(i).setTacGia(tg);
-                }
-            }
-            return s_tgList;
-        }
-
-    }
-
     public List<BookResponse> getBooks() throws SQLException {
         List<BookResponse> bookList = new ArrayList<>();
 
@@ -73,19 +51,22 @@ public class HomepageService {
             // + Truy van lay du lieu: select
             ResultSet rs = stm.executeQuery("select sach.idSach, sach.Ten, sach.NamXB ,GROUP_CONCAT(DISTINCT tacgia.HoLot, \" \" ,tacgia.Ten) as \"TenTacGia\" ,\n"
                     + "		danhmuc.ten as \"TenDM\", vitri.TenViTri, sach.NgayNhap, sach.NoiXB, sach.MoTa,\n"
-                    + "        sach.SoLuong\n"
+                    + "        sach.SoLuong, sach.danhmuc_iddanhmuc\n"
                     + "from ktpm_btl.sach, ktpm_btl.tg_sach, ktpm_btl.tacgia, ktpm_btl.danhmuc, ktpm_btl.vitri\n"
-                    + "where sach.idSach = tg_sach.idSach and tg_sach.idTacGia = tacgia.idtacgia\n"
+                    + "where sach.idSach = tg_sach.idSach and tg_sach.idTacGia = tacgia.idtacgia "
+                    + "and sach.danhmuc_iddanhmuc = danhmuc.iddanhmuc "
+                    + "AND sach.vitri_idvitri = vitri.idvitri\n"
                     + "GROUP BY sach.idSach;");
             while (rs.next()) {
                 BookResponse b = new BookResponse(rs.getInt("idSach"),
                         rs.getNString("Ten"), rs.getInt("NamXB"),
                         rs.getString("NoiXB"), rs.getDate("NgayNhap").toLocalDate(),
                         rs.getNString("MoTa"),
-                        rs.getInt("SoLuong"), 
-                        rs.getNString("TenTacGia"), 
-                        rs.getNString("TenDM"), 
-                        rs.getNString("TenViTri"));
+                        rs.getInt("SoLuong"),
+                        rs.getNString("TenTacGia"),
+                        rs.getNString("TenDM"),
+                        rs.getNString("TenViTri"),
+                            rs.getInt("danhmuc_iddanhmuc"));
 
                 bookList.add(b);
             }
@@ -93,36 +74,71 @@ public class HomepageService {
         return bookList;
     }
 
-   public List<BookResponse> findBook(List<BookResponse> l,String bName, String aName, int namXB, String DanhMuc){
-       if(bName != null)
-           for(int i = 0; i < l.size(); i++)
-               if(l.get(i).getTen().contains(bName) == false)
-               {
-                   l.remove(i);
-                   i--;
-               }
-        if(aName != null)
-            for(int i = 0; i < l.size(); i++)
-               if(l.get(i).getTenTG().contains(aName) == false)
-               {
-                   l.remove(i);
-                   i--;
-               }
-        if(namXB > 0)
-            for(int i = 0; i < l.size(); i++)
-               if(l.get(i).getNamXB() != namXB)
-               {
-                   l.remove(i);
-                   i--;
-               }
-        if(DanhMuc != null)
-            for(int i = 0; i < l.size(); i++)
-               if(l.get(i).getTenDM().contains(DanhMuc) == false)
-               {
-                   l.remove(i);
-                   i--;
-               }
-       return l;
-   }
+    public List<BookResponse> findBook(List<BookResponse> l, String bName, String aName, int namXB, int idDanhMuc) {
+        if (bName != null) {
+            for (int i = 0; i < l.size(); i++) {
+                if (l.get(i).getTen().contains(bName) == false) {
+                    l.remove(i);
+                    i--;
+                }
+            }
+        }
+        if (aName != null) {
+            for (int i = 0; i < l.size(); i++) {
+                if (l.get(i).getTenTG().contains(aName) == false) {
+                    l.remove(i);
+                    i--;
+                }
+            }
+        }
+        if (namXB > 0) {
+            for (int i = 0; i < l.size(); i++) {
+                if (l.get(i).getNamXB() != namXB) {
+                    l.remove(i);
+                    i--;
+                }
+            }
+        }
+        if (idDanhMuc != 0) {
+            for (int i = 0; i < l.size(); i++) {
+                if (l.get(i).getIdDM() != idDanhMuc) {
+                    l.remove(i);
+                    i--;
+                }
+            }
+        }
+        return l;
+    }
 
+    public boolean checkYearFormat(String year) {
+        if (year == null || year.isEmpty() || year.isBlank()) {
+            return true;
+        } else {
+
+            try {
+                int intValue = Integer.parseInt(year.trim());
+                if(intValue > 0)
+                    return true;
+                else
+                    return false;
+
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+    }
+    
+    public int parseYear(String year){
+        if (year == null || year.isEmpty() || year.isBlank()) 
+            return 0;
+        else
+            return Integer.parseInt(year.trim());
+    }
+    
+    public int checkNullSelectedComboBoxItem(DanhMuc c){
+        if(c == null)
+            return 0;
+        else
+            return c.getIdDanhMuc();
+    }
 }

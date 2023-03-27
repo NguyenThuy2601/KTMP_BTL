@@ -108,7 +108,7 @@ public class ReservationService {
 
             while (rs.next()) {
                 ReservationCardResponse c = new ReservationCardResponse(rs.getString("idphieudat"),
-                        rs.getInt("idSach"),
+                        rs.getInt("idsach_copies"),
                         rs.getNString("Ten"),
                         rs.getString("TinhTrang"),
                         rs.getTimestamp("ngaydat").toLocalDateTime(),

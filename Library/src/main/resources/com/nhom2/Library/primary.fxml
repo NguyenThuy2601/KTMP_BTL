@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -22,7 +23,7 @@
             <ButtonBar blendMode="SRC_ATOP" nodeOrientation="LEFT_TO_RIGHT" prefHeight="63.0" prefWidth="932.0">
                <buttons>
                   <Button fx:id="profileBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#profileBtnClick" prefHeight="44.0" text="HỒ SƠ" />
-                  <Button fx:id="reservationCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="53.0" text="DANH SÁCH PHIẾU ĐẶT" textAlignment="CENTER" wrapText="true" />
+                  <Button fx:id="reservationCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#reservationCardListBtnClick" prefHeight="53.0" text="DANH SÁCH PHIẾU ĐẶT" textAlignment="CENTER" wrapText="true" />
                   <Button fx:id="retunBookBtn" mnemonicParsing="false" prefHeight="42.0" text="TRẢ SÁCH" />
                   <MenuButton fx:id="borrowBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XÁC NHẬN MƯỢN" textAlignment="CENTER" wrapText="true">
                     <items>
@@ -90,7 +91,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#loginMNClick" text="TÌM SÁCH" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" onAction="#findBtnClick" text="TÌM SÁCH" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <font>
                   <Font size="19.0" />
                </font>
@@ -98,22 +99,17 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Button>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="bookNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="authorNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField GridPane.columnIndex="5" GridPane.rowIndex="1">
+            <TextField fx:id="PublishYearTxt" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
@@ -124,6 +120,12 @@
                </font>
                <GridPane.margin>
                   <Insets left="10.0" />
+               </GridPane.margin>
+            </Button>
+            <ComboBox fx:id="cateCbb" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#resetBtnClick" prefHeight="38.0" prefWidth="76.0" text="Reset" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="12.0" />
                </GridPane.margin>
             </Button>
          </children>

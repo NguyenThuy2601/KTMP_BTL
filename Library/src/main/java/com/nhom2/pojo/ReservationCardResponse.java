@@ -5,6 +5,7 @@
 package com.nhom2.pojo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -48,8 +49,10 @@ public class ReservationCardResponse {
         return TinhTrang;
     }
 
-    public LocalDateTime getNgayDat() {
-        return ngayDat;
+    public String getNgayDat() {
+        DateTimeFormatter fmt3 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String d = ngayDat.format(fmt3);
+        return d;
     }
 
     public String getHoLotTen() {

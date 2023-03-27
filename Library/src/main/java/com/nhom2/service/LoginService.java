@@ -112,7 +112,7 @@ public class LoginService {
         try (Connection conn = Utils.getConn()) {
 
             User u = new User();
-            String sql = "SELECT * FROM docgia where TaiKhoan_id = ?";
+            String sql = "SELECT *, TenBoPhan FROM docgia, bophan where TaiKhoan_id = ? and docgia.bophan_id = bophan.id";
 
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, accountID);
@@ -126,7 +126,7 @@ public class LoginService {
                     rs.getDate("NgayBD").toLocalDate(), rs.getDate("NgayHetHan").toLocalDate(),
                     Optional.ofNullable(rs.getString("Email")).orElse(" "), Optional.ofNullable(rs.getString("DiaChi")).orElse(" "),
                     Optional.ofNullable(rs.getString("SDT")).orElse(" "),
-                    rs.getString("bophan_id"),  rs.getDate("DOB").toLocalDate(), rs.getBoolean("GioiTinh")) ;
+                    rs.getString("TenBoPhan"),  rs.getDate("DOB").toLocalDate(), rs.getBoolean("GioiTinh")) ;
             }
            
 

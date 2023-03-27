@@ -109,11 +109,25 @@ public class UserProfileTest {
         }
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "/PhoneNumWithinappropriateFormat.csv", numLinesToSkip = 1)
+    public void  checkPhoneFormatPhoneNumWithinappropriateFormat(String input){
+        UserProfileService s = new UserProfileService();
+        Assertions.assertEquals(0, s.checkPhoneFormat(input));
+    }
     
     @ParameterizedTest
-    @CsvFileSource(resources = "/UserNameAndIDData.csv", numLinesToSkip = 1)
-    public void checkGetUserName(String input, String expected) throws SQLException {
+    @CsvFileSource(resources = "/PhoneNumWithChar.csv", numLinesToSkip = 1)
+    public void  checkPhoneFormatPhoneNumContainChar(String input){
         UserProfileService s = new UserProfileService();
-        Assertions.assertEquals(s.getUserNameFromID(Integer.parseInt(input)), expected);
+        Assertions.assertEquals(-1, s.checkPhoneFormat(input));
     }
+    
+    @ParameterizedTest
+    @CsvFileSource(resources = "/AcceptablePhoneNum.csv", numLinesToSkip = 1)
+    public void  checkPhoneFormaSucess(String input){
+        UserProfileService s = new UserProfileService();
+        Assertions.assertEquals(1, s.checkPhoneFormat(input));
+    }
+    
 }

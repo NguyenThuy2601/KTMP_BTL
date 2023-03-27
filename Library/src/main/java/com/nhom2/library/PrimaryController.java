@@ -102,6 +102,7 @@ public class PrimaryController implements Initializable {
             reservationCardBtn.setManaged(true);
             borrowCardBtn.setManaged(true);
             bookABook.setManaged(true);
+            bookABook.setDisable(true);
         } else {
             retunBookBtn.setManaged(true);
             borrowBtn.setManaged(true);
@@ -182,7 +183,7 @@ public class PrimaryController implements Initializable {
 
     @FXML
     public void bookABookBtnClick(ActionEvent evt) {
-        
+
         if (tbBook.getSelectionModel().getSelectedItem() != null) {
             int idAvailableCopy = 0;
             try {
@@ -197,7 +198,7 @@ public class PrimaryController implements Initializable {
                 try {
                     if (rs.createReservationCard(p)) {
                         MessageBox.getBox("Thông báo", "Đặt sách thành công", Alert.AlertType.INFORMATION).show();
-                        tbBook.getSelectionModel().clearSelection(); 
+                        tbBook.getSelectionModel().clearSelection();
                     } else {
                         MessageBox.getBox("Thông báo", "Đặt sách không thành công", Alert.AlertType.INFORMATION).show();
                     }
@@ -225,17 +226,20 @@ public class PrimaryController implements Initializable {
             bookABook.setDisable(false);
         }
     }
-    
+
     @FXML
-    public void profileBtnClick(ActionEvent evt){
+    public void profileBtnClick(ActionEvent evt) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hoso.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
+            ProfileController c = fxmlLoader.getController();
+            c.setLoginUser(u);
+            c.loadLoginUserInfo();
             Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
-            return;
+            System.out.println(e.getMessage());
         }
     }
 }

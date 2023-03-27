@@ -3,12 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.nhom2.pojo;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author CamHa
  */
 public class User {
+
     private int uID;
     private String accID;
     private String ten;
@@ -19,16 +23,15 @@ public class User {
     private String Email;
     private String DiaChi;
     private String SDT;
-    private String boPhan_id;
+    private String boPhan;
     private LocalDate DOB;
     private boolean gender;
 
-    
     public User() {
         uID = 0;
     }
 
-    public User(int uID, String accID, String ten, String hoLot, String doiTuong, LocalDate ngayBD, LocalDate ngayHetHan, String Email, String DiaChi, String SDT, String boPhan_id, LocalDate dob, boolean g) {
+    public User(int uID, String accID, String ten, String hoLot, String doiTuong, LocalDate ngayBD, LocalDate ngayHetHan, String Email, String DiaChi, String SDT, String boPhan, LocalDate dob, boolean g) {
         this.uID = uID;
         this.accID = accID;
         this.ten = ten;
@@ -39,13 +42,13 @@ public class User {
         this.Email = Email;
         this.DiaChi = DiaChi;
         this.SDT = SDT;
-        this.boPhan_id = boPhan_id;
+        this.boPhan = boPhan;
         this.DOB = dob;
         this.gender = g;
     }
-    
+
     public String getTen() {
-        return ten;
+        return hoLot + " " + ten;
     }
 
     public String getHoLot() {
@@ -53,17 +56,30 @@ public class User {
     }
 
     public String getDoiTuong() {
-        return doiTuong;
+        switch (doiTuong) {
+            case "GV":
+                return "Giảng viên";
+            case "SV":
+                return "Sinh viên";
+            default:
+                return "Viên chức";
+        }
+
     }
 
-    public LocalDate getNgayBD() {
-        return ngayBD;
+    public String getCardDateInfo() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedngayBD = ngayBD.format(dateTimeFormatter);
+        String formattedngayHetHan = ngayHetHan.format(dateTimeFormatter);
+        return formattedngayBD + "->" + formattedngayHetHan ;
     }
 
-     public LocalDate getDOB() {
-        return DOB;
+    public String getDOB() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDOB = DOB.format(dateTimeFormatter);  //
+        return formattedDOB;
     }
-    
+
     public LocalDate getNgayHetHan() {
         return ngayHetHan;
     }
@@ -80,8 +96,8 @@ public class User {
         return SDT;
     }
 
-    public String getBoPhan_id() {
-        return boPhan_id;
+    public String getBoPhan() {
+        return boPhan;
     }
 
     public int getuID() {
@@ -93,10 +109,22 @@ public class User {
     }
 
     public String GendertoString() {
-        if(gender)
+        if (gender) {
             return "nam";
+        }
         return "nữ";
     }
- 
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
+    public void setDiaChi(String DiaChi) {
+        this.DiaChi = DiaChi;
+    }
+
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
+    }
     
 }

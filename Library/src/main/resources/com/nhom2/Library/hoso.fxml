@@ -157,7 +157,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="useMemberRoleInfo" text="Đối tượng:" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label fx:id="userMemberRoleInfo" text="Đối tượng:" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="18.0" />
                </font>
@@ -165,7 +165,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="useMemberInfo" text="Bộ phận:" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Label fx:id="userMemberInfo" text="Bộ phận:" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="18.0" />
                </font>
@@ -173,7 +173,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="useCardDateInfo" text="Hạn thẻ:" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Label fx:id="userCardDateInfo" text="Hạn thẻ:" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font size="18.0" />
                </font>
@@ -183,14 +183,14 @@
             </Label>
          </children>
       </GridPane>
-      <Button mnemonicParsing="false" text="LƯU THÔNG TIN">
+      <Button mnemonicParsing="false" onAction="#saveInfoBtnclick" text="LƯU THÔNG TIN">
          <font>
             <Font size="21.0" />
          </font>
       </Button>
       <HBox prefHeight="45.0" prefWidth="931.0">
          <children>
-            <Button mnemonicParsing="false" text="BACK">
+            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#backBtnlick" text="BACK">
                <font>
                   <Font size="19.0" />
                </font>

@@ -111,7 +111,7 @@ public class PrimaryController implements Initializable {
 
     public void authorization() {
         logoutMN.setManaged(true);
-        loginMN.setManaged(true);
+        loginMN.setManaged(false);
         if (u.getAccID().contains("DG")) {
             profileBtn.setVisible(true);
             reservationCardBtn.setManaged(true);
@@ -156,20 +156,7 @@ public class PrimaryController implements Initializable {
         }
     }
     
-    @FXML
-    public void reservationCardListBtnClick(ActionEvent evt) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("danhsachphieudat.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            ReservatioCardViewController c = fxmlLoader.getController();
-            c.setLoginUser(u);
-            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
-        }
-    }
+   
 
     private void loadTableColumns() {
         TableColumn colName = new TableColumn("Tên sách");
@@ -318,7 +305,38 @@ public class PrimaryController implements Initializable {
         }
 
     }
+    
+     @FXML
+    public void reservationCardListBtnClick(ActionEvent evt) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("danhsachphieudat.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            ReservatioCardViewController c = fxmlLoader.getController();
+            c.setLoginUser(u);
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
 
+    @FXML
+    public void borrowCardListBtnClick(ActionEvent evt) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("xemphieumuon.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            BorrowCardViewController c = fxmlLoader.getController();
+            c.setLoginUser(u);
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+
+    }
+    
     @FXML
     public void resetBtnClick(ActionEvent evt) {
         try {

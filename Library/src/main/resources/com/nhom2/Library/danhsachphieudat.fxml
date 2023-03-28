@@ -102,7 +102,7 @@
             </Label>
          </children>
       </GridPane>
-      <TableView fx:id="reservationCardList" prefHeight="270.0" prefWidth="931.0" />
+      <TableView fx:id="reservationCardList" onMouseClicked="#tbCardListClick" prefHeight="270.0" prefWidth="931.0" />
       <HBox prefHeight="44.0" prefWidth="931.0">
          <children>
             <Button mnemonicParsing="false" onAction="#backBtnlick" prefHeight="28.0" prefWidth="74.0" text="BACK">

@@ -30,6 +30,13 @@ public class User {
     public User() {
         uID = 0;
     }
+    
+    public User(int uID, String accID, String ten, String hoLot){
+        this.uID = uID;
+        this.accID = accID;
+        this.ten = ten;
+        this.hoLot = hoLot;
+    }
 
     public User(int uID, String accID, String ten, String hoLot, String doiTuong, LocalDate ngayBD, LocalDate ngayHetHan, String Email, String DiaChi, String SDT, String boPhan, LocalDate dob, boolean g) {
         this.uID = uID;

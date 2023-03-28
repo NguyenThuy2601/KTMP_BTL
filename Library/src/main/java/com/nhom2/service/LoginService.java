@@ -106,7 +106,12 @@ public class LoginService {
         }
         return ID;
     }
-
+    public boolean checkEmpl(String accountID)
+    {
+        if(accountID.contains("NV"))
+            return true;
+        return false;
+    }
     public User setUser(String accountID) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = Utils.getConn()) {
@@ -127,6 +132,32 @@ public class LoginService {
                     Optional.ofNullable(rs.getString("Email")).orElse(" "), Optional.ofNullable(rs.getString("DiaChi")).orElse(" "),
                     Optional.ofNullable(rs.getString("SDT")).orElse(" "),
                     rs.getString("TenBoPhan"),  rs.getDate("DOB").toLocalDate(), rs.getBoolean("GioiTinh")) ;
+            }
+           
+
+            return u;
+        }
+
+    }
+    
+    public User setEmplUser(String accountID) throws SQLException, ClassNotFoundException {
+
+        try (Connection conn = Utils.getConn()) {
+
+            User u = new User();
+            String sql = "SELECT * FROM nhanvien where TaiKhoan_id = ? ";
+
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, accountID);
+
+            ResultSet rs = stm.executeQuery();
+
+            
+             while (rs.next()) {
+                u = new User(rs.getInt("idNhanVien"),
+                        rs.getString("TaiKhoan_id"),
+                        rs.getString("Ten"),
+                        rs.getString("HoLot"));
             }
            
 

@@ -4,9 +4,10 @@
  */
 package com.nhom2.library;
 
+import com.nhom2.pojo.BorrowCardResponse;
 import com.nhom2.pojo.ReservationCardResponse;
 import com.nhom2.pojo.User;
-import com.nhom2.service.ReservationService;
+import com.nhom2.service.BorrowCardViewService;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,10 +35,10 @@ import javafx.stage.Stage;
  *
  * @author CamHa
  */
-public class ReservatioCardViewController implements Initializable {
+public class BorrowCardViewController implements Initializable {
 
     @FXML
-    TableView<ReservationCardResponse> reservationCardList;
+    TableView<BorrowCardResponse> borrowCardList;
     @FXML
     TextField cardIDTxt;
     @FXML
@@ -48,33 +49,39 @@ public class ReservatioCardViewController implements Initializable {
     TextField bookNameTxt;
     @FXML
     Label statusLbl;
-
+    
     User u;
-    ReservationService s;
-
+    BorrowCardViewService s;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        s = new ReservationService();
+        s = new BorrowCardViewService();
+        
         cardIDTxt.setEditable(false);
         bookIDTxt.setEditable(false);
         dateTxt.setEditable(false);
         bookNameTxt.setEditable(false);
-        reservationCardList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        borrowCardList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
         loadTableColumns();
         
     }
-
+    
     public void setLoginUser(User uLogin) {
         this.u = uLogin;
-        loadTableData();
+        try {
+            loadTableData();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservatioCardViewController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
     }
-
+    
     private void loadTableColumns() {
-        TableColumn colCardID = new TableColumn("Mã phiếu đặt");
-        colCardID.setCellValueFactory(new PropertyValueFactory("idPhieuDat"));
+        TableColumn colCardID = new TableColumn("Mã phiếu muon");
+        colCardID.setCellValueFactory(new PropertyValueFactory("idPhieuMuon"));
 
-        TableColumn colBookID = new TableColumn("Mã sách đặt");
+        TableColumn colBookID = new TableColumn("Mã sách mượn");
         colBookID.setCellValueFactory(new PropertyValueFactory("idSach"));
 
         TableColumn colBookName = new TableColumn("Tên đầu sách");
@@ -85,28 +92,20 @@ public class ReservatioCardViewController implements Initializable {
         colStatus.setCellValueFactory(new PropertyValueFactory("TinhTrang"));
 
         TableColumn colReservationDate = new TableColumn("Ngày đặt");
-        colReservationDate.setCellValueFactory(new PropertyValueFactory("ngayDat"));
+        colReservationDate.setCellValueFactory(new PropertyValueFactory("ngayMuon"));
 
-        this.reservationCardList.getColumns().addAll(colCardID, colBookID, colBookName,
+        this.borrowCardList.getColumns().addAll(colCardID, colBookID, colBookName,
                 colStatus, colReservationDate);
     }
 
-    private void loadTableData()  {
-        System.out.println(u.getuID());
-        
-        List<ReservationCardResponse> card;
-        try {
-            card = s.getReservationCard(1);
-            this.reservationCardList.getItems().clear();
-            this.reservationCardList.setItems(FXCollections.observableList(card));
-        } catch (SQLException ex) {
-            Logger.getLogger(ReservatioCardViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void loadTableData() throws SQLException {
+        List<BorrowCardResponse> card = s.getBorrowCard(u.getuID());
 
-        
+        this.borrowCardList.getItems().clear();
+        this.borrowCardList.setItems(FXCollections.observableList(card));
 
     }
-
+    
     @FXML
     public void backBtnlick(ActionEvent evt) {
         try {
@@ -122,13 +121,14 @@ public class ReservatioCardViewController implements Initializable {
             return;
         }
     }
-
+    
     @FXML
     public void tbCardListClick(MouseEvent evt) {
-        cardIDTxt.setText(reservationCardList.getSelectionModel().getSelectedItem().getIdPhieuDat());
-        bookIDTxt.setText(Integer.toString(reservationCardList.getSelectionModel().getSelectedItem().getIdSach()));
-        dateTxt.setText(reservationCardList.getSelectionModel().getSelectedItem().getNgayDat());
-        bookNameTxt.setText(reservationCardList.getSelectionModel().getSelectedItem().getTenSach());
-        statusLbl.setText(reservationCardList.getSelectionModel().getSelectedItem().getTinhTrang());
+        cardIDTxt.setText(borrowCardList.getSelectionModel().getSelectedItem().getIdPhieuMuon());
+        bookIDTxt.setText(Integer.toString(borrowCardList.getSelectionModel().getSelectedItem().getIdSach()));
+        dateTxt.setText(borrowCardList.getSelectionModel().getSelectedItem().getNgayMuon());
+        bookNameTxt.setText(borrowCardList.getSelectionModel().getSelectedItem().getTenSach());
+        statusLbl.setText(borrowCardList.getSelectionModel().getSelectedItem().getTinhTrang());
     }
+    
 }

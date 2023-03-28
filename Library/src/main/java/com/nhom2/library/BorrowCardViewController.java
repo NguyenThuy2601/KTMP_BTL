@@ -126,7 +126,7 @@ public class BorrowCardViewController implements Initializable {
     public void tbCardListClick(MouseEvent evt) {
         cardIDTxt.setText(borrowCardList.getSelectionModel().getSelectedItem().getIdPhieuMuon());
         bookIDTxt.setText(Integer.toString(borrowCardList.getSelectionModel().getSelectedItem().getIdSach()));
-        dateTxt.setText(borrowCardList.getSelectionModel().getSelectedItem().getNgayMuon());
+        dateTxt.setText(borrowCardList.getSelectionModel().getSelectedItem().getNgayMuonToString());
         bookNameTxt.setText(borrowCardList.getSelectionModel().getSelectedItem().getTenSach());
         statusLbl.setText(borrowCardList.getSelectionModel().getSelectedItem().getTinhTrang());
     }

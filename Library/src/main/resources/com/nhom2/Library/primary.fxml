@@ -24,7 +24,7 @@
                <buttons>
                   <Button fx:id="profileBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#profileBtnClick" prefHeight="44.0" text="HỒ SƠ" />
                   <Button fx:id="reservationCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#reservationCardListBtnClick" prefHeight="53.0" text="DANH SÁCH PHIẾU ĐẶT" textAlignment="CENTER" wrapText="true" />
-                  <Button fx:id="retunBookBtn" mnemonicParsing="false" prefHeight="42.0" text="TRẢ SÁCH" />
+                  <Button fx:id="retunBookBtn" mnemonicParsing="false" onAction="#bookReturnBtnClick" prefHeight="42.0" text="TRẢ SÁCH" />
                   <MenuButton fx:id="borrowBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XÁC NHẬN MƯỢN" textAlignment="CENTER" wrapText="true">
                     <items>
                       <MenuItem fx:id="directBorrowMN" mnemonicParsing="false" text="TRỰC TIẾP" />

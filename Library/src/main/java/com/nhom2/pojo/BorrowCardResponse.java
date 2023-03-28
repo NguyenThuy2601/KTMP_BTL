@@ -16,13 +16,26 @@ public class BorrowCardResponse {
     private int idSach;
     private String tenSach;
     private String TinhTrang;
+    private boolean TinhTrangBool;
     private LocalDate ngayMuon;
+    private int idUser;
     private String HoLotTen;
 
     public BorrowCardResponse() {
+        this.idPhieuMuon = "none";
     }
 
-    public BorrowCardResponse(String idPhieuMuon, int idSach, String tenSach, String TinhTrang, LocalDate ngayMuon, String HoLotTen) {
+    public BorrowCardResponse(String idPhieuMuon, int idSach, String tenSach, boolean TinhTrangBool, LocalDate ngayMuon, String HoLotTen, int uID) {
+        this.idPhieuMuon = idPhieuMuon;
+        this.idSach = idSach;
+        this.tenSach = tenSach;
+        this.TinhTrangBool = TinhTrangBool;       
+        this.ngayMuon = ngayMuon;
+        this.HoLotTen = HoLotTen;
+        idUser = uID;
+    }
+    
+     public BorrowCardResponse(String idPhieuMuon, int idSach, String tenSach, String TinhTrang, LocalDate ngayMuon, String HoLotTen) {
         this.idPhieuMuon = idPhieuMuon;
         this.idSach = idSach;
         this.tenSach = tenSach;
@@ -47,7 +60,7 @@ public class BorrowCardResponse {
         return TinhTrang;
     }
 
-    public String getNgayMuon() {
+    public String getNgayMuonToString() {
          DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedNgayMuon = ngayMuon.format(dateTimeFormatter);  //
         return formattedNgayMuon;
@@ -56,6 +69,19 @@ public class BorrowCardResponse {
     public String getHoLotTen() {
         return HoLotTen;
     }
+    
+    public LocalDate getNgayMuon() {
+        return ngayMuon;
+    }
+
+    public boolean isTinhTrangBool() {
+        return TinhTrangBool;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+    
     
     
 }

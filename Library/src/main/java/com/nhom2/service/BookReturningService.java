@@ -5,6 +5,7 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
+import com.nhom2.pojo.BorrowCardResponse;
 import com.nhom2.pojo.PhieuMuon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,10 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class BookReturningService {
 
     public int calcFee(int day) {
-        return 5000 * day;
+        if (day > 30) {
+            return 5000 * day;
+        }
+        return 0;
     }
 
     public boolean confirmReturningBook(PhieuMuon p) throws SQLException {
@@ -35,7 +39,7 @@ public class BookReturningService {
                 PreparedStatement stm1 = conn.prepareCall(sql);
                 stm1.setInt(1, p.getIdSach());
                 stm1.executeUpdate();
-                
+
                 sql = "update sach set SoLuong = SoLuong + 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?)";
                 PreparedStatement stm2 = conn.prepareCall(sql);
                 stm2.setInt(1, p.getIdSach());
@@ -55,21 +59,29 @@ public class BookReturningService {
         return DAYS.between(borrowingDate, LocalDate.now());
     }
 
-    public PhieuMuon getBorrowingCardInfo(String idPhieuMuon) throws SQLException {
+    public BorrowCardResponse getBorrowingCardInfo(String idPhieuMuon) throws SQLException {
         try (Connection conn = Utils.getConn()) {
-            PhieuMuon p = new PhieuMuon();
-            String sql = "select * from phieumuon where idphieumuon = ?";
+            BorrowCardResponse p = new BorrowCardResponse();
+            String sql = "select phieumuon.*, concat(docgia.HoLot, \" \", docgia.Ten) as Name , sach.Ten\n"
+                    + "from phieumuon, docgia, sach, sach_copies\n"
+                    + "where phieumuon.docgia_id = docgia.id"
+                    + " and phieumuon.sach_idSach1 = sach_copies.idsach_copies "
+                    + "and sach.idSach = sach_copies.idDauSach and idphieumuon = ?";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, idPhieuMuon);
             // + Truy van lay du lieu: select
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                p = new PhieuMuon(rs.getString("idphieumuon"), rs.getInt("sach_idSach1"),
-                        rs.getInt("tinhtrang"), rs.getDate("ngaymuon").toLocalDate(), rs.getInt("docgia_id"));
+                p = new BorrowCardResponse(rs.getString("idphieumuon"),
+                        rs.getInt("sach_idSach1"),
+                        rs.getNString("Ten"), 
+                        rs.getBoolean("tinhtrang"),
+                        rs.getDate("ngaymuon").toLocalDate(),
+                        rs.getNString("Name"),
+                        rs.getInt("docgia_id"));
             }
             return p;
         }
     }
-    
-   
+
 }

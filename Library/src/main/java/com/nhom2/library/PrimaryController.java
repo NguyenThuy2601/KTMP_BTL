@@ -338,6 +338,22 @@ public class PrimaryController implements Initializable {
     }
     
     @FXML
+    public void bookReturnBtnClick(ActionEvent evt) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("trasach.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            BookReturnController c = fxmlLoader.getController();
+            c.setLoginUser(u);
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+
+    }
+    
+    @FXML
     public void resetBtnClick(ActionEvent evt) {
         try {
             loadTableData();
@@ -345,4 +361,6 @@ public class PrimaryController implements Initializable {
             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    //Phần của nhi
 }

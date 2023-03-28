@@ -23,13 +23,7 @@ public class BorrowCardViewService {
     public List<BorrowCardResponse> getBorrowCard(int uID) throws SQLException {
         List<BorrowCardResponse> list = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
-            String sql = "select phieumuon.idphieumuon, phieumuon.sach_idSach1, sach.Ten, phieumuon.ngaymuon,\n"
-                    + "(\n"
-                    + "CASE \n"
-                    + "WHEN phieumuon.tinhtrang = -1 THEN \"phiếu còn hạn\"\n"
-                    + "WHEN phieumuon.tinhtrang = 0 THEN \"phiếu quá hạn\"\n"
-                    + "WHEN  phieumuon.tinhtrang = 1 THEN \"đã trả sách\"\n"
-                    + "END) AS TinhTrang,\n"
+            String sql = "select phieumuon.idphieumuon, phieumuon.sach_idSach1, sach.Ten, phieumuon.ngaymuon, phieumuon.tinhtrang, phieumuon.docgia_id,\n"
                     + "concat(docgia.HoLot, \" \" ,docgia.Ten) as DocGia\n"
                     + "from ktpm_btl.sach_copies, ktpm_btl.phieumuon, ktpm_btl.docgia, ktpm_btl.sach\n"
                     + "where idsach_copies = phieumuon.sach_idSach1 and phieumuon.docgia_id = docgia.id \n"
@@ -42,11 +36,12 @@ public class BorrowCardViewService {
 
             while (rs.next()) {
                 BorrowCardResponse c = new BorrowCardResponse(rs.getString("idphieumuon"),
-                                                            rs.getInt("sach_idSach1"),
-                                                            rs.getNString("Ten"),
-                                                            rs.getNString("TinhTrang"),
-                                                            rs.getDate("ngaymuon").toLocalDate(),
-                                                            rs.getNString("DocGia"));
+                        rs.getInt("sach_idSach1"),
+                        rs.getNString("Ten"),
+                        rs.getInt("tinhtrang"),
+                        rs.getDate("ngaymuon").toLocalDate(),
+                        rs.getNString("DocGia"),
+                        rs.getInt("docgia_id"));
                 list.add(c);
             }
             return list;

@@ -26,25 +26,25 @@ import java.util.List;
  */
 public class ReservationService {
 
-    public int getAvailableIdSach_Copies(int idsach) throws SQLException{
+    public int getAvailableIdSach_Copies(int idsach) throws SQLException {
         try (Connection conn = Utils.getConn()) {
             int Id = 0;
-            
+
             String sql = "select idsach_copies from sach_copies where idDauSach = ? and TinhTrang = 0 limit 1";
-            
+
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setInt(1, idsach);
-            
+
             ResultSet rs = stm.executeQuery();
-            
-            while(rs.next()) {
-               Id = rs.getInt("idsach_copies");
+
+            while (rs.next()) {
+                Id = rs.getInt("idsach_copies");
             }
-            
+
             return Id;
         }
     }
-    
+
     public boolean createReservationCard(PhieuDat p) throws SQLException {
         try (Connection conn = Utils.getConn()) {
 
@@ -69,7 +69,7 @@ public class ReservationService {
                 PreparedStatement stm1 = conn.prepareCall(sql);
                 stm1.setInt(1, p.getIdSach());
                 stm1.executeUpdate();
-                
+
                 sql = "update sach set SoLuong = SoLuong - 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?)";
                 PreparedStatement stm2 = conn.prepareCall(sql);
                 stm2.setInt(1, p.getIdSach());
@@ -89,17 +89,11 @@ public class ReservationService {
     public List<ReservationCardResponse> getReservationCard(int uID) throws SQLException {
         List<ReservationCardResponse> ReservationCardList = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
-            String sql = "select phieudat.idphieudat, idsach_copies, sach.Ten, phieudat.ngaydat,\n"
-                    + "	(\n"
-                    + "	CASE \n"
-                    + "	WHEN phieudat.TinhTrang = -1 THEN \"còn hạn\"\n"
-                    + " WHEN phieudat.TinhTrang = 0 THEN \"phiếu bị hủy\"\n"
-                    + " WHEN  phieudat.TinhTrang = 1 THEN \"đã nhận\"\n"
-                    + " END) AS TinhTrang\n"
-                    + " , concat(docgia.HoLot,  \" \" ,docgia.Ten) as DocGia\n"
+            String sql = "select phieudat.idphieudat, idsach_copies, sach.Ten, phieudat.ngaydat, phieudat.TinhTrang\n"
+                    + " , concat(docgia.HoLot,  \" \" ,docgia.Ten) as DocGia, phieudat.docgia_id \n"
                     + " from ktpm_btl.sach_copies, ktpm_btl.phieudat, ktpm_btl.docgia, ktpm_btl.sach\n"
-                    + "where idsach_copies = phieudat.id_sach and phieudat.docgia_id = docgia.id \n" +
-                        "		and sach.idSach = sach_copies.idDauSach and phieudat.docgia_id = ?";
+                    + "where idsach_copies = phieudat.id_sach and phieudat.docgia_id = docgia.id \n"
+                    + "and sach.idSach = sach_copies.idDauSach  and phieudat.docgia_id = ?";
 
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setInt(1, uID);
@@ -110,9 +104,10 @@ public class ReservationService {
                 ReservationCardResponse c = new ReservationCardResponse(rs.getString("idphieudat"),
                         rs.getInt("idsach_copies"),
                         rs.getNString("Ten"),
-                        rs.getString("TinhTrang"),
+                        rs.getInt("TinhTrang"),
                         rs.getTimestamp("ngaydat").toLocalDateTime(),
-                        rs.getNString("DocGia"));
+                        rs.getNString("DocGia"),
+                        rs.getInt("docgia_id"));
                 ReservationCardList.add(c);
             }
         }

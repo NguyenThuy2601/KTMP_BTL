@@ -44,8 +44,10 @@ public class App extends Application {
             @Override
             public void run(){
                 try {
-                    s.checkReservationCard();
-                    s.checkBorrowingCard();
+                    boolean f = s.checkReservationCard();
+                    boolean t = s.checkBorrowingCard();
+                     System.out.println(f);
+                     System.out.println(t);
                 } catch (SQLException ex) {
                     Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -104,7 +104,7 @@
                   <Insets left="-2.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Tiền phạt:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <Label text="Tiền phạt:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <font>
                   <Font size="20.0" />
                </font>
@@ -137,7 +137,7 @@
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <Label fx:id="fineLbl" text="Tiền phạt:" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <Label fx:id="fineLbl" text="Tiền phạt:" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <font>
                   <Font size="20.0" />
                </font>
@@ -145,12 +145,12 @@
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Tình trạng:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Label text="Tình trạng:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="fineLbl1" layoutX="643.0" layoutY="133.0" text="Tiền phạt:" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Label fx:id="statusLbl" layoutX="643.0" layoutY="133.0" text="Tiền phạt:" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <font>
                   <Font size="20.0" />
                </font>
@@ -158,6 +158,16 @@
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </Label>
+            <Label text="Tến sách:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="bookNameInfoTxt" layoutX="643.0" layoutY="25.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </TextField>
          </children>
       </GridPane>
       <Button fx:id="confirmBtn" mnemonicParsing="false" text="XÁC NHẬN">

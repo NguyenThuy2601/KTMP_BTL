@@ -55,8 +55,8 @@ public class BookReturningService {
         }
     }
 
-    public long calcDayGap(LocalDate borrowingDate) {
-        return DAYS.between(borrowingDate, LocalDate.now());
+    public int calcDayGap(LocalDate borrowingDate) {
+        return (int)DAYS.between(borrowingDate, LocalDate.now());
     }
 
     public BorrowCardResponse getBorrowingCardInfo(String idPhieuMuon) throws SQLException {
@@ -75,7 +75,7 @@ public class BookReturningService {
                 p = new BorrowCardResponse(rs.getString("idphieumuon"),
                         rs.getInt("sach_idSach1"),
                         rs.getNString("Ten"), 
-                        rs.getBoolean("tinhtrang"),
+                        rs.getInt("tinhtrang"),
                         rs.getDate("ngaymuon").toLocalDate(),
                         rs.getNString("Name"),
                         rs.getInt("docgia_id"));

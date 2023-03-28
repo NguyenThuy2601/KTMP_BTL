@@ -22,22 +22,30 @@ public class CheckService {
     public boolean checkReservationCard() throws SQLException {
         List<Integer> bookcopiesIDList = new ArrayList<>();
         List<Integer> bookIDList = new ArrayList<>();
+        List<String> reservationCardIDList = new ArrayList<>();
+        String sql;
         try (Connection conn = Utils.getConn()) {
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("select phieudat.id_sach, idDauSach\n"
+            ResultSet rs = stm.executeQuery("select phieudat.idphieudat,phieudat.id_sach, idDauSach\n"
                     + "from ktpm_btl.phieudat, ktpm_btl.sach_copies\n"
                     + "where hour(timediff(now(), phieudat.ngaydat)) > 48 and phieudat.TinhTrang = -1\n"
                     + "	and phieudat.id_sach = idsach_copies;");
             while (rs.next()) {
                 bookcopiesIDList.add(rs.getInt("id_sach"));
                 bookIDList.add(rs.getInt("idDauSach"));
+                reservationCardIDList.add(rs.getString("phieudat.idphieudat"));
             }
             conn.setAutoCommit(false);
 
-            String sql = "update phieudat set TinhTrang = 0 where hour(timediff(now(), phieudat.ngaydat)) > 48;";
-            stm.executeUpdate(sql);
+            if (!reservationCardIDList.isEmpty()) {
+                for (int i = 0; i < reservationCardIDList.size(); i++) {
+                    sql = "update phieudat set TinhTrang = 0 where hour(timediff(now(), phieudat.ngaydat)) > 48;";
+                    stm.executeUpdate(sql);
+                }
 
-            if (!bookIDList.isEmpty()) {
+            }
+
+            if (!bookIDList.isEmpty() && !bookcopiesIDList.isEmpty()) {
 
                 sql = "update sach_copies set TinhTrang = 0 where idsach_copies = ? ";
                 PreparedStatement stm1 = conn.prepareCall(sql);
@@ -66,7 +74,7 @@ public class CheckService {
 
     public boolean checkBorrowingCard() throws SQLException {
         try (Connection conn = Utils.getConn()) {
-            String sql = "update phieumuon set tinhtrang = 0 where tinhtrang = -1 and  day(timediff(now(), phieumuon.ngaymuon)) > 30";
+            String sql = "update phieumuon set tinhtrang = 0 where tinhtrang = -1 and   DATEDIFF( now(),phieumuon.ngaymuon) > 30";
             Statement stm = conn.createStatement();
             int r = stm.executeUpdate(sql);
             return r > 0;

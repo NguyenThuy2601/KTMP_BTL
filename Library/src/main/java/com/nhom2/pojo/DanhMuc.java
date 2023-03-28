@@ -27,4 +27,9 @@ public class DanhMuc {
     public String toString(){
         return this.Ten;
     }
+
+    public int getIdDanhMuc() {
+        return idDanhMuc;
+    }
+    
 }

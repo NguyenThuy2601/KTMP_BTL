@@ -76,7 +76,11 @@ public class LoginController implements Initializable {
                         MessageBox.getBox("Thông báo", "Sai password", Alert.AlertType.INFORMATION).show();
                     } else {
                         String accID = s.getAccID(uName);
-                        User u = s.setUser(accID);
+                        User u;
+                        if(s.checkEmpl(accID))
+                            u = s.setEmplUser(accID);
+                        else
+                            u = s.setUser(accID);
                         try {
                             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary.fxml"));
                             Parent root1 = (Parent) fxmlLoader.load();
@@ -87,7 +91,7 @@ public class LoginController implements Initializable {
                             stage.setScene(new Scene(root1));
                             stage.show();
                         } catch (Exception e) {
-                            return;
+                            System.out.println(e.getMessage());
                         }
                     }
                 }

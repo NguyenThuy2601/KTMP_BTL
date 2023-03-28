@@ -6,6 +6,7 @@ package com.nhom2.pojo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -58,6 +59,12 @@ public class PhieuMuon {
         return ngayMuon;
     }
 
+    public String getNgayMuonToString() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedngayMuon = ngayMuon.format(dateTimeFormatter);  //
+        return formattedngayMuon;
+    }
+    
     public int getIdDocGia() {
         return idDocGia;
     }

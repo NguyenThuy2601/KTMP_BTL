@@ -24,11 +24,13 @@ public class BookResponse {
     private String TenTG;
     private String tenDM;
     private String ViTri;
+    private int idDM;
 
     public BookResponse() {
     }
 
-    public BookResponse(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap, String moTa, int sl, String TenTG, String tenDM, String ViTri) {
+    public BookResponse(int idSach, String Ten, int namXB, String noiXB, LocalDate ngayNhap,
+                        String moTa, int sl, String TenTG, String tenDM, String ViTri, int idDM) {
         this.idSach = idSach;
         this.Ten = Ten;
         this.namXB = namXB;
@@ -39,6 +41,7 @@ public class BookResponse {
         this.TenTG = TenTG;
         this.tenDM = tenDM;
         this.ViTri = ViTri;
+        this.idDM = idDM;
     }
 
     public int getIdSach() {
@@ -81,6 +84,10 @@ public class BookResponse {
 
     public String getMoTa() {
         return moTa;
+    }
+
+    public int getIdDM() {
+        return idDM;
     }
 
     

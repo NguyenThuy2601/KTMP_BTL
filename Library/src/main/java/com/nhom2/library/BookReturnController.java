@@ -56,15 +56,19 @@ public class BookReturnController implements Initializable {
     Label fineLbl;
     @FXML
     Label statusLbl;
+    @FXML
+    Label fineTotalLbl;
 
     BookReturningService s;
     CheckService cs;
     User u;
+    int preUID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         s = new BookReturningService();
         cs = new CheckService();
+        preUID = 0;
 
         confirmBtn.setDisable(true);
 
@@ -76,6 +80,7 @@ public class BookReturnController implements Initializable {
         bookNameInfoTxt.setEditable(false);
 
         fineLbl.setText("0 đ");
+        fineTotalLbl.setText("0 đ");
         statusLbl.setText("");
     }
 
@@ -95,7 +100,7 @@ public class BookReturnController implements Initializable {
                 } else {
                     if (s.calcDayGap(p.getNgayMuonOriginalForm()) > 30) {
                         cs.updateBorrowingCardWithID(cardIDTxt.getText().trim());
-                        p = s.getBorrowingCardInfo(cardIDTxt.getText().trim()); 
+                        p = s.getBorrowingCardInfo(cardIDTxt.getText().trim());
                     }
 
                     int fine = s.calcFee(s.calcDayGap(p.getNgayMuonOriginalForm()));
@@ -113,6 +118,15 @@ public class BookReturnController implements Initializable {
                         confirmBtn.setDisable(true);
                     } else {
                         confirmBtn.setDisable(false);
+                        if(Integer.parseInt(uIDInfoTxt.getText()) != preUID){
+                            fineTotalLbl.setText(fineLbl.getText());
+                            preUID = Integer.parseInt(uIDInfoTxt.getText());
+                        }
+                        else{
+                            String total = s.calcTotalFine(fineLbl.getText(), fineTotalLbl.getText());
+                            fineTotalLbl.setText(total + " đ");
+                        }
+                            
                     }
 
                 }
@@ -120,6 +134,30 @@ public class BookReturnController implements Initializable {
                 Logger.getLogger(BookReturnController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+        }
+    }
+
+    @FXML
+    public void confirmBtnlick(ActionEvent evt) {
+        try {
+            if (s.confirmReturningBook(cardIDInfoTxt.getText(), Integer.parseInt(bookIDInfoTxt.getText()))) {
+                MessageBox.getBox("Thông báo", "Xác nhận trả sách thành công", Alert.AlertType.INFORMATION).show();
+                cardIDInfoTxt.setText("");
+                dateInfoTxt.setText("");
+                bookIDInfoTxt.setText("");
+                uIDInfoTxt.setText("");
+                uNameInfoTxt.setText("");
+                bookNameInfoTxt.setText("");
+                fineLbl.setText("0 đ");
+                statusLbl.setText("");
+                confirmBtn.setDisable(true);
+                
+            } else {
+                MessageBox.getBox("Thông báo", "Xác nhận trả sách thất bại", Alert.AlertType.INFORMATION).show();
+            }
+        } catch (SQLException ex) {
+            MessageBox.getBox("Thông báo", "Đã có lỗi xáy ra", Alert.AlertType.INFORMATION).show();
+            Logger.getLogger(BookReturnController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

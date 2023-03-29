@@ -22,27 +22,27 @@ public class BookReturningService {
 
     public int calcFee(int day) {
         if (day > 30) {
-            return 5000 * day;
+            return 5000 * (day - 30);
         }
         return 0;
     }
 
-    public boolean confirmReturningBook(PhieuMuon p) throws SQLException {
+    public boolean confirmReturningBook(String idPhieuMuon, int idSach) throws SQLException {
         try (Connection conn = Utils.getConn()) {
             conn.setAutoCommit(false);
             String sql = "update phieumuon set tinhtrang = 1 where idphieumuon = ?";
             PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, p.getIdPhieuMuon());
+            stm.setString(1, idPhieuMuon);
             int r = stm.executeUpdate();
             if (r > 0) {
                 sql = "update sach_copies set TinhTrang = 0 where idsach_copies = ?";
                 PreparedStatement stm1 = conn.prepareCall(sql);
-                stm1.setInt(1, p.getIdSach());
+                stm1.setInt(1, idSach);
                 stm1.executeUpdate();
 
                 sql = "update sach set SoLuong = SoLuong + 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?)";
                 PreparedStatement stm2 = conn.prepareCall(sql);
-                stm2.setInt(1, p.getIdSach());
+                stm2.setInt(1, idSach);
                 stm2.executeUpdate();
             }
             try {
@@ -82,6 +82,17 @@ public class BookReturningService {
             }
             return p;
         }
+    }
+    
+    public int getFineTotalFromLabel(String text){
+        String temp [] = text.split(" ");
+        return Integer.parseInt(temp[0]);
+    }
+    
+     public String calcTotalFine(String text1,String text2){
+        int a = getFineTotalFromLabel(text1);
+        int b = getFineTotalFromLabel(text2);
+        return Integer.toString((a+b));
     }
 
 }

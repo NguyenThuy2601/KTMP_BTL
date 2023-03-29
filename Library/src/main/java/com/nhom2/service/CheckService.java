@@ -5,11 +5,14 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
+import com.nhom2.pojo.PhieuDat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,56 +22,66 @@ import java.util.List;
  */
 public class CheckService {
 
+    public boolean checkReservationnCardEXP(LocalDateTime fromDate) {
+        if (Duration.between(fromDate, LocalDateTime.now()).toHours() > 48) {
+            return false;
+        }
+        return true;
+    }
+
     public boolean checkReservationCard() throws SQLException {
-        List<Integer> bookcopiesIDList = new ArrayList<>();
-        List<Integer> bookIDList = new ArrayList<>();
-        List<String> reservationCardIDList = new ArrayList<>();
+        List<PhieuDat> reservationCardIDList = new ArrayList<>();
         String sql;
         try (Connection conn = Utils.getConn()) {
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("select phieudat.idphieudat,phieudat.id_sach, idDauSach\n"
-                    + "from ktpm_btl.phieudat, ktpm_btl.sach_copies\n"
-                    + "where hour(timediff(now(), phieudat.ngaydat)) > 48 and phieudat.TinhTrang = -1\n"
-                    + "	and phieudat.id_sach = idsach_copies;");
+            ResultSet rs = stm.executeQuery("select phieudat.*\n"
+                    + "from ktpm_btl.phieudat\n"
+                    + "where phieudat.TinhTrang = -1");
             while (rs.next()) {
-                bookcopiesIDList.add(rs.getInt("id_sach"));
-                bookIDList.add(rs.getInt("idDauSach"));
-                reservationCardIDList.add(rs.getString("phieudat.idphieudat"));
+                PhieuDat p = new PhieuDat(rs.getString("idphieudat"),
+                        rs.getInt("id_sach"),
+                        rs.getInt("TinhTrang"),
+                        rs.getTimestamp("ngaydat").toLocalDateTime(),
+                         rs.getInt("docgia_id"));
+                reservationCardIDList.add(p);
             }
             conn.setAutoCommit(false);
 
             if (!reservationCardIDList.isEmpty()) {
+                sql = "update phieudat set TinhTrang = 0 where phieudat.idphieudat = ?";
+                PreparedStatement stm4 = conn.prepareCall(sql);
                 for (int i = 0; i < reservationCardIDList.size(); i++) {
-                    sql = "update phieudat set TinhTrang = 0 where hour(timediff(now(), phieudat.ngaydat)) > 48;";
-                    stm.executeUpdate(sql);
+                    if (checkReservationnCardEXP(reservationCardIDList.get(i).getNgayDat()) == false) {
+                        stm4.setString(1, reservationCardIDList.get(i).getIdPhieuDat());
+                        stm4.executeUpdate();
+                    } else {
+                        reservationCardIDList.remove(i);
+                        i--;
+                    }
                 }
-
-            }
-
-            if (!bookIDList.isEmpty() && !bookcopiesIDList.isEmpty()) {
 
                 sql = "update sach_copies set TinhTrang = 0 where idsach_copies = ? ";
                 PreparedStatement stm1 = conn.prepareCall(sql);
-                for (int i = 0; i < bookcopiesIDList.size(); i++) {
-                    stm1.setInt(1, bookcopiesIDList.get(i));
+                for (int i = 0; i < reservationCardIDList.size(); i++) {
+                    stm1.setInt(1, reservationCardIDList.get(i).getIdSach());
                     stm1.executeUpdate();
                 }
 
-                sql = "update sach set SoLuong = SoLuong + 1 where idSach = ? ";
+                sql = "update sach set SoLuong = SoLuong + 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?) ";
                 PreparedStatement stm2 = conn.prepareCall(sql);
-                for (int i = 0; i < bookIDList.size(); i++) {
-                    stm2.setInt(1, bookIDList.get(i));
+                for (int i = 0; i < reservationCardIDList.size(); i++) {
+                    stm2.setInt(1, reservationCardIDList.get(i).getIdSach());
                     stm2.executeUpdate();
                 }
-                try {
-                    conn.commit();
-                    return true;
-                } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
-                    return false;
-                }
             }
-            return true;
+
+            try {
+                conn.commit();
+                return true;
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+                return false;
+            }
         }
     }
 
@@ -80,5 +93,14 @@ public class CheckService {
             return r > 0;
         }
     }
-
+    
+    public boolean updateBorrowingCardWithID(String uID) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            String sql = "update phieumuon set tinhtrang = 0 where idphieumuon = ?";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, uID);
+            int r = stm.executeUpdate();
+            return r > 0;
+        }
+    }
 }

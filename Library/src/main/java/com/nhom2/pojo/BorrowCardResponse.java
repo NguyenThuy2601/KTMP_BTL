@@ -15,8 +15,7 @@ public class BorrowCardResponse {
     private String  idPhieuMuon;
     private int idSach;
     private String tenSach;
-    private String TinhTrang;
-    private boolean TinhTrangBool;
+    private int TinhTrang;
     private LocalDate ngayMuon;
     private int idUser;
     private String HoLotTen;
@@ -25,23 +24,15 @@ public class BorrowCardResponse {
         this.idPhieuMuon = "none";
     }
 
-    public BorrowCardResponse(String idPhieuMuon, int idSach, String tenSach, boolean TinhTrangBool, LocalDate ngayMuon, String HoLotTen, int uID) {
-        this.idPhieuMuon = idPhieuMuon;
-        this.idSach = idSach;
-        this.tenSach = tenSach;
-        this.TinhTrangBool = TinhTrangBool;       
-        this.ngayMuon = ngayMuon;
-        this.HoLotTen = HoLotTen;
-        idUser = uID;
-    }
     
-     public BorrowCardResponse(String idPhieuMuon, int idSach, String tenSach, String TinhTrang, LocalDate ngayMuon, String HoLotTen) {
+     public BorrowCardResponse(String idPhieuMuon, int idSach, String tenSach, int TinhTrang, LocalDate ngayMuon, String HoLotTen, int uID) {
         this.idPhieuMuon = idPhieuMuon;
         this.idSach = idSach;
         this.tenSach = tenSach;
         this.TinhTrang = TinhTrang;
         this.ngayMuon = ngayMuon;
         this.HoLotTen = HoLotTen;
+        idUser =  uID;
     }
 
     public String getIdPhieuMuon() {
@@ -56,12 +47,12 @@ public class BorrowCardResponse {
         return tenSach;
     }
 
-    public String getTinhTrang() {
+    public int getTinhTrangOriginalForm() {
         return TinhTrang;
     }
 
-    public String getNgayMuonToString() {
-         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public String getNgayMuon() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedNgayMuon = ngayMuon.format(dateTimeFormatter);  //
         return formattedNgayMuon;
     }
@@ -70,12 +61,20 @@ public class BorrowCardResponse {
         return HoLotTen;
     }
     
-    public LocalDate getNgayMuon() {
+    public LocalDate getNgayMuonOriginalForm() {
         return ngayMuon;
     }
 
-    public boolean isTinhTrangBool() {
-        return TinhTrangBool;
+    public String getTinhTrang() {
+        switch(TinhTrang)
+        {
+            case 1:
+                return "Đã xác nhận trả";
+            case 0:
+                return "Phiếu quá hạn";
+            default:
+                 return "Phiếu còn hạn";
+        }
     }
 
     public int getIdUser() {

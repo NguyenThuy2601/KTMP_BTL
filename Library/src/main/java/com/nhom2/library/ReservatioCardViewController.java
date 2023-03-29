@@ -92,7 +92,7 @@ public class ReservatioCardViewController implements Initializable {
     }
 
     private void loadTableData()  {
-        System.out.println(u.getuID());
+        
         
         List<ReservationCardResponse> card;
         try {

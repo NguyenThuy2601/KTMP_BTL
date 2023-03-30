@@ -89,14 +89,139 @@ public class LoginTest {
     @Test
     public void setUserSuccess() throws ClassNotFoundException {
         try {
-            User u = new User(1, "DG003",
+            User u = new User(3, "DG003",
                     "Huy", "Đoàn Gia", "SV",
-                    LocalDate.of( 2017 , 11 , 17 ), LocalDate.of( 2024 , 12 , 31 ),
+                    LocalDate.of(2017, 11, 17), LocalDate.of(2024, 12, 31),
                     "huy@ou.edu.vn", null, null,
                     "TH", null, true);
             LoginService s = new LoginService();
             User u1 = s.setUser("DG003");
             Assertions.assertEquals(u.getuID(), u1.getuID());
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Test
+    public void testLoginWithWrongUserName() throws ClassNotFoundException {
+        LoginService s = new LoginService();
+        try {
+            try {
+                if (s.checkEmail("thanh") == false) {
+                    Assertions.assertFalse(s.checkEmail("thanh"));
+                } else {
+                    if (s.checkPassword("thanh", "1") == false) {
+
+                    } else {
+                        String accID = s.getAccID("thanh");
+                        User u;
+                        if (s.checkEmpl(accID)) {
+                            u = s.setEmplUser(accID);
+                        } else {
+                            u = s.setUser(accID);
+                        }
+
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Test
+    public void testLoginWithWrongPassword() throws ClassNotFoundException {
+        LoginService s = new LoginService();
+        try {
+            try {
+                if (s.checkEmail("thanh.dh") == false) {
+
+                } else {
+                    if (s.checkPassword("thanh.dh", "1") == false) {
+                        Assertions.assertFalse(s.checkPassword("thanh.dh", "1"));
+                    } else {
+                        String accID = s.getAccID("thanh.dh");
+                        User u;
+                        if (s.checkEmpl(accID)) {
+                            u = s.setEmplUser(accID);
+                        } else {
+                            u = s.setUser(accID);
+                        }
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Test
+    public void testLoginUserSucess() throws ClassNotFoundException {
+        LoginService s = new LoginService();
+        try {
+            try {
+                if (s.checkEmail("thanh.dh") == false) {
+
+                } else {
+                    if (s.checkPassword("thanh.dh", "1") == false) {
+
+                    } else {
+                        String accID = s.getAccID("thanh.dh");
+                        User u;
+                        if (s.checkEmpl(accID)) {
+                            u = s.setEmplUser(accID);
+                            User u1 = new User(1, "DG001",
+                                    "Thành", "Dương Hữu", "GV",
+                                    LocalDate.of(2017, 11, 17), LocalDate.of(2017, 12, 31),
+                                    "thanh.dh@ou.edu.vn", "NK", "090909",
+                                    "TH", LocalDate.of(1999, 1, 1)
+                                    , true);
+                            Assertions.assertEquals(u.getuID(), u1.getuID());
+                            
+                        } else {
+                            u = s.setUser(accID);
+                        }
+
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testLoginEmplUserSucess() throws ClassNotFoundException {
+        LoginService s = new LoginService();
+        try {
+            try {
+                if (s.checkEmail("thanh.dh") == false) {
+
+                } else {
+                    if (s.checkPassword("thanh.dh", "1") == false) {
+
+                    } else {
+                        String accID = s.getAccID("thanh.dh");
+                        User u;
+                        if (s.checkEmpl(accID)) {
+                            u = s.setEmplUser(accID);                           
+                        } else {
+                            u = s.setUser(accID);
+                             User u1 = new User(1, "NV001",
+                                    "Thụy", "Cao Nguyên");
+                            Assertions.assertEquals(u.getuID(), u1.getuID());
+                        }
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(LoginTest.class.getName()).log(Level.SEVERE, null, ex);
         }

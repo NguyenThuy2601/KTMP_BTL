@@ -177,7 +177,7 @@ public class LoginTest {
                             User u1 = new User(1, "DG001",
                                     "Thành", "Dương Hữu", "GV",
                                     LocalDate.of(2017, 11, 17), LocalDate.of(2017, 12, 31),
-                                    "thanh.dh@ou.edu.vn", "NK", "090909",
+                                    "thanh.dh@ou.edu.vn", null, null,
                                     "TH", LocalDate.of(1999, 1, 1)
                                     , true);
                             Assertions.assertEquals(u.getuID(), u1.getuID());

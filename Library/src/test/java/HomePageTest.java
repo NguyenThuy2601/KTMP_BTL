@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 
 /*
@@ -72,7 +74,9 @@ public class HomePageTest {
         }
     }
     
-    @Test void checkYearFormat(){
+    @ParameterizedTest
+    @CsvFileSource(resources = "/year.csv", numLinesToSkip = 1)
+    public void checkYearFormat(){
         
     }
     

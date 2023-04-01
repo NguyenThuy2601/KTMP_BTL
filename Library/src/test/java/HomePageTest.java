@@ -75,11 +75,46 @@ public class HomePageTest {
     }
     
     @ParameterizedTest
-    @CsvFileSource(resources = "/year.csv", numLinesToSkip = 1)
-    public void checkYearFormat(){
+    @CsvFileSource(resources = "/year.csv")
+    public void checkYearFormat(String input, String expected){
+        Assertions.assertEquals(expected, Boolean.toString(s.checkYearFormat(input)));
+    }
+    
+    public void testParseYearNull(){       
+        Assertions.assertEquals(0, s.parseYear(null));
+    }
+    
+    public void testParseYearBlank(){       
+        Assertions.assertEquals(0, s.parseYear(""));
+    }
+
+    public void testParseYearSuccess(){       
+        Assertions.assertEquals(1999, s.parseYear("1999"));
         
     }
     
-
+    public void testcheckNullSelectedComboBoxItemIsNull(){
+        Assertions.assertEquals(0, s.checkNullSelectedComboBoxItem(null));
+    }
     
+    public void testcheckNullSelectedComboBoxItemIsNotNull(){
+        DanhMuc c = new DanhMuc(1, "sách CNTT");
+        Assertions.assertEquals(1, s.checkNullSelectedComboBoxItem(c));
+    }
+    
+    @ParameterizedTest
+    @CsvFileSource(resources = "/findData.csv", numLinesToSkip = 1, emptyValue = " ")
+    public void testFindBook(String inputBname, String inputAname, String inputYear, String inputCateID, String expected) throws SQLException{
+         List<BookResponse> list = s.getBooks();
+         DanhMuc c = null;
+         if(inputCateID.equals("null") == false)
+             c = new DanhMuc(Integer.parseInt(inputCateID), "test case");            
+         List<BookResponse> l = s.findBook(list, inputBname.equals("null")? null:inputBname,
+                            inputAname.equals("null")? null:inputAname,
+                            s.parseYear(inputYear.equals("null")? null:inputYear),
+                            s.checkNullSelectedComboBoxItem(c));
+         boolean flag = l.isEmpty();
+         Assertions.assertEquals(expected, Boolean.toString(flag));
+    }
+   
 }

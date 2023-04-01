@@ -87,20 +87,29 @@ public class CheckService {
 
     public boolean checkBorrowingCard() throws SQLException {
         try (Connection conn = Utils.getConn()) {
+            conn.setAutoCommit(false);
             String sql = "update phieumuon set tinhtrang = 0 where tinhtrang = -1 and   DATEDIFF( now(),phieumuon.ngaymuon) > 30";
             Statement stm = conn.createStatement();
             int r = stm.executeUpdate(sql);
-            return r > 0;
+            try {
+                conn.commit();
+                return true;
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+                return false;
+            }
         }
     }
     
-    public boolean updateBorrowingCardWithID(String uID) throws SQLException {
+    public boolean updateBorrowingCardWithID(String cardID) throws SQLException {
         try (Connection conn = Utils.getConn()) {
+            conn.setAutoCommit(false);
             String sql = "update phieumuon set tinhtrang = 0 where idphieumuon = ?";
             PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, uID);
+            stm.setString(1, cardID);
             int r = stm.executeUpdate();
             return r > 0;
+             
         }
     }
 }

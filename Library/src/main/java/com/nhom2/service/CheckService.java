@@ -54,24 +54,7 @@ public class CheckService {
                     if (checkReservationnCardEXP(reservationCardIDList.get(i).getNgayDat()) == false) {
                         stm4.setString(1, reservationCardIDList.get(i).getIdPhieuDat());
                         stm4.executeUpdate();
-                    } else {
-                        reservationCardIDList.remove(i);
-                        i--;
                     }
-                }
-
-                sql = "update sach_copies set TinhTrang = 0 where idsach_copies = ? ";
-                PreparedStatement stm1 = conn.prepareCall(sql);
-                for (int i = 0; i < reservationCardIDList.size(); i++) {
-                    stm1.setInt(1, reservationCardIDList.get(i).getIdSach());
-                    stm1.executeUpdate();
-                }
-
-                sql = "update sach set SoLuong = SoLuong + 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?) ";
-                PreparedStatement stm2 = conn.prepareCall(sql);
-                for (int i = 0; i < reservationCardIDList.size(); i++) {
-                    stm2.setInt(1, reservationCardIDList.get(i).getIdSach());
-                    stm2.executeUpdate();
                 }
             }
 

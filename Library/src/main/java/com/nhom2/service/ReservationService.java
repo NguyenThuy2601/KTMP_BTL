@@ -52,7 +52,6 @@ public class ReservationService {
             String d = p.getNgayDat().format(fmt3);
             String t[] = d.split(" ");
 
-            conn.setAutoCommit(false);
             String sql = "INSERT INTO phieudat(idphieudat, ngaydat, id_sach, docgia_id, TinhTrang) VALUES(?, TIMESTAMP(?, ?) , ?, ?, ?)";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, p.getIdPhieuDat());
@@ -64,25 +63,8 @@ public class ReservationService {
 
             int r = stm.executeUpdate();
 
-            if (r > 0) {
-                sql = "update sach_copies set TinhTrang = -1 where idsach_copies = ?";
-                PreparedStatement stm1 = conn.prepareCall(sql);
-                stm1.setInt(1, p.getIdSach());
-                stm1.executeUpdate();
+            return r > 0;
 
-                sql = "update sach set SoLuong = SoLuong - 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?)";
-                PreparedStatement stm2 = conn.prepareCall(sql);
-                stm2.setInt(1, p.getIdSach());
-                stm2.executeUpdate();
-            }
-
-            try {
-                conn.commit();
-                return true;
-            } catch (SQLException ex) {
-                System.err.println(ex.getMessage());
-                return false;
-            }
         }
     }
 

@@ -26,17 +26,19 @@ public class ConfirmBorrowService {
             conn.setAutoCommit(false);
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("select * from phieumuon where idphieumuon = ?");
-            if (rs.next()) {
+            while (rs.next()) {
                 //id = rs.getString("idphieumuon");
                 if (exp.checkEXP() && num.checkNumBorrowBooks()) {
-                    try {
-                        conn.commit();
-                        return true;
-                    } catch (SQLException ex) {
-                        System.err.println(ex.getMessage());
-                        return false;
-                    }
+                    return true;
                 }
+            }
+
+            try {
+                conn.commit();
+                return true;
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+                return false;
             }
 
 //            if (exp.checkEXP() && num.checkNumBorrowBooks()) {
@@ -49,14 +51,13 @@ public class ConfirmBorrowService {
 //                }
 //            }
         }
-        return false;
     }
-    
+
     //Xác nhận cho mượn từ phiếu đặt
     public void confirmBorrowToReservation(String id) throws SQLException {
         try (Connection conn = Utils.getConn()) {
             id = null;
-            
+
         }
     }
 }

@@ -15,6 +15,7 @@ import java.sql.Statement;
  * @author ADMIN
  */
 public class CheckNumBorrowBooksService {
+
     public boolean checkNumBorrowBooks() throws SQLException {
         int num = 0;
         try (Connection conn = Utils.getConn()) {
@@ -22,23 +23,23 @@ public class CheckNumBorrowBooksService {
             Statement stm = conn.createStatement();
             // Truy van lay du lieu --> select
             ResultSet rs = stm.executeQuery("SELECT COUNT(idphieumuon) AS 'SoLuong'\n"
-                                            + "FROM phieumuon\n"
-                                            + "WHERE docgia_id = ? and tinhtrang != 1");
+                    + "FROM phieumuon\n"
+                    + "WHERE docgia_id = ? and tinhtrang != 1");
             while (rs.next()) {
                 num = rs.getInt("SoLuong");
             }
             conn.setAutoCommit(false);
-            if (num < 5) {
-                try {
-                    conn.commit();
+            try {
+                conn.commit();
+                if (num < 5) {
                     return true;
-                } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
-                    return false;
                 }
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+                return false;
             }
         }
         return false;
     }
-    
+
 }

@@ -27,8 +27,8 @@
                   <Button fx:id="retunBookBtn" mnemonicParsing="false" onAction="#bookReturnBtnClick" prefHeight="42.0" text="TRẢ SÁCH" />
                   <MenuButton fx:id="borrowBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" text="XÁC NHẬN MƯỢN" textAlignment="CENTER" wrapText="true">
                     <items>
-                      <MenuItem fx:id="directBorrowMN" mnemonicParsing="false" text="TRỰC TIẾP" />
-                      <MenuItem fx:id="confrimReservationCardMN" mnemonicParsing="false" text="TỪ PHIẾU ĐẶT" />
+                      <MenuItem fx:id="directBorrowMN" mnemonicParsing="false" onAction="#directBorrowClick" text="TRỰC TIẾP" />
+                      <MenuItem fx:id="confrimReservationCardMN" mnemonicParsing="false" onAction="#toReservationClick" text="TỪ PHIẾU ĐẶT" />
                     </items>
                   </MenuButton>
                   <Button fx:id="borrowCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrowCardListBtnClick" prefHeight="42.0" text="XEM PHIẾU MƯỢN" textAlignment="CENTER" wrapText="true" />

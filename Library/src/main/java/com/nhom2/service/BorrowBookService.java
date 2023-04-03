@@ -5,10 +5,12 @@
 package com.nhom2.service;
 
 import com.nhom2.library.Utils;
+import com.nhom2.pojo.BorrowCardResponse;
 import com.nhom2.pojo.PhieuMuon;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -67,5 +69,31 @@ public class BorrowBookService {
                 return false;
             }
         }
+    }
+
+    public List<BorrowCardResponse> getBorrowCard(String idPhieuMuon) throws SQLException {
+        List<BorrowCardResponse> borrowCards = new ArrayList<>();
+        try (Connection conn = Utils.getConn()) {
+            String sql = "SELECT Select p.idphieumuon, p.ngaymuon, p.sach_idSach1, s.Ten, p.tinhtrang, p.docgia_id, \n"
+                    + "concat(d.HoLot,  \" \" , d.Ten) as \"TenDocGia\" \n"
+                    + "FROM ktpm_btl.phieumuon p, ktpm_btl.docgia d, ktpm_btl.sach s, ktpm_btl.sach_copies c \n"
+                    + "WHERE p.docgia_id = d.id and p.sach_idSach1 = c.idsach_copies and s.idSach = c.idDauSach and p.idphieumuon = ?";
+            
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, idPhieuMuon);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                BorrowCardResponse b = new BorrowCardResponse(rs.getString("idphieumuon"), 
+                                                                rs.getInt("sach_idSach1"), 
+                                                                rs.getNString("Ten"),
+                                                                rs.getInt("tinhtrang"), 
+                                                                rs.getDate("ngaymuon").toLocalDate(),
+                                                                rs.getNString("TenDocGia"), 
+                                                                rs.getInt("docgia_id"));
+                borrowCards.add(b);
+            }
+        }
+        return borrowCards;
     }
 }

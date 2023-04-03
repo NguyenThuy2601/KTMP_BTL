@@ -29,15 +29,17 @@ public class CheckEXPService {
             if (rs.next()) {
                 exp = rs.getInt("EXP");
             }
-            if (exp > 0) {
-                try {
-                    conn.commit();
+
+            try {
+                conn.commit();
+                if (exp > 0) {
                     return true;
-                } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
-                    return false;
                 }
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+                return false;
             }
+
         }
         return false;
     }

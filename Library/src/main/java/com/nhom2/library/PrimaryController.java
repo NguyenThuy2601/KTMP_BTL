@@ -363,4 +363,48 @@ public class PrimaryController implements Initializable {
     }
     
     //Phần của nhi
+    @FXML
+    public void directBorrowClick(ActionEvent evt) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieumuon.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            BookBorrowController c = fxmlLoader.getController();
+            c.setLoginUser(u);
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
+    
+    @FXML
+    public void toReservationClick(ActionEvent evt) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("xacnhanphieudat.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            BookBorrowController c = fxmlLoader.getController();
+            c.setLoginUser(u);
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
+    
+    @FXML
+    public void confirmClick(ActionEvent evt) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieu(sauxn).fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            BookBorrowController c = fxmlLoader.getController();
+            c.setLoginUser(u);
+            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
 }

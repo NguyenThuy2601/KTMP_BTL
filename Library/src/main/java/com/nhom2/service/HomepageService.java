@@ -77,7 +77,7 @@ public class HomepageService {
     public List<BookResponse> findBook(List<BookResponse> l, String bName, String aName, int namXB, int idDanhMuc) {
         if (bName != null) {
             for (int i = 0; i < l.size(); i++) {
-                if (l.get(i).getTen().contains(bName) == false) {
+                if (l.get(i).getTen().toUpperCase().contains(bName.toUpperCase()) == false) {
                     l.remove(i);
                     i--;
                 }
@@ -85,7 +85,7 @@ public class HomepageService {
         }
         if (aName != null) {
             for (int i = 0; i < l.size(); i++) {
-                if (l.get(i).getTenTG().contains(aName) == false) {
+                if (l.get(i).getTenTG().toUpperCase().contains(aName.toUpperCase()) == false) {
                     l.remove(i);
                     i--;
                 }

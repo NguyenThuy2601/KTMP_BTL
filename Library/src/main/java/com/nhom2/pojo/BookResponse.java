@@ -7,6 +7,7 @@ package com.nhom2.pojo;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -78,8 +79,10 @@ public class BookResponse {
         return noiXB;
     }
 
-    public LocalDate getNgayNhap() {
-        return ngayNhap;
+    public String getNgayNhap() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedNgayNhap = ngayNhap.format(dateTimeFormatter);  //
+        return formattedNgayNhap;
     }
 
     public String getMoTa() {

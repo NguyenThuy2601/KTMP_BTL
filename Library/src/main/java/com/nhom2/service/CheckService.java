@@ -54,24 +54,7 @@ public class CheckService {
                     if (checkReservationnCardEXP(reservationCardIDList.get(i).getNgayDat()) == false) {
                         stm4.setString(1, reservationCardIDList.get(i).getIdPhieuDat());
                         stm4.executeUpdate();
-                    } else {
-                        reservationCardIDList.remove(i);
-                        i--;
                     }
-                }
-
-                sql = "update sach_copies set TinhTrang = 0 where idsach_copies = ? ";
-                PreparedStatement stm1 = conn.prepareCall(sql);
-                for (int i = 0; i < reservationCardIDList.size(); i++) {
-                    stm1.setInt(1, reservationCardIDList.get(i).getIdSach());
-                    stm1.executeUpdate();
-                }
-
-                sql = "update sach set SoLuong = SoLuong + 1 where idSach = (select idDauSach from sach_copies where idsach_copies = ?) ";
-                PreparedStatement stm2 = conn.prepareCall(sql);
-                for (int i = 0; i < reservationCardIDList.size(); i++) {
-                    stm2.setInt(1, reservationCardIDList.get(i).getIdSach());
-                    stm2.executeUpdate();
                 }
             }
 
@@ -87,20 +70,29 @@ public class CheckService {
 
     public boolean checkBorrowingCard() throws SQLException {
         try (Connection conn = Utils.getConn()) {
+            conn.setAutoCommit(false);
             String sql = "update phieumuon set tinhtrang = 0 where tinhtrang = -1 and   DATEDIFF( now(),phieumuon.ngaymuon) > 30";
             Statement stm = conn.createStatement();
             int r = stm.executeUpdate(sql);
-            return r > 0;
+            try {
+                conn.commit();
+                return true;
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+                return false;
+            }
         }
     }
     
-    public boolean updateBorrowingCardWithID(String uID) throws SQLException {
+    public boolean updateBorrowingCardWithID(String cardID) throws SQLException {
         try (Connection conn = Utils.getConn()) {
+            conn.setAutoCommit(false);
             String sql = "update phieumuon set tinhtrang = 0 where idphieumuon = ?";
             PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, uID);
+            stm.setString(1, cardID);
             int r = stm.executeUpdate();
             return r > 0;
+             
         }
     }
 }

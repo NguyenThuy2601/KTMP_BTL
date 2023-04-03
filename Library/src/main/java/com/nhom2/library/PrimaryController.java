@@ -76,7 +76,6 @@ public class PrimaryController implements Initializable {
     @FXML
     TextField authorNameTxt;
 
-
     User u;
     HomepageService s;
     ReservationService rs;
@@ -155,8 +154,6 @@ public class PrimaryController implements Initializable {
             return;
         }
     }
-    
-   
 
     private void loadTableColumns() {
         TableColumn colName = new TableColumn("Tên sách");
@@ -197,8 +194,6 @@ public class PrimaryController implements Initializable {
         this.tbBook.setItems(FXCollections.observableList(books));
 
     }
-    
-    
 
     private void loadTableDataAfterFiltering(List<BookResponse> list) throws SQLException {
 
@@ -206,9 +201,8 @@ public class PrimaryController implements Initializable {
         this.tbBook.setItems(FXCollections.observableList(list));
 
     }
-    
-    public void resetFilteringValue()
-    {
+
+    public void resetFilteringValue() {
         cateCbb.getSelectionModel().clearSelection();
         PublishYearTxt.setText("");
         bookNameTxt.setText("");
@@ -254,11 +248,14 @@ public class PrimaryController implements Initializable {
 
     @FXML
     public void tbBookClick(MouseEvent evt) {
-        if (tbBook.getSelectionModel().getSelectedItem().getSoLuong() == 0) {
-            bookABook.setDisable(true);
-        } else {
-            bookABook.setDisable(false);
+        if (tbBook.getSelectionModel().getSelectedItems().size() > 0) {
+            if (tbBook.getSelectionModel().getSelectedItem().getSoLuong() == 0) {
+                bookABook.setDisable(true);
+            } else {
+                bookABook.setDisable(false);
+            }
         }
+
     }
 
     @FXML
@@ -292,11 +289,11 @@ public class PrimaryController implements Initializable {
                 try {
                     List<BookResponse> l = s.getBooks();
                     l = s.findBook(l, bookNameTxt.getText(), authorNameTxt.getText(),
-                            s.parseYear(PublishYearTxt.getText()),
+                            s.parseYear(PublishYearTxt.getText().trim()),
                             s.checkNullSelectedComboBoxItem(cateCbb.getSelectionModel().getSelectedItem()));
                     loadTableDataAfterFiltering(l);
-                     resetFilteringValue();
-                    
+                    resetFilteringValue();
+
                 } catch (SQLException ex) {
                     Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -305,8 +302,8 @@ public class PrimaryController implements Initializable {
         }
 
     }
-    
-     @FXML
+
+    @FXML
     public void reservationCardListBtnClick(ActionEvent evt) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("danhsachphieudat.fxml"));
@@ -336,7 +333,7 @@ public class PrimaryController implements Initializable {
         }
 
     }
-    
+
     @FXML
     public void bookReturnBtnClick(ActionEvent evt) {
         try {
@@ -352,7 +349,7 @@ public class PrimaryController implements Initializable {
         }
 
     }
-    
+
     @FXML
     public void resetBtnClick(ActionEvent evt) {
         try {
@@ -361,7 +358,7 @@ public class PrimaryController implements Initializable {
             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     //Phần của nhi
     @FXML
     public void directBorrowClick(ActionEvent evt) {

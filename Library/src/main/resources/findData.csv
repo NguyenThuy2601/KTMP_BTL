@@ -1,0 +1,16 @@
+ten sach, ten tac gia, nam, idDanhMuc, isEmpty
+Lập trình, Đạt, null, null, false
+Kinh tế, Đạt, null, null, true
+Kiểm thử phần MỀM, Dương Hữu THÀNH, 2000, 1, false
+Pháp Luật, null, null, null, false
+null, Thành, null, null, false
+null, null, 1990, null, false
+tesT, Tuyết, 1222, 1, true
+Kiểm thử phần MỀM, Dương Hữu THÀNH, 2000, 2, true
+Lập Trình Hướng Đối Tượng , Thành, null, null, false
+Lập Trình Hướng Đối Tượng , Thành, 2000, null, false
+null, Khải, null, null, true
+null, Thành, 2000, null, false
+null, Thành, null, 1, false
+Lập Trình Hướng Đối Tượng , Thành, 1, null, true
+Lập Trình Hướng Đối Tượng , Thành, 2000, 3, true

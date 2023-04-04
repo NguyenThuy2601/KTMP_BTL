@@ -6,6 +6,7 @@ package com.nhom2.service;
 
 import com.nhom2.library.Utils;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,30 +17,65 @@ import java.sql.Statement;
  */
 public class CheckNumBorrowBooksService {
 
-    public boolean checkNumBorrowBooks() throws SQLException {
-        int num = 0;
+    int num = 0;
+    //Check đã trả hết sách chưa
+    public boolean checkNumBorrowBooks(int id) throws SQLException {        
+        boolean flag = true; //sách đã trả hết
         try (Connection conn = Utils.getConn()) {
-            //Truy van
-            Statement stm = conn.createStatement();
-            // Truy van lay du lieu --> select
-            ResultSet rs = stm.executeQuery("SELECT COUNT(idphieumuon) AS 'SoLuong'\n"
-                    + "FROM phieumuon\n"
-                    + "WHERE docgia_id = ? and tinhtrang != 1");
-            while (rs.next()) {
-                num = rs.getInt("SoLuong");
-            }
             conn.setAutoCommit(false);
+            //Truy van
+            String sql = "SELECT COUNT(idphieumuon) AS 'SoLuong'\n"
+                    + "FROM phieumuon\n"
+                    + "WHERE docgia_id = ? and tinhtrang != 1";
+            //Statement stm = conn.createStatement();
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, id);
+            // Truy van lay du lieu --> select            
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                num = rs.getInt("SoLuong");
+                if (num > 0) flag = false;
+            }
+            
             try {
                 conn.commit();
-                if (num < 5) {
-                    return true;
-                }
+                return flag;
             } catch (SQLException ex) {
                 System.err.println(ex.getMessage());
-                return false;
+                return flag;
             }
         }
-        return false;
+    }
+    
+    //Check mượn tối đa 5 cuốn, quá 5 cuốn -> báo
+    public boolean checkMaxBorrowBooks(int id) throws SQLException {
+        boolean flag = false; //không quá 5 cuốn mượn
+        try (Connection conn = Utils.getConn()) {
+            conn.setAutoCommit(false);
+            //Truy van
+            String sql = "SELECT COUNT(idphieumuon) AS 'SoLuong'\n"
+                    + "FROM phieumuon\n"
+                    + "WHERE docgia_id = ? and ngaymuon = date(now()) and tinhtrang != 1";
+            //Statement stm = conn.createStatement();
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, id);
+            // Truy van lay du lieu --> select
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                num = rs.getInt("SoLuong");
+                if (num > 5) {
+                    flag = true; //true: quá 5 cuốn
+                }
+            }
+            
+            try {
+                conn.commit();
+                return flag;
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+                return flag;
+            }
+        }
     }
 
 }

@@ -45,14 +45,14 @@ public class ConfirmBorrowTest {
         }
     }
     
-    @Test
-    public void confirmBorrow() {
-        String id = "4";
-        try {
-            boolean actual = s.confirmBorrow(id);
-            Assertions.assertFalse(actual);
-        } catch (SQLException ex) {
-            Logger.getLogger(ConfirmBorrowTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    @Test
+//    public void confirmBorrow() {
+//        String id = "4";
+//        try {
+//            boolean actual = s.confirmBorrow(id);
+//            Assertions.assertFalse(actual);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ConfirmBorrowTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

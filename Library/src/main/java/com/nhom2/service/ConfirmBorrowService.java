@@ -18,17 +18,17 @@ import java.sql.Statement;
 public class ConfirmBorrowService {
 
     //Xác nhận cho mượn trực tiếp
-    public boolean confirmBorrow(String id) throws SQLException {
+    public boolean confirmBorrow() throws SQLException {
         try (Connection conn = Utils.getConn()) {
-            id = null;
             CheckEXPService exp = new CheckEXPService();
             CheckNumBorrowBooksService num = new CheckNumBorrowBooksService();
             conn.setAutoCommit(false);
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("select * from phieumuon where idphieumuon = ?");
             while (rs.next()) {
-                //id = rs.getString("idphieumuon");
-                if (exp.checkEXP() && num.checkNumBorrowBooks()) {
+                //String id = rs.getString("idphieumuon");
+                int idDG = rs.getInt("docgia_id");
+                if (exp.checkEXP(idDG) && num.checkNumBorrowBooks(idDG) && !num.checkMaxBorrowBooks(idDG)) {
                     return true;
                 }
             }
@@ -40,16 +40,6 @@ public class ConfirmBorrowService {
                 System.err.println(ex.getMessage());
                 return false;
             }
-
-//            if (exp.checkEXP() && num.checkNumBorrowBooks()) {
-//                try {
-//                    conn.commit();
-//                    return true;
-//                } catch (SQLException ex) {
-//                    System.err.println(ex.getMessage());
-//                    return false;
-//                }
-//            }
         }
     }
 

@@ -45,9 +45,21 @@ public class CheckNumBorrowBooksTest {
     }
     
     @Test
-    public void checkNumBorrowBooks() {
+    //Test sách mượn chưa trả hết
+    public void checkSachNotSuccessful() {
         try {
-            boolean Assert = s.checkNumBorrowBooks();
+            boolean Assert = s.checkNumBorrowBooks(8);
+            Assertions.assertTrue(Assert);
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    //Test sách mượn đã trả hết
+    public void checkSachSuccessful() {
+        try {
+            boolean Assert = s.checkNumBorrowBooks(2);
             Assertions.assertTrue(Assert);
         } catch (SQLException ex) {
             Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);

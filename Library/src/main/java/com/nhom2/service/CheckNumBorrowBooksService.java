@@ -26,7 +26,7 @@ public class CheckNumBorrowBooksService {
             //Truy van
             String sql = "SELECT COUNT(idphieumuon) AS 'SoLuong'\n"
                     + "FROM phieumuon\n"
-                    + "WHERE docgia_id = ? and tinhtrang != 1";
+                    + "WHERE docgia_id = ? and tinhtrang != 1 and ngaymuon != date(now())";
             //Statement stm = conn.createStatement();
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setInt(1, id);
@@ -49,7 +49,7 @@ public class CheckNumBorrowBooksService {
     
     //Check mượn tối đa 5 cuốn, quá 5 cuốn -> báo
     public boolean checkMaxBorrowBooks(int id) throws SQLException {
-        boolean flag = false; //không quá 5 cuốn mượn
+        boolean flag = true; //không quá 5 cuốn mượn
         try (Connection conn = Utils.getConn()) {
             conn.setAutoCommit(false);
             //Truy van
@@ -63,8 +63,8 @@ public class CheckNumBorrowBooksService {
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 num = rs.getInt("SoLuong");
-                if (num > 5) {
-                    flag = true; //true: quá 5 cuốn
+                if (num >= 5) {
+                    flag = false; //true: quá 5 cuốn
                 }
             }
             

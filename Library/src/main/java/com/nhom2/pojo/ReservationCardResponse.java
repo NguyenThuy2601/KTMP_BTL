@@ -20,7 +20,11 @@ public class ReservationCardResponse {
     private String HoLotTen;
     private int docgiaID;
 
+//    public ReservationCardResponse() {
+//    }
+    
     public ReservationCardResponse() {
+        this.idPhieuDat = "none";
     }
 
     public ReservationCardResponse(String idPhieuDat, int idSach, String tenSach, int TinhTrang, LocalDateTime ngayDat, String HoLotTen, int uID) {

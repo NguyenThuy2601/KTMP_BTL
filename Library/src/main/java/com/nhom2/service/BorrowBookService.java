@@ -38,7 +38,7 @@ public class BorrowBookService {
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, p.getIdPhieuMuon());
             stm.setDate(2, Date.valueOf(p.getNgayMuon()));
-            
+
             stm.setInt(3, p.getTinhTrang());
             stm.setInt(4, p.getIdDocGia());
             stm.setInt(5, p.getIdSach());
@@ -49,16 +49,16 @@ public class BorrowBookService {
         }
     }
 
-    public List<BorrowCardResponse> getBorrowCard(String idPhieuMuon) throws SQLException {
+    public List<BorrowCardResponse> getBorrowCard(int id) throws SQLException {
         List<BorrowCardResponse> borrowCards = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
-            String sql = "SELECT Select p.idphieumuon, p.ngaymuon, p.sach_idSach1, s.Ten, p.tinhtrang, p.docgia_id, \n"
+            String sql = "SELECT p.idphieumuon, p.ngaymuon, p.sach_idSach1, s.Ten, p.tinhtrang, p.docgia_id, \n"
                     + "concat(d.HoLot,  \" \" , d.Ten) as \"TenDocGia\" \n"
                     + "FROM ktpm_btl.phieumuon p, ktpm_btl.docgia d, ktpm_btl.sach s, ktpm_btl.sach_copies c \n"
-                    + "WHERE p.docgia_id = d.id and p.sach_idSach1 = c.idsach_copies and s.idSach = c.idDauSach and p.idphieumuon = ?";
+                    + "WHERE p.docgia_id = d.id and p.sach_idSach1 = c.idsach_copies and s.idSach = c.idDauSach and p.docgia_id = ?";
 
             PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, idPhieuMuon);
+            stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
@@ -89,7 +89,7 @@ public class BorrowBookService {
             return idBookNotAvailable;
         }
     }
-    
+
     //Check sách đang được mượn hay không
     public List<Integer> checkNotAvailableBook() throws SQLException {
         try (Connection conn = Utils.getConn()) {
@@ -122,6 +122,25 @@ public class BorrowBookService {
             }
 
             return id;
+        }
+    }
+
+    public int getIdDG(String id) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            int idDG = 0;
+
+            String sql = "SELECT docgia_id FROM phieumuon WHERE idphieumuon = ?";
+
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, id);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                idDG = rs.getInt("docgia_id");
+            }
+
+            return idDG;
         }
     }
 }

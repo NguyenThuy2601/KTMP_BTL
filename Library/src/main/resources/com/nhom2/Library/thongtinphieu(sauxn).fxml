@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.BookBorrowController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.ThongTinPMController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" text="THÔNG TIN">
          <font>
@@ -112,7 +112,7 @@
             </Label>
          </children>
       </GridPane>
-      <TableView onMouseClicked="#tbCardListClick" prefHeight="231.0" prefWidth="931.0" />
+      <TableView fx:id="borrowCardList" onMouseClicked="#tbCardListClick" prefHeight="231.0" prefWidth="931.0" />
       <HBox prefHeight="39.0" prefWidth="931.0">
          <children>
             <Button mnemonicParsing="false" onAction="#backBtnlick" text="BACK">

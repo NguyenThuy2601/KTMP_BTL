@@ -68,7 +68,7 @@ public class ThongKeController implements Initializable {
     @FXML
     ComboBox cbbQuy;
     @FXML
-    BarChart<?, ?> barchart;
+    BarChart<String, Number> barchart;
     @FXML
     NumberAxis yAxis;
     @FXML
@@ -80,9 +80,10 @@ public class ThongKeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         s = new ThongKeService();
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        BarChart chart = new BarChart(xAxis, yAxis);
+        xAxis = new CategoryAxis();
+        yAxis = new NumberAxis();
+        yAxis.setLabel("Số lượng");
+        barchart = new BarChart<String, Number>(xAxis, yAxis);
 
         this.cbbQuy.setItems(FXCollections.observableList(setValueCBBQuy()));
 

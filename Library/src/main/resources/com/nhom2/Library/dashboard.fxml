@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="811.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.ThongKeController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.ThongKeController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="153.0" text="THỐNG KÊ">
             <font>
@@ -230,8 +230,17 @@
                 </GridPane>
             </children>
         </HBox>
-        <TableView fx:id="list" prefHeight="209.0" prefWidth="931.0" />
-        <BarChart fx:id="barchart" prefHeight="210.0" prefWidth="931.0">
+      <VBox prefHeight="55.0" prefWidth="931.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="926.0" text="Thông tin sách đang được mượn">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+        <TableView fx:id="list" prefHeight="210.0" prefWidth="931.0" />
+        <BarChart fx:id="barchart" prefHeight="167.0" prefWidth="931.0">
             <xAxis>
                 <CategoryAxis side="BOTTOM" />
             </xAxis>
@@ -239,6 +248,6 @@
                 <NumberAxis side="LEFT" />
             </yAxis>
         </BarChart>
-        <Button mnemonicParsing="false" onAction="#backBtnlick" prefHeight="38.0" prefWidth="127.0" text="Back" />
+        <Button mnemonicParsing="false" onAction="#backBtnlick" prefHeight="18.0" prefWidth="127.0" text="Back" />
     </children>
 </VBox>

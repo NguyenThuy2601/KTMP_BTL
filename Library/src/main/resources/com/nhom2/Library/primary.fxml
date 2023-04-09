@@ -32,7 +32,7 @@
                     </items>
                   </MenuButton>
                   <Button fx:id="borrowCardBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#borrowCardListBtnClick" prefHeight="42.0" text="XEM PHIẾU MƯỢN" textAlignment="CENTER" wrapText="true" />
-                  <Button fx:id="statisticBtn" mnemonicParsing="false" prefHeight="42.0" text="THỐNG KÊ" />
+                  <Button fx:id="statisticBtn" mnemonicParsing="false" onAction="#thongKeClick" prefHeight="42.0" text="THỐNG KÊ" />
                   <Button fx:id="loginMN" mnemonicParsing="false" onAction="#loginMNClick" prefHeight="43.0" text="ĐĂNG NHẬP" />
                   <Button fx:id="logoutMN" mnemonicParsing="false" onAction="#logoutBtnClick" prefHeight="42.0" text="ĐĂNG XUẤT" />
                </buttons>

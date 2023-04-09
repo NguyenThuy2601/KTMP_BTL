@@ -57,18 +57,18 @@ public class BorrowBookTest {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");   
         String id = p.getIdPhieuMuon();
         try {
-            boolean actual = s.addBorrowCard(18, 8, p);
+            boolean actual = s.addBorrowCard(p);
             Assertions.assertTrue(actual);
             
             String sql = "SELECT * FROM phieumuon WHERE idphieumuon=?";
             PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, p.getIdPhieuMuon());
+            stm.setString(1, id);
             
             ResultSet rs = stm.executeQuery();
             PhieuMuon p1 = new PhieuMuon();
             while (rs.next()) {                
                 p1 = new PhieuMuon(rs.getString("idphieumuon"), 
-                        rs.getInt("sach_idSach"), rs.getInt("tinhtrang"), 
+                        rs.getInt("sach_idSach1"), rs.getInt("tinhtrang"), 
                         rs.getDate("ngaymuon").toLocalDate(), rs.getInt("docgia_id"));
             }
             Assertions.assertEquals(id, p1.getIdPhieuMuon());

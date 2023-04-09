@@ -42,6 +42,13 @@ public class PhieuMuon {
         this.idDocGia = idDocGia;
         this.TinhTrang = -1;
     }
+    
+    public PhieuMuon(int idSach, LocalDate ngayMuon, int idDocGia) {
+        this.idSach = idSach;
+        this.ngayMuon = ngayMuon;
+        this.idDocGia = idDocGia;
+        this.TinhTrang = -1;
+    }
 
     public String getIdPhieuMuon() {
         return idPhieuMuon;

@@ -63,12 +63,14 @@ public class BookReturnController implements Initializable {
     CheckService cs;
     User u;
     int preUID;
+    String preCardID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         s = new BookReturningService();
         cs = new CheckService();
         preUID = 0;
+        preCardID = "null";
 
         confirmBtn.setDisable(true);
 
@@ -113,6 +115,7 @@ public class BookReturnController implements Initializable {
                     fineLbl.setText(Integer.toString(fine) + " đ");
                     statusLbl.setText(p.getTinhTrang());
                     bookNameInfoTxt.setText(p.getTenSach());
+                    preCardID = p.getIdPhieuMuon();
 
                     if (p.getTinhTrangOriginalForm() == 1) {
                         confirmBtn.setDisable(true);
@@ -123,8 +126,14 @@ public class BookReturnController implements Initializable {
                             preUID = Integer.parseInt(uIDInfoTxt.getText());
                         }
                         else{
-                            String total = s.calcTotalFine(fineLbl.getText(), fineTotalLbl.getText());
-                            fineTotalLbl.setText(total + " đ");
+                            if(!p.getIdPhieuMuon().equals(preCardID) && Integer.parseInt(uIDInfoTxt.getText()) == preUID)
+                            {
+                                String total = s.calcTotalFine(fineLbl.getText(), fineTotalLbl.getText());
+                                fineTotalLbl.setText(total + " đ");
+                                
+                            }
+     
+                            
                         }
                             
                     }

@@ -96,7 +96,7 @@ public class ReservatioCardViewController implements Initializable {
         
         List<ReservationCardResponse> card;
         try {
-            card = s.getReservationCard(1);
+            card = s.getReservationCard(u.getuID());
             this.reservationCardList.getItems().clear();
             this.reservationCardList.setItems(FXCollections.observableList(card));
         } catch (SQLException ex) {

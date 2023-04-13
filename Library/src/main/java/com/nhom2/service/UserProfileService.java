@@ -48,6 +48,14 @@ public class UserProfileService {
                 }
             }
         }
-
+    }
+    public boolean checkEmailFormat(String email)
+    {
+        if(email == null || email.isEmpty() || email.isBlank())
+            return true;
+        else
+        {
+            return email.contains("@");
+        }
     }
 }

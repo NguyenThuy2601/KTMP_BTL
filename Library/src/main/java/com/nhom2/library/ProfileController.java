@@ -104,19 +104,23 @@ public class ProfileController implements Initializable {
             if (s.checkPhoneFormat(userPhoneNumInfo.getText()) == -1) {
                 MessageBox.getBox("Thông báo", "Vui lòng chỉ nhập số", Alert.AlertType.INFORMATION).show();
             } else {
-                try {
-                    if (s.updateInfo(u.getuID(), userEmailInfo.getText().trim(),
-                            userAdressInfo.getText().trim(), userPhoneNumInfo.getText().trim())) {
-                        u.setDiaChi(userAdressInfo.getText().trim());
-                        u.setEmail(userEmailInfo.getText().trim());
-                        u.setSDT(userPhoneNumInfo.getText().trim());
-                        MessageBox.getBox("Thông báo", "Cập nhập thông tin thành công", Alert.AlertType.INFORMATION).show();
-                    } else {
+                if (s.checkEmailFormat(userEmailInfo.getText().trim()) == false) {
+                    MessageBox.getBox("Thông báo", "Sai định dạng email", Alert.AlertType.INFORMATION).show();
+                } else {
+                    try {
+                        if (s.updateInfo(u.getuID(), userEmailInfo.getText().trim(),
+                                userAdressInfo.getText().trim(), userPhoneNumInfo.getText().trim())) {
+                            u.setDiaChi(userAdressInfo.getText().trim());
+                            u.setEmail(userEmailInfo.getText().trim());
+                            u.setSDT(userPhoneNumInfo.getText().trim());
+                            MessageBox.getBox("Thông báo", "Cập nhập thông tin thành công", Alert.AlertType.INFORMATION).show();
+                        } else {
+                            MessageBox.getBox("Thông báo", "Cập nhập thông tin thất bại", Alert.AlertType.INFORMATION).show();
+                        }
+                    } catch (SQLException ex) {
                         MessageBox.getBox("Thông báo", "Cập nhập thông tin thất bại", Alert.AlertType.INFORMATION).show();
+                        Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    MessageBox.getBox("Thông báo", "Cập nhập thông tin thất bại", Alert.AlertType.INFORMATION).show();
-                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

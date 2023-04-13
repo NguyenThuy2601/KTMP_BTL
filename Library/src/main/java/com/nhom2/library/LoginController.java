@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -36,8 +37,7 @@ public class LoginController implements Initializable {
     Button loginBtn;
     @FXML
     TextField txtUname;
-    @FXML
-    TextField txtPass;
+    @FXML PasswordField pfPass;
 
     LoginService s;
 
@@ -63,11 +63,11 @@ public class LoginController implements Initializable {
     @FXML
     public void loginBtnClick(ActionEvent evt) {
 
-        if (txtUname.getText().isEmpty() || txtPass.getText().isEmpty()) {
+        if (txtUname.getText().isEmpty() || pfPass.getText().isEmpty()) {
             MessageBox.getBox("Thông báo", "Vui lòng điền đầy đủ thông tin", Alert.AlertType.INFORMATION).show();
         } else {
             String uName = txtUname.getText();
-            String pass = txtPass.getText();
+            String pass = pfPass.getText();
             try {
                 if (s.checkEmail(uName) == false) {
                     MessageBox.getBox("Thông báo", "Không tìm thấy tài khoản", Alert.AlertType.INFORMATION).show();

@@ -80,4 +80,14 @@ public class BorrowBookTest {
             Logger.getLogger(BorrowBookTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+//    @Test
+//    public void delThanhCong() {
+//        try {
+//            boolean actual = s.up
+//            Assertions.assertTrue(actual);          
+//        } catch (SQLException ex) {
+//            Logger.getLogger(BorrowBookTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

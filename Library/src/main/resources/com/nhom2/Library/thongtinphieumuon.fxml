@@ -114,7 +114,7 @@
                   <Insets left="10.0" right="50.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="btXacNhan" mnemonicParsing="false" onAction="#confirmBorrowBookClick" prefHeight="43.0" prefWidth="135.0" text="XÁC NHẬN" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <Button fx:id="btXacNhan" mnemonicParsing="false" onAction="#confirmClick" prefHeight="43.0" prefWidth="135.0" text="XÁC NHẬN" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <font>
                   <Font size="20.0" />
                </font>

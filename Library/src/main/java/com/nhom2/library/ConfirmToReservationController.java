@@ -111,7 +111,8 @@ public class ConfirmToReservationController implements Initializable {
                     txtTinhTrang.setText(p.getTinhTrang());
 
                     if (p.getTinhTrangOriginalForm() == -1) {
-                        p1 = new PhieuMuon(LocalDate.now(), Integer.parseInt(txtMaDocGia.getText()));
+                        p1 = new PhieuMuon(Integer.parseInt(txtMaSach.getText()), LocalDate.now(),
+                                Integer.parseInt(txtMaDocGia.getText()));
                         btXacNhan.setDisable(false);
                     } else {
                         btXacNhan.setDisable(true);
@@ -154,15 +155,29 @@ public class ConfirmToReservationController implements Initializable {
 
         if (f && f1 && flagB) {
             try {
-                if (b.addBorrowCard(p1)) {
+                if (b.addBorrowCard(p1) && r.confirmBorrowToReservationBook(txtMaPhieuDat.getText())) {
                     MessageBox.getBox("Thông báo", "Xác nhận mượn sách thành công", Alert.AlertType.INFORMATION).show();
+
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieu(sauxn).fxml"));
+                        Parent root1 = (Parent) fxmlLoader.load();
+                        ThongTinPMController c = fxmlLoader.getController();
+                        c.setLoginUser(u);
+                        c.setMaPM(p1.getIdPhieuMuon());
+                        Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+                        stage.setScene(new Scene(root1));
+                        stage.show();
+                    } catch (Exception e) {
+                        System.out.print(e.getMessage());
+                    }
+
                     txtMaPhieu.setText("");
                     txtMaPhieuDat.setText("");
                     txtMaDocGia.setText("");
                     txtMaSach.setText("");
                     txtNgayDat.setText("");
                     txtTenDG.setText("");
-                    txtTinhTrang.setText("0 đ");
+                    txtTinhTrang.setText("");
                     btXacNhan.setDisable(true);
 
                 } else {
@@ -173,20 +188,8 @@ public class ConfirmToReservationController implements Initializable {
                 Logger.getLogger(ConfirmToReservationController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieu(sauxn).fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                ThongTinPMController c = fxmlLoader.getController();
-                c.setLoginUser(u);
-                c.setMaDG(Integer.parseInt(this.txtMaDocGia.getText()));
-                Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root1));
-                stage.show();
-            } catch (Exception e) {
-                System.out.print(e.getMessage());
-            }
         } else {
-            
+
             String i = "Không đủ điều kiện mượn:\n\n";
             for (String item : checks) {
                 i += item;

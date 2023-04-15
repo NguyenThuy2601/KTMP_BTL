@@ -56,6 +56,7 @@ public class ThongTinPMController implements Initializable {
     BorrowBookService b;
     BookBorrowController c;
     int idDG;
+    String idPM;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,8 +79,8 @@ public class ThongTinPMController implements Initializable {
         this.u = uLogin;
     }
 
-    public void setMaDG(int id) throws SQLException {
-        this.idDG = id;
+    public void setMaPM(String id) throws SQLException {
+        this.idPM = id;
         try {
             loadTableData();
         } catch (SQLException ex) {
@@ -117,8 +118,9 @@ public class ThongTinPMController implements Initializable {
 
     private void loadTableData() throws SQLException {
 
-        List<BorrowCardResponse> card = b.getBorrowCard(idDG);
-
+        //List<BorrowCardResponse> card = b.getBorrowCard(idDG);
+        List<BorrowCardResponse> card = b.getBorrowCards(idPM);
+        
         this.borrowCardList.getItems().clear();
         this.borrowCardList.setItems(FXCollections.observableList(card));
 

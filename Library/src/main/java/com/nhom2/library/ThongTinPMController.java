@@ -9,6 +9,7 @@ import com.nhom2.pojo.User;
 import com.nhom2.service.BorrowBookService;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -55,7 +56,7 @@ public class ThongTinPMController implements Initializable {
     int preUID;
     BorrowBookService b;
     BookBorrowController c;
-    int idDG;
+    List<String> ids;
     String idPM;
 
     @Override
@@ -79,8 +80,18 @@ public class ThongTinPMController implements Initializable {
         this.u = uLogin;
     }
 
-    public void setMaPM(String id) throws SQLException {
+    public void setMaPM(String id) {
         this.idPM = id;
+        try {
+            loadTableData();
+        } catch (SQLException ex) {
+            Logger.getLogger(ThongTinPMController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void setIDs(List<String> id) throws SQLException {
+        this.ids = id;
         try {
             loadTableData();
         } catch (SQLException ex) {
@@ -118,9 +129,9 @@ public class ThongTinPMController implements Initializable {
 
     private void loadTableData() throws SQLException {
 
-        //List<BorrowCardResponse> card = b.getBorrowCard(idDG);
-        List<BorrowCardResponse> card = b.getBorrowCards(idPM);
-        
+        //List<BorrowCardResponse> card = b.getBorrowCard(idPM);
+        List<BorrowCardResponse> card = b.getCards(ids);
+
         this.borrowCardList.getItems().clear();
         this.borrowCardList.setItems(FXCollections.observableList(card));
 

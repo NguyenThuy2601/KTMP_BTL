@@ -1,5 +1,6 @@
 
 import com.nhom2.library.Utils;
+import com.nhom2.pojo.BorrowCardResponse;
 import com.nhom2.pojo.PhieuMuon;
 import com.nhom2.service.BorrowBookService;
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import static java.time.LocalDate.now;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterAll;
@@ -21,15 +23,15 @@ import org.junit.jupiter.api.Test;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author ADMIN
  */
 public class BorrowBookTest {
+
     public static Connection conn;
     public static BorrowBookService s;
-    
+
     @BeforeAll
     public static void beforeAll() throws SQLException {
         try {
@@ -39,7 +41,7 @@ public class BorrowBookTest {
         }
         s = new BorrowBookService();
     }
-    
+
     @AfterAll
     public static void afterAll() {
         if (conn != null) {
@@ -50,25 +52,25 @@ public class BorrowBookTest {
             }
         }
     }
-    
+
     @Test
     public void testAddSuccessful() {
         PhieuMuon p = new PhieuMuon(LocalDate.now(), 8);
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");   
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String id = p.getIdPhieuMuon();
         try {
             boolean actual = s.addBorrowCard(p);
             Assertions.assertTrue(actual);
-            
+
             String sql = "SELECT * FROM phieumuon WHERE idphieumuon=?";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, id);
-            
+
             ResultSet rs = stm.executeQuery();
             PhieuMuon p1 = new PhieuMuon();
-            while (rs.next()) {                
-                p1 = new PhieuMuon(rs.getString("idphieumuon"), 
-                        rs.getInt("sach_idSach1"), rs.getInt("tinhtrang"), 
+            while (rs.next()) {
+                p1 = new PhieuMuon(rs.getString("idphieumuon"),
+                        rs.getInt("sach_idSach1"), rs.getInt("tinhtrang"),
                         rs.getDate("ngaymuon").toLocalDate(), rs.getInt("docgia_id"));
             }
             Assertions.assertEquals(id, p1.getIdPhieuMuon());
@@ -80,14 +82,14 @@ public class BorrowBookTest {
             Logger.getLogger(BorrowBookTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-//    @Test
-//    public void delThanhCong() {
-//        try {
-//            boolean actual = s.up
-//            Assertions.assertTrue(actual);          
-//        } catch (SQLException ex) {
-//            Logger.getLogger(BorrowBookTest.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+
+    @Test
+    public void getPM() {
+        try {
+            List<BorrowCardResponse> list = s.getCards("a1", "a2");
+            Assertions.assertTrue(!list.isEmpty());
+        } catch (SQLException ex) {
+            Logger.getLogger(BorrowBookTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

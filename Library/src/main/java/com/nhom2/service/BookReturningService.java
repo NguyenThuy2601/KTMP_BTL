@@ -29,7 +29,7 @@ public class BookReturningService {
 
     public boolean confirmReturningBook(String idPhieuMuon, int idSach) throws SQLException {
         try (Connection conn = Utils.getConn()) {
-            String sql = "update phieumuon set tinhtrang = 1 where idphieumuon = ?";
+            String sql = "update phieumuon set tinhtrang = 1, ngaytra = now() where idphieumuon = ?";
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, idPhieuMuon);
             int r = stm.executeUpdate();

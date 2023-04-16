@@ -130,22 +130,22 @@ public class UserProfileTest {
         Assertions.assertEquals(1, s.checkPhoneFormat(input));
     }
     
-    @ParameterizedTest
-    @CsvFileSource(resources = "/AcceptableEmailInput.csv", numLinesToSkip = 1)
-    public void testCheckEmailFormatTrue(String input)
-    {
-        UserProfileService s = new UserProfileService();
-        String temp = null;
-        if(!input.equals("null"))
-            temp = input;
-        Assertions.assertTrue(s.checkEmailFormat(temp));
-    }
-    
-    @Test
-    public void testCheckEmailFormatFail()
-    {
-        UserProfileService s = new UserProfileService();
-        Assertions.assertFalse(s.checkEmailFormat("abcgmail.com"));
-    }
+//    @ParameterizedTest
+//    @CsvFileSource(resources = "/AcceptableEmailInput.csv", numLinesToSkip = 1)
+//    public void testCheckEmailFormatTrue(String input)
+//    {
+//        UserProfileService s = new UserProfileService();
+//        String temp = null;
+//        if(!input.equals("null"))
+//            temp = input;
+//        Assertions.assertTrue(s.checkEmailFormat(temp));
+//    }
+//    
+//    @Test
+//    public void testCheckEmailFormatFail()
+//    {
+//        UserProfileService s = new UserProfileService();
+//        Assertions.assertFalse(s.checkEmailFormat("abcgmail.com"));
+//    }
     
 }

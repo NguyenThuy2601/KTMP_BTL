@@ -19,7 +19,8 @@ import java.util.List;
  * @author ADMIN
  */
 public class BorrowToReservationService {
-    public boolean confirmBorrowToReservationBook(String idPhieuDat, int idSach) throws SQLException {
+    //Mượn thành công -> đổi tình trạng phiếu đặt
+    public boolean confirmBorrowToReservationBook(String idPhieuDat) throws SQLException {
         try (Connection conn = Utils.getConn()) {
             String sql = "UPDATE phieudat SET TinhTrang = 1 WHERE idphieudat = ?";
             PreparedStatement stm = conn.prepareCall(sql);
@@ -28,22 +29,6 @@ public class BorrowToReservationService {
             return r > 0;
         }
     }
-    
-//    public boolean checkReservationCard() throws SQLException {
-//        try (Connection conn = Utils.getConn()) {
-//            conn.setAutoCommit(false);
-//            String sql = "UPDATE phieudat SET TinhTrang = 0 WHERE TinhTrang = -1";
-//            Statement stm = conn.createStatement();
-//            int r = stm.executeUpdate(sql);
-//            try {
-//                conn.commit();
-//                return true;
-//            } catch (SQLException ex) {
-//                System.err.println(ex.getMessage());
-//                return false;
-//            }
-//        }
-//    }
 
     public ReservationCardResponse getReservationCard(String id) throws SQLException {
         try (Connection conn = Utils.getConn()) {

@@ -49,6 +49,15 @@ public class BorrowBookService {
         }
     }
 
+    public void deleteBorrowCard(String id) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            String sql = "DELETE FROM phieumuon WHERE idphieumuon = ?";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, id);
+            stm.executeUpdate();            
+        }
+    }
+
     public List<BorrowCardResponse> getBorrowCard(int id) throws SQLException {
         List<BorrowCardResponse> borrowCards = new ArrayList<>();
         try (Connection conn = Utils.getConn()) {
@@ -59,6 +68,32 @@ public class BorrowBookService {
 
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                BorrowCardResponse b = new BorrowCardResponse(rs.getString("idphieumuon"),
+                        rs.getInt("sach_idSach1"),
+                        rs.getNString("Ten"),
+                        rs.getInt("tinhtrang"),
+                        rs.getDate("ngaymuon").toLocalDate(),
+                        rs.getNString("TenDocGia"),
+                        rs.getInt("docgia_id"));
+                borrowCards.add(b);
+            }
+        }
+        return borrowCards;
+    }
+
+    public List<BorrowCardResponse> getBorrowCards(String id) throws SQLException {
+        List<BorrowCardResponse> borrowCards = new ArrayList<>();
+        try (Connection conn = Utils.getConn()) {
+            String sql = "SELECT p.idphieumuon, p.ngaymuon, p.sach_idSach1, s.Ten, p.tinhtrang, p.docgia_id, \n"
+                    + "concat(d.HoLot,  \" \" , d.Ten) as \"TenDocGia\" \n"
+                    + "FROM phieumuon p, docgia d, sach s, sach_copies c \n"
+                    + "WHERE p.sach_idSach1 = c.idsach_copies and c.idDauSach = s.idSach and p.docgia_id = d.id and p.idphieumuon = ?";
+
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, id);
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {

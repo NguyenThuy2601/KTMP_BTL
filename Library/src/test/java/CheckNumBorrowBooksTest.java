@@ -67,10 +67,10 @@ public class CheckNumBorrowBooksTest {
     }
     
     @Test
-    //Test số lượng sách không quá 5
-    public void checkSLSachSuccessful() {
+    //Test số lượng sách quá 5
+    public void checkSLSach() {
         try {
-            boolean Assert = s.checkMaxBorrowBooks(2);
+            boolean Assert = s.checkMaxBorrowBooks(8);
             Assertions.assertTrue(Assert);
         } catch (SQLException ex) {
             Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);

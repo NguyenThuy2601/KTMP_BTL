@@ -17,7 +17,7 @@ import java.sql.Statement;
  */
 public class CheckNumBorrowBooksService {
 
-    int num = 0;
+    
     //Check đã trả hết sách chưa
     public boolean checkNumBorrowBooks(int id) throws SQLException {        
         boolean flag = true; //sách đã trả hết
@@ -33,7 +33,7 @@ public class CheckNumBorrowBooksService {
             // Truy van lay du lieu --> select            
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                num = rs.getInt("SoLuong");
+                int num = rs.getInt("SoLuong");
                 if (num > 0) flag = false;
             }
             
@@ -53,8 +53,8 @@ public class CheckNumBorrowBooksService {
         try (Connection conn = Utils.getConn()) {
             conn.setAutoCommit(false);
             //Truy van
-            String sql = "SELECT COUNT(idphieumuon) AS 'SoLuong'\n"
-                    + "FROM phieumuon\n"
+            String sql = "SELECT COUNT(idphieumuon) AS 'SoLuong' \n"
+                    + "FROM phieumuon \n"
                     + "WHERE docgia_id = ? and ngaymuon = date(now()) and tinhtrang != 1";
             //Statement stm = conn.createStatement();
             PreparedStatement stm = conn.prepareCall(sql);
@@ -62,8 +62,8 @@ public class CheckNumBorrowBooksService {
             // Truy van lay du lieu --> select
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                num = rs.getInt("SoLuong");
-                if (num >= 5) {
+                int n = rs.getInt("SoLuong");
+                if (n >= 5) {
                     flag = false; //true: quá 5 cuốn
                 }
             }

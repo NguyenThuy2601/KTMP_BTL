@@ -242,7 +242,7 @@
         <TableView fx:id="list" prefHeight="210.0" prefWidth="931.0" />
       <AnchorPane prefHeight="192.0" prefWidth="931.0">
          <children>
-              <BarChart fx:id="barChart" prefHeight="192.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <BarChart fx:id="barChart" layoutX="25.0" prefHeight="192.0" prefWidth="906.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <xAxis>
                       <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                   </xAxis>

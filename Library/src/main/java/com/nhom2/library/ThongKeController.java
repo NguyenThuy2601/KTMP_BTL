@@ -70,7 +70,7 @@ public class ThongKeController implements Initializable {
     @FXML
     ComboBox cbbQuy;
     @FXML
-    BarChart<? , ?> barChart;
+    BarChart<?, ?> barChart;
     @FXML
     NumberAxis yAxis;
     @FXML
@@ -95,13 +95,12 @@ public class ThongKeController implements Initializable {
         yAxis.setLabel("Số lượng");
         //barChart = new BarChart<>(xAxis, yAxis);        
 
-        dataS1 = new XYChart.Series<>();        
-        dataS2 = new XYChart.Series<>();        
-        dataS3 = new XYChart.Series<>();        
+        dataS1 = new XYChart.Series<>();
+        dataS2 = new XYChart.Series<>();
+        dataS3 = new XYChart.Series<>();
         dataS4 = new XYChart.Series<>();
         barChart.setLegendSide(Side.LEFT);
-        
-        
+
         this.cbbQuy.setItems(FXCollections.observableList(setValueCBBQuy()));
 
         this.loadTableColumns();
@@ -194,11 +193,11 @@ public class ThongKeController implements Initializable {
                         //load data in chart
                         barChart.setTitle("QUÝ 1 NĂM " + year);
                         //dataS1.setName("Năm " + year);
-                        dataS1.getData().add((new XYChart.Data<>("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
+                        //dataS1.getData().add((new XYChart.Data<>("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
                         //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
                         // Thêm Series vào BarChart
                         barChart.getData().addAll(dataS1);
@@ -216,11 +215,11 @@ public class ThongKeController implements Initializable {
                         //load data in chart
                         barChart.setTitle("QUÝ 2 NĂM " + year);
                         //dataS1.setName("Năm " + year);
-                        dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
+                        //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
                         //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
                         // Thêm Series vào BarChart
                         barChart.getData().add(dataS1);
@@ -238,11 +237,11 @@ public class ThongKeController implements Initializable {
                         //load data in chart
                         barChart.setTitle("QUÝ 3 NĂM " + year);
                         //dataS1.setName("Năm " + year);
-                        dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
+                        //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
                         //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
                         // Thêm Series vào BarChart
                         barChart.getData().add(dataS1);
@@ -260,11 +259,11 @@ public class ThongKeController implements Initializable {
                         //load data in chart
                         barChart.setTitle("QUÝ 4 NĂM  " + year);
                         //dataS1.setName("Năm " + year);
-                        dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
-                        dataS1.getData().add((new XYChart.Data< >("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
+                        //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách đang được mượn", Integer.parseInt(lbSoSachDuocMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Sách chưa trả", Integer.parseInt(lbSoSachChuaTra.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu mượn", Integer.parseInt(lbTongPhieuMuon.getText()))));
+                        dataS1.getData().add((new XYChart.Data<>("Phiếu qua hạn", Integer.parseInt(lbSoPhieuQuaHan.getText()))));
                         //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
                         // Thêm Series vào BarChart
                         barChart.getData().add(dataS1);
@@ -298,35 +297,31 @@ public class ThongKeController implements Initializable {
                 barChart.setTitle("NĂM " + year);
                 //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
                 dataS1.setName("Quý 1");
-                dataS1.getData().add((new XYChart.Data< >("Sách đang được mượn", s.totalBorrowBookQuy1(year))));
-                dataS1.getData().add((new XYChart.Data< >("Sách chưa trả", s.totalBookNotBackYetTheoQuy1(year))));
-                dataS1.getData().add((new XYChart.Data< >("Phiếu mượn", s.totalBorrowCardQuy1(year))));
-                dataS1.getData().add((new XYChart.Data< >("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy1(year))));
-                //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                dataS1.getData().add((new XYChart.Data<>("Sách đang được mượn", s.totalBorrowBookQuy1(year))));
+                dataS1.getData().add((new XYChart.Data<>("Sách chưa trả", s.totalBookNotBackYetTheoQuy1(year))));
+                dataS1.getData().add((new XYChart.Data<>("Phiếu mượn", s.totalBorrowCardQuy1(year))));
+                dataS1.getData().add((new XYChart.Data<>("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy1(year))));
 
                 dataS2.setName("Quý 2");
-                dataS2.getData().add((new XYChart.Data< >("Sách đang được mượn", s.totalBorrowBookQuy2(year))));
-                dataS2.getData().add((new XYChart.Data< >("Sách chưa trả", s.totalBookNotBackYetTheoQuy2(year))));
-                dataS2.getData().add((new XYChart.Data< >("Phiếu mượn", s.totalBorrowCardQuy2(year))));
-                dataS2.getData().add((new XYChart.Data< >("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy2(year))));
-                //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                dataS2.getData().add((new XYChart.Data<>("Sách đang được mượn", s.totalBorrowBookQuy2(year))));
+                dataS2.getData().add((new XYChart.Data<>("Sách chưa trả", s.totalBookNotBackYetTheoQuy2(year))));
+                dataS2.getData().add((new XYChart.Data<>("Phiếu mượn", s.totalBorrowCardQuy2(year))));
+                dataS2.getData().add((new XYChart.Data<>("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy2(year))));
 
                 dataS3.setName("Quý 3");
-                dataS3.getData().add((new XYChart.Data< >("Sách đang được mượn", s.totalBorrowBookQuy3(year))));
-                dataS3.getData().add((new XYChart.Data< >("Sách chưa trả", s.totalBookNotBackYetTheoQuy3(year))));
-                dataS3.getData().add((new XYChart.Data< >("Phiếu mượn", s.totalBorrowCardQuy3(year))));
-                dataS3.getData().add((new XYChart.Data< >("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy3(year))));
-                //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                dataS3.getData().add((new XYChart.Data<>("Sách đang được mượn", s.totalBorrowBookQuy3(year))));
+                dataS3.getData().add((new XYChart.Data<>("Sách chưa trả", s.totalBookNotBackYetTheoQuy3(year))));
+                dataS3.getData().add((new XYChart.Data<>("Phiếu mượn", s.totalBorrowCardQuy3(year))));
+                dataS3.getData().add((new XYChart.Data<>("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy3(year))));
 
                 dataS4.setName("Quý 4");
-                dataS4.getData().add((new XYChart.Data< >("Sách đang được mượn", s.totalBorrowBookQuy4(year))));
-                dataS4.getData().add((new XYChart.Data< >("Sách chưa trả", s.totalBookNotBackYetTheoQuy4(year))));
-                dataS4.getData().add((new XYChart.Data< >("Phiếu mượn", s.totalBorrowCardQuy4(year))));
-                dataS4.getData().add((new XYChart.Data< >("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy4(year))));
-                //dataS1.getData().add((new XYChart.Data< >("Sách đang có", Integer.parseInt(lbTotalSach.getText()))));
+                dataS4.getData().add((new XYChart.Data<>("Sách đang được mượn", s.totalBorrowBookQuy4(year))));
+                dataS4.getData().add((new XYChart.Data<>("Sách chưa trả", s.totalBookNotBackYetTheoQuy4(year))));
+                dataS4.getData().add((new XYChart.Data<>("Phiếu mượn", s.totalBorrowCardQuy4(year))));
+                dataS4.getData().add((new XYChart.Data<>("Phiếu quá hạn", s.totalBorrowCardQuaHanQuy4(year))));
 
                 // Thêm Series vào BarChart
-                barChart.getData().addAll(dataS1, dataS2, dataS3, dataS4);                
+                barChart.getData().addAll(dataS1, dataS2, dataS3, dataS4);
             } catch (SQLException ex) {
                 Logger.getLogger(ThongKeController.class
                         .getName()).log(Level.SEVERE, null, ex);

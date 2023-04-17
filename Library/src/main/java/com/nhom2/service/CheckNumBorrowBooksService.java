@@ -17,9 +17,8 @@ import java.sql.Statement;
  */
 public class CheckNumBorrowBooksService {
 
-    
     //Check đã trả hết sách chưa
-    public boolean checkNumBorrowBooks(int id) throws SQLException {        
+    public boolean checkNumBorrowBooks(int id) throws SQLException {
         boolean flag = true; //sách đã trả hết
         try (Connection conn = Utils.getConn()) {
             conn.setAutoCommit(false);
@@ -34,9 +33,11 @@ public class CheckNumBorrowBooksService {
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 int num = rs.getInt("SoLuong");
-                if (num > 0) flag = false;
+                if (num > 0) {
+                    flag = false;
+                }
             }
-            
+
             try {
                 conn.commit();
                 return flag;
@@ -46,7 +47,7 @@ public class CheckNumBorrowBooksService {
             }
         }
     }
-    
+
     //Check mượn tối đa 5 cuốn, quá 5 cuốn -> báo
     public boolean checkMaxBorrowBooks(int id) throws SQLException {
         boolean flag = true; //không quá 5 cuốn mượn
@@ -67,7 +68,7 @@ public class CheckNumBorrowBooksService {
                     flag = false; //true: quá 5 cuốn
                 }
             }
-            
+
             try {
                 conn.commit();
                 return flag;
@@ -76,6 +77,27 @@ public class CheckNumBorrowBooksService {
                 return flag;
             }
         }
+    }
+
+    //Đếm có bao nhiêu sách đang được mượn trong ngày
+    public int countBorrowBooks(int id) throws SQLException {
+        int count = 0;
+        try (Connection conn = Utils.getConn()) {
+            conn.setAutoCommit(false);
+            //Truy van
+            String sql = "SELECT COUNT(idphieumuon) AS 'SoLuong' \n"
+                    + "FROM phieumuon \n"
+                    + "WHERE docgia_id = ? and ngaymuon = date(now()) and tinhtrang != 1";
+            //Statement stm = conn.createStatement();
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, id);
+            // Truy van lay du lieu --> select
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("SoLuong");
+            }
+        }
+        return (5 - count);
     }
 
 }

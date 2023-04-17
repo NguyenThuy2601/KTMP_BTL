@@ -14,15 +14,15 @@ import org.junit.jupiter.api.Test;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author ADMIN
  */
 public class CheckNumBorrowBooksTest {
+
     private static Connection conn;
     private static CheckNumBorrowBooksService s;
-    
+
     @BeforeAll
     public static void beforeAll() throws SQLException {
         try {
@@ -32,7 +32,7 @@ public class CheckNumBorrowBooksTest {
         }
         s = new CheckNumBorrowBooksService();
     }
-    
+
     @AfterAll
     public static void afterAll() {
         if (conn != null) {
@@ -43,7 +43,7 @@ public class CheckNumBorrowBooksTest {
             }
         }
     }
-    
+
     @Test
     //Test sách mượn chưa trả hết
     public void checkSachNotSuccessful() {
@@ -54,7 +54,7 @@ public class CheckNumBorrowBooksTest {
             Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Test
     //Test sách mượn đã trả hết
     public void checkSachSuccessful() {
@@ -65,13 +65,31 @@ public class CheckNumBorrowBooksTest {
             Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Test
     //Test số lượng sách quá 5
     public void checkSLSach() {
         try {
             boolean Assert = s.checkMaxBorrowBooks(8);
             Assertions.assertTrue(Assert);
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Test
+    //Test độc giả đang mượn bao nhiêu cuốn
+    public void countBooks() {
+        try {
+            int n = s.countBorrowBooks(8);
+            boolean actual;
+            if (n >= 5) {
+                actual = false;
+            } else {
+                actual = true;
+            }+     
+                    
+            Assertions.assertTrue(actual);
         } catch (SQLException ex) {
             Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
         }

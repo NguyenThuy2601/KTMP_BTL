@@ -123,6 +123,25 @@ public class ThongKeService {
             return sum;
         }
     }
+    
+    //Số sách trả đúng quy định
+    public int totalBookBackDungQD(int year) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            int sum = 0;
+
+            String sql = "SELECT COUNT(idphieumuon) AS 'TongSL' FROM phieumuon WHERE tinhtrang != 1 AND Year(ngaymuon) = ? \n"
+                    + "AND DATEDIFF(ngaytra, ngaymuon) <= 30";
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setInt(1, year);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                sum = rs.getInt("TongSL");
+            }
+
+            return sum;
+        }
+    }
 
     //Tên sách chưa trả + Tên người mượn
     public List<BorrowCardResponse> getInfo(int year) throws SQLException {
@@ -178,6 +197,26 @@ public class ThongKeService {
             int sum = 0;
 
             String sql = "SELECT COUNT(idphieumuon) AS 'TongSL' FROM phieumuon WHERE tinhtrang = 1 \n"
+                    + "AND ngaymuon between '" + year + "-01-01' and '" + year + "-03-31'";
+            PreparedStatement stm = conn.prepareCall(sql);
+            //stm.setInt(1, year);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                sum = rs.getInt("TongSL");
+            }
+
+            return sum;
+        }
+    }
+    
+    //Số lượng sách trả đúng quy định
+    public int totalBookBackTheoQuy1DungQD(int year) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            int sum = 0;
+
+            String sql = "SELECT COUNT(idphieumuon) AS 'TongSL' FROM phieumuon WHERE tinhtrang = 1 \n"
+                    + "AND DATEDIFF(ngaytra, ngaymuon) <= 30 \n"
                     + "AND ngaymuon between '" + year + "-01-01' and '" + year + "-03-31'";
             PreparedStatement stm = conn.prepareCall(sql);
             //stm.setInt(1, year);
@@ -347,6 +386,26 @@ public class ThongKeService {
             return sum;
         }
     }
+    
+    //Số lượng sách trả đúng quy định
+    public int totalBookBackTheoQuy2DungQD(int year) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            int sum = 0;
+
+            String sql = "SELECT COUNT(idphieumuon) AS 'TongSL' FROM phieumuon WHERE tinhtrang = 1 \n"
+                    + "AND DATEDIFF(ngaytra, ngaymuon) <= 30 \n"
+                    + "AND ngaymuon between '" + year + "-04-01' and '" + year + "-06-30'";
+            PreparedStatement stm = conn.prepareCall(sql);
+            //stm.setInt(1, year);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                sum = rs.getInt("TongSL");
+            }
+
+            return sum;
+        }
+    }
 
     //Số lượng sách chưa trả
     public int totalBookNotBackYetTheoQuy2(int year) throws SQLException {
@@ -456,6 +515,26 @@ public class ThongKeService {
             int sum = 0;
 
             String sql = "SELECT COUNT(idphieumuon) AS 'TongSL' FROM phieumuon WHERE tinhtrang = 1 \n"
+                    + "AND ngaymuon between '" + year + "-07-01' and '" + year + "-09-30'";
+            PreparedStatement stm = conn.prepareCall(sql);
+            //stm.setInt(1, year);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                sum = rs.getInt("TongSL");
+            }
+
+            return sum;
+        }
+    }
+    
+    //Số lượng sách trả đúng quy định
+    public int totalBookBackTheoQuy3DungQD(int year) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            int sum = 0;
+
+            String sql = "SELECT COUNT(idphieumuon) AS 'TongSL' FROM phieumuon WHERE tinhtrang = 1 \n"
+                    + "AND DATEDIFF(ngaytra, ngaymuon) <= 30 \n"
                     + "AND ngaymuon between '" + year + "-07-01' and '" + year + "-09-30'";
             PreparedStatement stm = conn.prepareCall(sql);
             //stm.setInt(1, year);
@@ -590,6 +669,26 @@ public class ThongKeService {
         }
     }
 
+    //Số lượng sách trả đúng quy định
+    public int totalBookBackTheoQuy4DungQD(int year) throws SQLException {
+        try (Connection conn = Utils.getConn()) {
+            int sum = 0;
+
+            String sql = "SELECT COUNT(idphieumuon) AS 'TongSL' FROM phieumuon WHERE tinhtrang = 1 \n"
+                    + "AND DATEDIFF(ngaytra, ngaymuon) <= 30 \n"
+                    + "AND ngaymuon between '" + year + "-10-01' and '" + year + "-12-31'";
+            PreparedStatement stm = conn.prepareCall(sql);
+            //stm.setInt(1, year);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                sum = rs.getInt("TongSL");
+            }
+
+            return sum;
+        }
+    }
+    
     //Số lượng sách chưa trả
     public int totalBookNotBackYetTheoQuy4(int year) throws SQLException {
         try (Connection conn = Utils.getConn()) {

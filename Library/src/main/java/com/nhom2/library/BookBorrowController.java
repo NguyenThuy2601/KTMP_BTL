@@ -605,13 +605,17 @@ public class BookBorrowController implements Initializable {
                             f1 = true; //Trả hết sách rồi
                         }
 
-                        if (f && f1) {
-                            boolean checkIDBook = false;
-                            boolean flagB = true; //Check sách có được đặt chưa?
-                            boolean flagB1 = true; //Check sách có đang được mượn ko?
+                        //Check số lượng mượn max5
+                        if (!cNum.checkMaxBorrowBooks(Integer.parseInt(txtMaDG.getText()))) {
+                            checks.add("Độc giả đã mượn đủ 5 cuốn!\n");
+                        } else {
+                            f2 = true; //chưa đủ 5
+                        }
+
+                        if (f && f1 && f2) {
+
                             //tạo mảng check lỗi num > 5cuon
-                            List<Integer> checkE = new ArrayList<>(); //1:thành công; 0:lỗi
-                            int count = 0;
+                            List<Integer> checkE = new ArrayList<>(); //1:thành công; 0:lỗi                            
 
                             List<String> text = new ArrayList<>();
                             text.add(txtMaSach1.getText());
@@ -620,8 +624,15 @@ public class BookBorrowController implements Initializable {
                             text.add(txtMaSach4.getText());
                             text.add(txtMaSach5.getText());
 
+                            int count = 0;
+
                             for (String i : text) {
+                                boolean checkIDBook = false;
+                                boolean flagB = true; //Check sách có được đặt chưa?
+                                boolean flagB1 = true; //Check sách có đang được mượn ko?
                                 if (!i.isBlank()) {
+                                    //count += 1;
+
                                     for (int j : bookID) {
                                         if (Integer.parseInt(i) == j) {
                                             checkIDBook = true;
@@ -654,69 +665,165 @@ public class BookBorrowController implements Initializable {
                                         checks.add("Mã sách " + i + " đang được mượn!" + "\n");
                                     }
 
-                                    //Check số lượng mượn max5
-                                    if (!cNum.checkMaxBorrowBooks(Integer.parseInt(txtMaDG.getText()))) {
-                                        checks.add("Độc giả đã mượn đủ 5 cuốn!\n");
-                                    } else {
-                                        f2 = true; //chưa đủ 5
-                                    }
-
                                     //Thỏa hết điều kiện -> Tạo phiếu mượn
-                                    if (flagB && flagB1 && f2) {
-                                        //check5 = true;
+                                    if (flagB && flagB1) {
                                         PhieuMuon pm = new PhieuMuon(Integer.parseInt(i), LocalDate.now(), Integer.parseInt(this.txtMaDG.getText()));
-                                        if (s.addBorrowCard(pm)) {
-                                            p.add(pm);
-                                            checkE.add(1);
-                                            count += 1;
-                                        }
+                                        p.add(pm);
+                                        checkE.add(1);
+                                        count += 1;
                                     } else {
                                         checkE.add(0);
                                     }
                                 }
-                                break;
                             }
 
-                            if (!p.isEmpty()) {
-                                if (!checkE.contains(0)) {
-                                    //MessageBox.getBox("Thông báo", "Độc giả đã mượn đủ 5 cuốn!", Alert.AlertType.INFORMATION).show();
-                                    Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                            int soSachCoTheMuon = cNum.countBorrowBooks(Integer.parseInt(this.txtMaDG.getText()));
+                            if (count > soSachCoTheMuon) {
+                                Alert a = new Alert(Alert.AlertType.INFORMATION);
+                                a.setTitle("Thông báo");
+                                a.setHeaderText("Chỉ mượn được thêm " + soSachCoTheMuon + " cuốn!");
+                                a.showAndWait().ifPresent((ButtonType res) -> {
+                                    if (res == ButtonType.OK) {
+                                        txtMaSach1.clear();
+                                        txtMaSach2.clear();
+                                        txtMaSach3.clear();
+                                        txtMaSach4.clear();
+                                        txtMaSach5.clear();
+                                        p.clear();
+                                        checks.clear();
+                                        checkE.clear();
+                                    }
+                                });
+                            } else {
+                                if (!p.isEmpty()) {
+                                    boolean cE = false; //kiểm tra có lỗi ko
+                                    for (int i : checkE) {
+                                        if (i == 0) {
+                                            cE = true;//có lỗi
+                                        }
+                                        break;
+                                    }
+                                    if (cE) {
+                                        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                                        a.setTitle("Thông báo");
+                                        a.setHeaderText("Có sách không đủ điều kiện mượn, bạn có muốn tiếp tục mượn sách đủ điều kiện?");
+                                        //Thông báo chi tiết sách không đủ điều kiện
+                                        // Constructing HashSet using listWithDuplicateElements
+                                        Set<String> set = new HashSet<String>(checks);
+                                        // Constructing listWithoutDuplicateElements using set
+                                        List<String> listC = new ArrayList<String>(set);
+                                        String i = "";
+                                        for (String item : listC) {
+                                            i += item;
+                                        }
+                                        a.setContentText(i);
+                                        a.showAndWait().ifPresent((ButtonType res) -> {
+                                            if (res == ButtonType.OK) {
+                                                for (PhieuMuon item : p) {
+                                                    try {
+                                                        if (s.addBorrowCard(item)) {
+                                                            txtMaSach1.clear();
+                                                            txtMaSach2.clear();
+                                                            txtMaSach3.clear();
+                                                            txtMaSach4.clear();
+                                                            txtMaSach5.clear();
+                                                            //txtMaDG.clear();
+                                                        } else {
+                                                            MessageBox.getBox("Thông báo", "Mượn không thành công", Alert.AlertType.INFORMATION).show();
+                                                        }
+                                                    } catch (SQLException ex) {
+                                                        Logger.getLogger(BookBorrowController.class.getName()).log(Level.SEVERE, null, ex);
+                                                    }
+                                                }
+
+                                                try {
+                                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieu(sauxn).fxml"));
+                                                    Parent root1 = (Parent) fxmlLoader.load();
+                                                    ThongTinPMController c = fxmlLoader.getController();
+                                                    c.setLoginUser(u);
+                                                    List<String> ids = new ArrayList<>();
+                                                    for (PhieuMuon j : p) {
+                                                        //c.setMaPM(i.getIdPhieuMuon());
+                                                        ids.add(j.getIdPhieuMuon());
+                                                    }
+                                                    c.setIDs(ids);
+                                                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                                    stage.setScene(new Scene(root1));
+                                                    stage.show();
+                                                } catch (Exception e) {
+                                                    System.out.print(e.getMessage());
+                                                }
+
+                                            } else if (res == ButtonType.CANCEL) {
+                                                txtMaSach1.clear();
+                                                txtMaSach2.clear();
+                                                txtMaSach3.clear();
+                                                txtMaSach4.clear();
+                                                txtMaSach5.clear();
+                                                //txtMaDG.clear();
+                                                checks.clear();
+                                                p.clear();
+                                            }
+                                        });
+                                    } else {
+                                        Alert a = new Alert(Alert.AlertType.INFORMATION);
+                                        a.setTitle("Thông báo");
+                                        a.setHeaderText("Mượn sách thành công!");
+                                        a.showAndWait().ifPresent((ButtonType res) -> {
+                                            if (res == ButtonType.OK) {
+                                                for (PhieuMuon item : p) {
+                                                    try {
+                                                        if (s.addBorrowCard(item)) {
+                                                            txtMaSach1.clear();
+                                                            txtMaSach2.clear();
+                                                            txtMaSach3.clear();
+                                                            txtMaSach4.clear();
+                                                            txtMaSach5.clear();
+                                                            //txtMaDG.clear();
+                                                        } else {
+                                                            MessageBox.getBox("Thông báo", "Mượn không thành công", Alert.AlertType.INFORMATION).show();
+                                                        }
+                                                    } catch (SQLException ex) {
+                                                        Logger.getLogger(BookBorrowController.class.getName()).log(Level.SEVERE, null, ex);
+                                                    }
+                                                }
+
+                                                try {
+                                                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieu(sauxn).fxml"));
+                                                    Parent root1 = (Parent) fxmlLoader.load();
+                                                    ThongTinPMController c = fxmlLoader.getController();
+                                                    c.setLoginUser(u);
+                                                    List<String> ids = new ArrayList<>();
+                                                    for (PhieuMuon i : p) {
+                                                        //c.setMaPM(i.getIdPhieuMuon());
+                                                        ids.add(i.getIdPhieuMuon());
+                                                    }
+                                                    c.setIDs(ids);
+                                                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                                    stage.setScene(new Scene(root1));
+                                                    stage.show();
+                                                } catch (Exception e) {
+                                                    System.out.print(e.getMessage());
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    Alert a = new Alert(Alert.AlertType.INFORMATION);
                                     a.setTitle("Thông báo");
-                                    a.setHeaderText("Chỉ mượn được thêm " + count + " cuốn, bạn có muốn tiếp tục?");
+                                    a.setHeaderText("Không đủ điều kiện mượn!");
+
+                                    // Constructing HashSet using listWithDuplicateElements
+                                    Set<String> set = new HashSet<String>(checks);
+                                    // Constructing listWithoutDuplicateElements using set
+                                    List<String> listC = new ArrayList<String>(set);
+                                    String i = "";
+                                    for (String item : listC) {
+                                        i += item;
+                                    }
+                                    a.setContentText(i);
                                     a.showAndWait().ifPresent((ButtonType res) -> {
                                         if (res == ButtonType.OK) {
-                                            txtMaSach1.clear();
-                                            txtMaSach2.clear();
-                                            txtMaSach3.clear();
-                                            txtMaSach4.clear();
-                                            txtMaSach5.clear();
-                                            //txtMaDG.clear();
-
-                                            try {
-                                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieu(sauxn).fxml"));
-                                                Parent root1 = (Parent) fxmlLoader.load();
-                                                ThongTinPMController c = fxmlLoader.getController();
-                                                c.setLoginUser(u);
-                                                for (PhieuMuon i : p) {
-                                                    c.setMaPM(i.getIdPhieuMuon());
-                                                }
-                                                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                                                stage.setScene(new Scene(root1));
-                                                stage.show();
-                                            } catch (Exception e) {
-                                                System.out.print(e.getMessage());
-                                            }
-
-                                        } else if (res == ButtonType.CANCEL) {
-                                            for (PhieuMuon i : p) {
-                                                try {                                                                                                    
-                                                    s.deleteBorrowCard(i.getIdPhieuMuon());
-                                                } catch (SQLException ex) {
-                                                    MessageBox.getBox("Thông báo", "Đã có lỗi xáy ra", Alert.AlertType.INFORMATION).show();
-                                                    Logger.getLogger(BookBorrowController.class.getName()).log(Level.SEVERE, null, ex);
-                                                }
-                                            }
-
                                             txtMaSach1.clear();
                                             txtMaSach2.clear();
                                             txtMaSach3.clear();
@@ -726,63 +833,8 @@ public class BookBorrowController implements Initializable {
                                             checks.clear();
                                         }
                                     });
-                                } else {
-                                    Alert a = new Alert(Alert.AlertType.INFORMATION);
-                                    a.setTitle("Thông báo");
-                                    a.setHeaderText("Mượn sách thành công!");
-                                    a.showAndWait().ifPresent((ButtonType res) -> {
-                                        if (res == ButtonType.OK) {
-                                            txtMaSach1.clear();
-                                            txtMaSach2.clear();
-                                            txtMaSach3.clear();
-                                            txtMaSach4.clear();
-                                            txtMaSach5.clear();
-                                            //txtMaDG.clear();
-
-                                            try {
-                                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("thongtinphieu(sauxn).fxml"));
-                                                Parent root1 = (Parent) fxmlLoader.load();
-                                                ThongTinPMController c = fxmlLoader.getController();
-                                                c.setLoginUser(u);
-                                                for (PhieuMuon i : p) {
-                                                    c.setMaPM(i.getIdPhieuMuon());
-                                                }
-                                                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                                                stage.setScene(new Scene(root1));
-                                                stage.show();
-                                            } catch (Exception e) {
-                                                System.out.print(e.getMessage());
-                                            }
-                                        }
-                                    });
                                 }
-                            } else {
-                                Alert a = new Alert(Alert.AlertType.INFORMATION);
-                                a.setTitle("Thông báo");
-                                a.setHeaderText("Không đủ điều kiện mượn!");
-
-                                // Constructing HashSet using listWithDuplicateElements
-                                Set<String> set = new HashSet<String>(checks);
-                                // Constructing listWithoutDuplicateElements using set
-                                List<String> listC = new ArrayList<String>(set);
-                                String i = "";
-                                for (String item : listC) {
-                                    i += item;
-                                }
-                                a.setContentText(i);
-                                a.showAndWait().ifPresent((ButtonType res) -> {
-                                    if (res == ButtonType.OK) {
-                                        txtMaSach1.clear();
-                                        txtMaSach2.clear();
-                                        txtMaSach3.clear();
-                                        txtMaSach4.clear();
-                                        txtMaSach5.clear();
-                                        //txtMaDG.clear();
-                                        checks.clear();
-                                    }
-                                });
                             }
-
                         } else {
                             MessageBox.getBox("Thông báo", c1, Alert.AlertType.INFORMATION).show();
                         }

@@ -115,7 +115,7 @@ public class BookReturnController implements Initializable {
                     fineLbl.setText(Integer.toString(fine) + " đ");
                     statusLbl.setText(p.getTinhTrang());
                     bookNameInfoTxt.setText(p.getTenSach());
-                    preCardID = p.getIdPhieuMuon();
+                    //preCardID = p.getIdPhieuMuon();
 
                     if (p.getTinhTrangOriginalForm() == 1) {
                         confirmBtn.setDisable(true);
@@ -130,7 +130,7 @@ public class BookReturnController implements Initializable {
                             {
                                 String total = s.calcTotalFine(fineLbl.getText(), fineTotalLbl.getText());
                                 fineTotalLbl.setText(total + " đ");
-                                
+                                preCardID = p.getIdPhieuMuon();
                             }
      
                             

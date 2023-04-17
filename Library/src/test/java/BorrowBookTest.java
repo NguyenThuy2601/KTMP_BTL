@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import static java.time.LocalDate.now;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,7 +87,10 @@ public class BorrowBookTest {
     @Test
     public void getPM() {
         try {
-            List<BorrowCardResponse> list = s.getCards("a1", "a2");
+            List<String> id = new ArrayList<>();
+            id.add("a1");
+            id.add("a2");
+            List<BorrowCardResponse> list = s.getCards(id);
             Assertions.assertTrue(!list.isEmpty());
         } catch (SQLException ex) {
             Logger.getLogger(BorrowBookTest.class.getName()).log(Level.SEVERE, null, ex);

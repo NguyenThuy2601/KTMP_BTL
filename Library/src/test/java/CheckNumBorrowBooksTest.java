@@ -87,7 +87,7 @@ public class CheckNumBorrowBooksTest {
                 actual = false;
             } else {
                 actual = true;
-            }+     
+            }   
                     
             Assertions.assertTrue(actual);
         } catch (SQLException ex) {

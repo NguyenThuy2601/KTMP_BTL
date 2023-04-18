@@ -233,7 +233,7 @@ public class BookBorrowController implements Initializable {
                                             }
 
                                             //Thỏa hết điều kiện -> Tạo phiếu mượn
-                                            if (flagB && flagB1) {
+                                            if (checkIDBook && flagB && flagB1) {
                                                 PhieuMuon pm = new PhieuMuon(Integer.parseInt(i), LocalDate.now(), Integer.parseInt(this.txtMaDG.getText()));
                                                 p.add(pm);
                                                 checkE.add(1);

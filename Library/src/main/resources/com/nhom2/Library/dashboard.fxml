@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="842.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.ThongKeController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="881.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nhom2.library.ThongKeController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="153.0" text="THỐNG KÊ">
             <font>
@@ -240,9 +240,9 @@
          </children>
       </VBox>
         <TableView fx:id="list" prefHeight="210.0" prefWidth="931.0" />
-      <AnchorPane prefHeight="192.0" prefWidth="931.0">
+      <AnchorPane prefHeight="210.0" prefWidth="931.0">
          <children>
-              <BarChart fx:id="barChart" layoutX="42.0" prefHeight="191.0" prefWidth="889.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <BarChart fx:id="barChart" layoutX="57.0" prefHeight="201.0" prefWidth="871.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
                   <xAxis>
                       <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                   </xAxis>
@@ -252,6 +252,6 @@
               </BarChart>
          </children>
       </AnchorPane>
-        <Button mnemonicParsing="false" onAction="#backBtnlick" prefHeight="18.0" prefWidth="127.0" text="Back" />
+        <Button mnemonicParsing="false" onAction="#backBtnlick" prefHeight="48.0" prefWidth="127.0" text="Back" />
     </children>
 </VBox>

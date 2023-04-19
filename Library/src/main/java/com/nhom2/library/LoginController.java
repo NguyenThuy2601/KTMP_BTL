@@ -66,8 +66,8 @@ public class LoginController implements Initializable {
         if (txtUname.getText().isEmpty() || pfPass.getText().isEmpty()) {
             MessageBox.getBox("Thông báo", "Vui lòng điền đầy đủ thông tin", Alert.AlertType.INFORMATION).show();
         } else {
-            String uName = txtUname.getText();
-            String pass = pfPass.getText();
+            String uName = txtUname.getText().trim();
+            String pass = pfPass.getText().trim();
             try {
                 if (s.checkEmail(uName) == false) {
                     MessageBox.getBox("Thông báo", "Không tìm thấy tài khoản", Alert.AlertType.INFORMATION).show();

@@ -92,4 +92,37 @@ public class BorrowBookTest {
             Logger.getLogger(BorrowBookTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Test
+    public void checkSachDaDuocDat() {
+        try {
+            List<Integer> list = s.checkAvailableBook();
+            Assertions.assertFalse(!list.isEmpty());
+            System.out.println(list.get(0));
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void checkSachDaDuocDat1() {
+        try {
+            List<Integer> list = s.checkAvailableBook();
+            System.out.print(list.get(0));
+            Assertions.assertTrue(!list.isEmpty());
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void checkSachDangMuon() {
+        try {
+            List<Integer> list = s.checkNotAvailableBook();
+            System.out.print(list.get(0));
+            Assertions.assertTrue(!list.isEmpty());
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

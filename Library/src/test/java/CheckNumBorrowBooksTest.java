@@ -83,12 +83,7 @@ public class CheckNumBorrowBooksTest {
         try {
             int n = s.countBorrowBooks(8);
             boolean actual;
-            if (n >= 5) {
-                actual = false;
-            } else {
-                actual = true;
-            }   
-                    
+            actual = n < 5;     
             Assertions.assertTrue(actual);
         } catch (SQLException ex) {
             Logger.getLogger(CheckNumBorrowBooksTest.class.getName()).log(Level.SEVERE, null, ex);

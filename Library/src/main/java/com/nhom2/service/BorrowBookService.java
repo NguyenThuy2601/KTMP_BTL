@@ -49,14 +49,14 @@ public class BorrowBookService {
         }
     }
 
-    public void deleteBorrowCard(String id) throws SQLException {
-        try (Connection conn = Utils.getConn()) {
-            String sql = "DELETE FROM phieumuon WHERE idphieumuon = ?";
-            PreparedStatement stm = conn.prepareCall(sql);
-            stm.setString(1, id);
-            stm.executeUpdate();
-        }
-    }
+//    public void deleteBorrowCard(String id) throws SQLException {
+//        try (Connection conn = Utils.getConn()) {
+//            String sql = "DELETE FROM phieumuon WHERE idphieumuon = ?";
+//            PreparedStatement stm = conn.prepareCall(sql);
+//            stm.setString(1, id);
+//            stm.executeUpdate();
+//        }
+//    }
 
     public List<BorrowCardResponse> getBorrowCards(int id) throws SQLException {
         List<BorrowCardResponse> borrowCards = new ArrayList<>();

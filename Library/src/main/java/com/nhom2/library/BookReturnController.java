@@ -39,6 +39,8 @@ public class BookReturnController implements Initializable {
     @FXML
     Button confirmBtn;
     @FXML
+    Button resetBtn;
+    @FXML
     TextField cardIDTxt;
     @FXML
     TextField cardIDInfoTxt;
@@ -130,12 +132,10 @@ public class BookReturnController implements Initializable {
                             {
                                 String total = s.calcTotalFine(fineLbl.getText(), fineTotalLbl.getText());
                                 fineTotalLbl.setText(total + " đ");
-                                preCardID = p.getIdPhieuMuon();
-                            }
-     
-                            
+                                
+                            }                           
                         }
-                            
+                        preCardID = p.getIdPhieuMuon();   
                     }
 
                 }
@@ -168,6 +168,21 @@ public class BookReturnController implements Initializable {
             MessageBox.getBox("Thông báo", "Đã có lỗi xáy ra", Alert.AlertType.INFORMATION).show();
             Logger.getLogger(BookReturnController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    
+    @FXML
+    public void resetBtnlick(ActionEvent evt) {
+        cardIDInfoTxt.setText("");
+                dateInfoTxt.setText("");
+                bookIDInfoTxt.setText("");
+                uIDInfoTxt.setText("");
+                uNameInfoTxt.setText("");
+                bookNameInfoTxt.setText("");
+                fineLbl.setText("0 đ");
+                fineTotalLbl.setText("0 đ");
+                statusLbl.setText("");
+                confirmBtn.setDisable(true);
     }
 
     @FXML

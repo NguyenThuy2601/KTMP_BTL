@@ -199,6 +199,14 @@
                   <Insets left="50.0" />
                </HBox.margin>
             </Button>
+            <Button fx:id="resetBtn" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#resetBtnlick" prefHeight="10.0" prefWidth="76.0" text="Reset" textAlignment="CENTER">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="670.0" />
+               </HBox.margin>
+            </Button>
          </children>
          <VBox.margin>
             <Insets top="20.0" />

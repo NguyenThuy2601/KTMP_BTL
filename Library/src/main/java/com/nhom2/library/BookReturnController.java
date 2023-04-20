@@ -123,19 +123,17 @@ public class BookReturnController implements Initializable {
                         confirmBtn.setDisable(true);
                     } else {
                         confirmBtn.setDisable(false);
-                        if(Integer.parseInt(uIDInfoTxt.getText()) != preUID){
+                        if (Integer.parseInt(uIDInfoTxt.getText()) != preUID) {
                             fineTotalLbl.setText(fineLbl.getText());
                             preUID = Integer.parseInt(uIDInfoTxt.getText());
-                        }
-                        else{
-                            if(!p.getIdPhieuMuon().equals(preCardID) && Integer.parseInt(uIDInfoTxt.getText()) == preUID)
-                            {
+                        } else {
+                            if (!p.getIdPhieuMuon().equals(preCardID) && Integer.parseInt(uIDInfoTxt.getText()) == preUID) {
                                 String total = s.calcTotalFine(fineLbl.getText(), fineTotalLbl.getText());
                                 fineTotalLbl.setText(total + " đ");
-                                
-                            }                           
+
+                            }
                         }
-                        preCardID = p.getIdPhieuMuon();   
+                        preCardID = p.getIdPhieuMuon();
                     }
 
                 }
@@ -160,7 +158,7 @@ public class BookReturnController implements Initializable {
                 fineLbl.setText("0 đ");
                 statusLbl.setText("");
                 confirmBtn.setDisable(true);
-                
+
             } else {
                 MessageBox.getBox("Thông báo", "Xác nhận trả sách thất bại", Alert.AlertType.INFORMATION).show();
             }
@@ -169,20 +167,20 @@ public class BookReturnController implements Initializable {
             Logger.getLogger(BookReturnController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
     @FXML
     public void resetBtnlick(ActionEvent evt) {
         cardIDInfoTxt.setText("");
-                dateInfoTxt.setText("");
-                bookIDInfoTxt.setText("");
-                uIDInfoTxt.setText("");
-                uNameInfoTxt.setText("");
-                bookNameInfoTxt.setText("");
-                fineLbl.setText("0 đ");
-                fineTotalLbl.setText("0 đ");
-                statusLbl.setText("");
-                confirmBtn.setDisable(true);
+        dateInfoTxt.setText("");
+        bookIDInfoTxt.setText("");
+        uIDInfoTxt.setText("");
+        uNameInfoTxt.setText("");
+        bookNameInfoTxt.setText("");
+        fineLbl.setText("0 đ");
+        fineTotalLbl.setText("0 đ");
+        statusLbl.setText("");
+        confirmBtn.setDisable(true);
+        preCardID = "null";
     }
 
     @FXML
